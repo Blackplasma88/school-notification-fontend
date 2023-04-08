@@ -1,15 +1,29 @@
 <template>
-  <div>
-    <h3>Name :{{ name }}</h3>
-    <h3>Description :{{ description }}</h3>
-    <h3>Category :{{ category }}</h3>
-  </div>
+  <CardInfo>
+    <template v-slot:card-header>
+      <div>
+        <h3>{{ name }}</h3>
+        <p>{{ description }}</p>
+        <p>{{ category }}</p>
+      </div>
+    </template>
+    <template v-slot:card-content>
+      <div class="content">
+        <p>create at</p>
+        <p>by</p>
+        <p>username</p>
+      </div>
+    </template>
+  </CardInfo>
 </template>
 
 <script>
+import CardInfo from "@/components/information/CardInfo.vue";
 export default {
   name: "InformationData",
-  components: {},
+  components: {
+    CardInfo,
+  },
   props: {
     name: {
       type: String,
@@ -25,7 +39,6 @@ export default {
     },
     image: {
       type: String,
-      //   required: true,
     },
     content: {
       type: String,
@@ -35,4 +48,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.content {
+  display: flex;
+}
+</style>

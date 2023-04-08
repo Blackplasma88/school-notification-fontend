@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
@@ -19,6 +20,7 @@ import { faTableList } from "@fortawesome/free-solid-svg-icons";
 
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
+library.add(faBars);
 library.add(faChevronLeft);
 library.add(faEnvelope);
 library.add(faComment);
