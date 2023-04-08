@@ -71,17 +71,6 @@
         <span class="text">Score</span>
       </router-link>
     </div>
-
-    <div class="flex"></div>
-
-    <div class="menu">
-      <router-link to="/login" class="button">
-        <span class="material-icons">
-          <font-awesome-icon icon="fa-solid fa-right-from-bracket" />
-        </span>
-        <span class="text">Log out</span>
-      </router-link>
-    </div>
   </aside>
 </template>
 

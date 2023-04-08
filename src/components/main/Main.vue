@@ -1,18 +1,22 @@
 <template>
-  <div class="main">
-    <!-- This is the sidebar -->
-    <Sidebar />
-    <!-- This is the main content -->
-    <router-view />
-    
+  <div class="app">
+    <Navbar />
+    <div class="main">
+      <!-- This is the sidebar -->
+      <Sidebar />
+      <!-- This is the main content -->
+      <router-view />
+    </div>
   </div>
 </template>
 
 <script>
+import Navbar from "@/components/main/Navbar.vue";
 import Sidebar from "@/components/main/Sidebar.vue";
 
 export default {
   components: {
+    Navbar,
     Sidebar,
   },
 

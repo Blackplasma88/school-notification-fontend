@@ -11,6 +11,7 @@ import CheckName from "@/views/CheckName.vue";
 import Score from "@/views/Score.vue";
 
 import informationCreate from "@/views/information/Create.vue";
+import locationCreate from "@/views/location/Create.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -34,6 +35,11 @@ const router = createRouter({
       path: "/locations",
       name: "Locations",
       component: Location,
+    },
+    {
+      path: "/location/create",
+      name: "LocationCreate",
+      component: locationCreate,
     },
     {
       path: "/subjects",

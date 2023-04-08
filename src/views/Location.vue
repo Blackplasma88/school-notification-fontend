@@ -1,16 +1,17 @@
 <template>
-    <main id="location-page">
-        <h1>Location</h1>
-        <p>This is location page</p>
-    </main>
+  <main id="location-page">
+    <h1>Location</h1>
+    <LocationForm />
+  </main>
 </template>
 
 <script>
+import LocationForm from "@/components/location/LocationForm.vue";
 export default {
-
-}
+  components: {
+    LocationForm,
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

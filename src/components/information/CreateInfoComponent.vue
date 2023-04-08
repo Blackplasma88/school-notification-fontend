@@ -1,30 +1,33 @@
 <template>
-  <form class="create">
-    <div class="input">
+  <form @submit.prevent="submitForm">
+    <div class="form-control">
       <label for="name">Name :</label>
       <input
         type="text"
         class="form-control"
         id="name"
         placeholder="Type Name"
+        v-model.trim="informations.name"
       />
     </div>
-    <div class="input">
+    <div class="form-control">
       <label for="description">Description :</label>
       <input
         type="text"
         class="form-control"
         id="description"
         placeholder="Type description"
+        v-model.trim="informations.description"
       />
     </div>
-    <div class="select">
+    <div class="form-control">
       <label for="select"> Category :</label>
       <select
         class="form-select"
         aria-label="Select"
         name="category"
         id="category"
+        v-model="informations.category"
       >
         <option selected disabled>select</option>
         <option value="news">News</option>
@@ -33,23 +36,29 @@
       </select>
     </div>
 
-    <div>
+    <div class="form-control">
       <label for="formFileSm" class="form-label">Image :</label>
       <input class="form-control form-control-sm" id="image" type="file" />
     </div>
-    <div>
+    <div class="form-control">
       <label for="content">Content :</label>
       <textarea
         class="form-control"
         aria-label="With textarea"
         id="content"
         placeholder="Type content"
+        v-model="informations.content"
       ></textarea>
     </div>
 
-    <div class="buttongroup">
-      <button type="button" class="btn btn-success" @click="create">Confirm</button> &nbsp;
-      <button type="button" class="btn btn-danger">Cancel</button>
+    <div class="form-control">
+      <button type="button" class="btn btn-success" @click="CreateInfo">
+        Confirm
+      </button>
+      &nbsp;
+      <button type="button" class="btn btn-danger" @click="cancel">
+        Cancel
+      </button>
     </div>
   </form>
 </template>
@@ -59,12 +68,39 @@ export default {
   name: "Create",
   components: {},
   data() {
-    return {};
+    return {
+      informations: {
+        name: "",
+        description: "",
+        category: "",
+        image: "",
+        content: "",
+      },
+    };
   },
   methods: {
-    create() {
-        console.log("create");
-    }
+    submitForm() {
+      console.log("submitForm");
+      console.log("create", this.informations);
+      this.$emit("create", this.informations);
+      this.$router.push("/");
+    },
+    CreateInfo() {
+      console.log("Create");
+      this.submitForm();
+    },
+    cancel() {
+      console.log("cancel");
+      this.$router.push("/");
+      this.resetForm();
+    },
+    resetForm() {
+      this.employee.name = "";
+      this.employee.salary = "";
+      this.employee.department = "";
+      this.employee.gender = "";
+      this.employee.skill = [];
+    },
   },
 };
 </script>
