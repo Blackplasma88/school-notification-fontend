@@ -1,9 +1,18 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <button @click="toggleSidebar">
-        <font-awesome-icon icon="fa-solid fa-bars" />
-      </button>
+      <div>
+        <button @click="toggleSidebar">
+          <img
+            src="@/assets/logo.png"
+            alt=""
+            width="30"
+            height="24"
+            class="d-inline-block align-text-top"
+          />
+          School Notification
+        </button>
+      </div>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
         <div class="menu">
