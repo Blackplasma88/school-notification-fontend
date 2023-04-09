@@ -1,5 +1,8 @@
 <template>
-  <CardInfo>
+  <CardInfo v-if="filepath">
+    <template v-slot:card-image>
+      <img v-bind:src="'http://127.0.0.1:8080' + filepath" width="200"  />
+    </template>
     <template v-slot:card-header>
       <div>
         <h3>{{ name }}</h3>
@@ -9,9 +12,29 @@
     </template>
     <template v-slot:card-content>
       <div class="content">
-        <p>create at</p>
+        <p>Create : {{ created_at }}</p>
+        &nbsp;
         <p>by</p>
-        <p>username</p>
+        &nbsp;
+        <p>Name: {{ id }}</p>
+      </div>
+    </template>
+  </CardInfo>
+  <CardInfo v-else>
+    <template v-slot:card-header>
+      <div>
+        <h3>{{ name }}</h3>
+        <p>{{ description }}</p>
+        <p>{{ category }}</p>
+      </div>
+    </template>
+    <template v-slot:card-content>
+      <div class="content">
+        <p>Create : {{ created_at }}</p>
+        &nbsp;
+        <p>by</p>
+        &nbsp;
+        <p>Name: {{ id }}</p>
       </div>
     </template>
   </CardInfo>
@@ -25,6 +48,10 @@ export default {
     CardInfo,
   },
   props: {
+    id: {
+      type: Number,
+      required: true,
+    },
     name: {
       type: String,
       required: true,
@@ -37,10 +64,18 @@ export default {
       type: String,
       required: true,
     },
-    image: {
+    filepath: {
       type: String,
     },
     content: {
+      type: String,
+      required: true,
+    },
+    created_at: {
+      type: String,
+      required: true,
+    },
+    updated_at: {
       type: String,
       required: true,
     },
