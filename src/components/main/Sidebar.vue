@@ -1,19 +1,17 @@
 <template>
   <aside :class="`${is_expanded ? 'is-expanded' : ''}`">
-    <div class="logo">
-      <img :src="logoURL" alt="Vue" />
-    </div>
-
-    <div class="menu-toggle-wrap">
+    <div>
       <button @click="ToggleMenu">
-        <span>
-          <font-awesome-icon
-            icon="fa-solid fa-chevron-left"
-            style="color: #ffffff"
-          />
-        </span>
+        <img
+          src="@/assets/logo.png"
+          alt=""
+          width="35"
+          height="35"
+          class="d-inline-block align-text-top"
+        />
       </button>
     </div>
+    &nbsp;
     <div>
       <router-link to="/profile/:id" class="button">
         <h3>Profile ID</h3>
@@ -74,13 +72,21 @@
   </aside>
 </template>
 
-<script setup>
-import { ref } from "vue";
-import logoURL from "../../../src/assets/logo.png";
-const is_expanded = ref(localStorage.getItem("is_expanded") === "true");
-const ToggleMenu = () => {
-  is_expanded.value = !is_expanded.value;
-  localStorage.setItem("is_expanded", is_expanded.value);
+<script>
+export default {
+  name: "Sidebar",
+  data() {
+    return {
+      is_expanded:
+        localStorage.getItem("is_expanded") === "true" ? true : false,
+    };
+  },
+  methods: {
+    ToggleMenu() {
+      this.is_expanded = !this.is_expanded;
+      localStorage.setItem("is_expanded", this.is_expanded);
+    },
+  },
 };
 </script>
 
@@ -98,12 +104,7 @@ aside {
   .flex {
     flex: 1 1 0%;
   }
-  .logo {
-    margin-bottom: 1rem;
-    img {
-      width: 2rem;
-    }
-  }
+
   .menu-toggle-wrap {
     display: flex;
     justify-content: flex-end;

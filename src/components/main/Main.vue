@@ -1,11 +1,11 @@
 <template>
   <div class="app">
-    <Navbar />
-    <div class="main">
-      <!-- This is the sidebar -->
-      <Sidebar />
-      <!-- This is the main content -->
-      <router-view />
+    <Sidebar />
+    <div class="head">
+      <Navbar />
+      <div class="main">
+        <router-view />
+      </div>
     </div>
   </div>
 </template>
@@ -54,13 +54,18 @@ button {
   outline: none;
   background: none;
 }
-.main {
+
+.app {
   display: flex;
-  main {
+  width: 98vw;
+  .head {
     flex: 1 1 0;
-    padding: 2rem;
+    padding: 0;
     @media (max-width: 1024px) {
       padding-left: 6rem;
+    }
+    main {
+      padding: 2rem;
     }
   }
 }
