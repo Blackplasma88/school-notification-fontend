@@ -9,8 +9,7 @@
         placeholder="Type Name"
         v-model.trim="informations.name"
       />
-    </div>
-    <div class="form-control">
+
       <label for="description">Description :</label>
       <input
         type="text"
@@ -19,8 +18,7 @@
         placeholder="Type description"
         v-model.trim="informations.description"
       />
-    </div>
-    <div class="form-control">
+
       <label for="select"> Category :</label>
       <select
         class="form-select"
@@ -34,13 +32,10 @@
         <option value="announce">Announce</option>
         <option value="activity">Activity</option>
       </select>
-    </div>
 
-    <div class="form-control">
       <label for="formFileSm" class="form-label">Image :</label>
       <input class="form-control form-control-sm" id="image" type="file" />
-    </div>
-    <div class="form-control">
+
       <label for="content">Content :</label>
       <textarea
         class="form-control"
@@ -49,9 +44,7 @@
         placeholder="Type content"
         v-model="informations.content"
       ></textarea>
-    </div>
 
-    <div class="form-control">
       <button type="button" class="btn btn-success" @click="CreateInfo">
         Confirm
       </button>
@@ -106,18 +99,6 @@ export default {
 </script>
 
 <style>
-.create {
-  display: flex;
-  flex-direction: column;
-  align-items: left !important;
-  justify-content: center;
-  margin: 2rem auto;
-  width: 80%;
-  height: 90%;
-  background-color: #f5f5f5;
-  border-radius: 10px;
-  padding: 20px;
-}
 
 .buttongroup {
   display: flex;
