@@ -66,7 +66,7 @@ export default {
         name: "",
         description: "",
         category: "",
-        image: "",
+        file: "",
         content: "",
       },
     };

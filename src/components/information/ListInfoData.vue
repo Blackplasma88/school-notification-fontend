@@ -4,11 +4,14 @@
     <div>
       <div v-for="info in informations" :key="info.id">
         <InformationData
+          :id="info.id"
           :name="info.name"
           :description="info.description"
           :category="info.category"
           :filepath="info.filepath"
           :content="info.content"
+          :created_at="info.created_at"
+          :updated_at="info.updated_at"
         />
       </div>
     </div>
@@ -25,9 +28,7 @@ export default {
   },
   data() {
     return {
-      informations: [
-        
-      ],
+      informations: [],
     };
   },
   mounted() {
@@ -38,7 +39,9 @@ export default {
         console.log(response.data.data.information_list);
         console.log("this.informations", this.informations);
         this.informations = response.data.data.information_list;
-        
+      })
+      .catch((error) => {
+        console.log(error);
       });
   },
 };
