@@ -1,18 +1,22 @@
 <template>
-  <div class="main">
-    <!-- This is the sidebar -->
+  <div class="app">
     <Sidebar />
-    <!-- This is the main content -->
-    <router-view />
-    
+    <div class="head">
+      <Navbar />
+      <div class="main">
+        <router-view />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import Navbar from "@/components/main/Navbar.vue";
 import Sidebar from "@/components/main/Sidebar.vue";
 
 export default {
   components: {
+    Navbar,
     Sidebar,
   },
 
@@ -50,13 +54,18 @@ button {
   outline: none;
   background: none;
 }
-.main {
+
+.app {
   display: flex;
-  main {
+  width: 98vw;
+  .head {
     flex: 1 1 0;
-    padding: 2rem;
+    padding: 0;
     @media (max-width: 1024px) {
       padding-left: 6rem;
+    }
+    main {
+      padding: 2rem;
     }
   }
 }
