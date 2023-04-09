@@ -11,6 +11,8 @@ import CheckName from "@/views/CheckName.vue";
 import Score from "@/views/Score.vue";
 
 import informationCreate from "@/views/information/Create.vue";
+import informationUpdate from "@/views/information/Update.vue";
+
 import locationCreate from "@/views/location/Create.vue";
 
 const router = createRouter({
@@ -30,6 +32,11 @@ const router = createRouter({
       path: "/information/create",
       name: "InformationCreate",
       component: informationCreate,
+    },
+    {
+      path: "/information/update",
+      name: "InformationUpdate",
+      component: informationUpdate,
     },
     {
       path: "/locations",

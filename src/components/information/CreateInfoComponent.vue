@@ -101,9 +101,6 @@ export default {
       } catch (error) {
         console.log("error", error);
       }
-
-      // this.$emit("create", this.informations);
-      // this.$router.push("/");
     },
     CreateInfo() {
       console.log("Create");
