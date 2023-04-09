@@ -88,18 +88,17 @@ export default {
       this.resetForm();
     },
     resetForm() {
-      this.employee.name = "";
-      this.employee.salary = "";
-      this.employee.department = "";
-      this.employee.gender = "";
-      this.employee.skill = [];
+      this.informations.name = "";
+      this.informations.description = "";
+      this.informations.category = "";
+      this.informations.file = "";
+      this.informations.content = "";
     },
   },
 };
 </script>
 
 <style>
-
 .buttongroup {
   display: flex;
   flex-direction: row;

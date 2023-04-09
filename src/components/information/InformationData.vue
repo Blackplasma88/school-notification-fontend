@@ -1,7 +1,7 @@
 <template>
   <CardInfo v-if="filepath">
     <template v-slot:card-image>
-      <img v-bind:src="'http://127.0.0.1:8080' + filepath" width="200"  />
+      <img v-bind:src="'http://127.0.0.1:8080' + filepath" width="200" />
     </template>
     <template v-slot:card-header>
       <div>
@@ -49,7 +49,7 @@ export default {
   },
   props: {
     id: {
-      type: Number,
+      type: String,
       required: true,
     },
     name: {

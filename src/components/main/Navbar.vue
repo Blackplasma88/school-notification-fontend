@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg">
+  <nav class="navbar sticky-top navbar-expand-lg">
     <div class="container-fluid">
       <div class="container-fluid">
         <h2 class="navbar-brand">School Notification</h2>
