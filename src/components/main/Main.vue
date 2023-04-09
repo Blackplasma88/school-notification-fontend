@@ -57,7 +57,7 @@ button {
 
 .app {
   display: flex;
-  width: 98.99vw;
+  width: 98.9vw;
   .head {
     flex: 1 1 0;
     padding: 0;
