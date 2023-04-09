@@ -34,7 +34,13 @@
       </select>
 
       <label for="formFileSm" class="form-label">Image :</label>
-      <input class="form-control form-control-sm" id="image" type="file" />
+      <input
+        class="form-control form-control-sm"
+        id="image"
+        type="file"
+        ref="file"
+        @change="selectFile"
+      />
 
       <label for="content">Content :</label>
       <textarea
@@ -57,6 +63,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "Create",
   components: {},
@@ -72,11 +79,31 @@ export default {
     };
   },
   methods: {
-    submitForm() {
+    async submitForm() {
       console.log("submitForm");
       console.log("create", this.informations);
-      this.$emit("create", this.informations);
-      this.$router.push("/");
+
+      const formData = new FormData();
+      formData.append("name", this.informations.name);
+      formData.append("description", this.informations.description);
+      formData.append("category", this.informations.category);
+      formData.append("file", this.file);
+      formData.append("content", this.informations.content);
+      console.log("formData", formData);
+
+      try {
+        await axios
+          .post("http://127.0.0.1:8080/information/create", formData)
+          .then((response) => {
+            console.log("response", response);
+            this.$router.push("/");
+          });
+      } catch (error) {
+        console.log("error", error);
+      }
+
+      // this.$emit("create", this.informations);
+      // this.$router.push("/");
     },
     CreateInfo() {
       console.log("Create");
@@ -93,6 +120,12 @@ export default {
       this.informations.category = "";
       this.informations.file = "";
       this.informations.content = "";
+    },
+
+    selectFile(event) {
+      console.log("event", event);
+      this.file = this.$refs.file.files[0];
+      console.log("file_name", this.file);
     },
   },
 };
