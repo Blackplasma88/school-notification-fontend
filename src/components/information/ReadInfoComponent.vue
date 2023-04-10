@@ -2,39 +2,41 @@
   <div class="info-detail">
     <h2>Information Details</h2>
 
-    <div class="info-w-i" v-if="information.filepath">
-      <div class="d-flex">
-        <img
-          v-bind:src="'http://127.0.0.1:8080' + information.filepath"
-          width="400"
-        />
-        <div class="info-cate-i">
-          <p>Create at : {{ information.created_at }}</p>
-          <p>Update at : {{ information.updated_at }}</p>
-          <p>Category : {{ information.category }}</p>
+    <div class="card-info-detail">
+      <div class="info-w-i" v-if="information.filepath">
+        <div class="d-flex">
+          <img
+            v-bind:src="'http://127.0.0.1:8080' + information.filepath"
+            width="700"
+          />
+          <div class="info-cate-i">
+            <p>Create at : {{ information.created_at }}</p>
+            <p>Update at : {{ information.updated_at }}</p>
+            <p>Category : {{ information.category }}</p>
+          </div>
+        </div>
+        <div class="info-name-i">
+          <h2>
+            {{ information.name }}
+          </h2>
+          <p>Description: {{ information.description }}</p>
+
+          <p>Content: {{ information.content }}</p>
         </div>
       </div>
-      <div class="info-name-i">
-        <h2>
-          {{ information.name }}
-        </h2>
-        <p>Description: {{ information.description }}</p>
-
-        <p>Content: {{ information.content }}</p>
-      </div>
-    </div>
-    <div class="info" v-else>
-      <div class="info-name">
-        <h2>
-          {{ information.name }}
-        </h2>
-      </div>
-      <div class="info-data">
-        <p>Category : {{ information.category }}</p>
-        <p>Create at : {{ information.created_at }}</p>
-        <p>Update at : {{ information.updated_at }}</p>
-        <p>Description: {{ information.description }}</p>
-        <p>Content: {{ information.content }}</p>
+      <div class="info" v-else>
+        <div class="info-name">
+          <h2>
+            {{ information.name }}
+          </h2>
+        </div>
+        <div class="info-data">
+          <p>Category : {{ information.category }}</p>
+          <p>Create at : {{ information.created_at }}</p>
+          <p>Update at : {{ information.updated_at }}</p>
+          <p>Description: {{ information.description }}</p>
+          <p>Content: {{ information.content }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -63,6 +65,11 @@ export default {
 };
 </script>
 <style scoped>
+.card-info-detail {
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  align-content: center;
+}
 .info-detail {
   display: flex;
   flex-direction: column;
@@ -71,7 +78,7 @@ export default {
 .info-w-i {
   display: flex;
   flex-direction: column;
-  margin-top: 2rem;
+  margin: 2rem;
 }
 .info-cate-i {
   display: flex;
