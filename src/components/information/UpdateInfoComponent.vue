@@ -1,6 +1,6 @@
 <template>
   <div class="info-detail">
-    <div>Data : {{ information }}</div>
+    <!-- <div>Data : {{ information }}</div> -->
     <div class="card-info-detail">
       <div class="info-w-i" v-if="information.filepath">
         <form @submit.prevent="submitForm">
@@ -11,7 +11,9 @@
                 Confirm
               </button>
               &nbsp;
-              <button type="button" class="btn btn-danger">Cancel</button>
+              <button type="button" class="btn btn-danger" @click="cancel">
+                Cancel
+              </button>
             </div>
           </div>
           <div class="d-flex">
