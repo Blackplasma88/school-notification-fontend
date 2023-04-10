@@ -7,7 +7,7 @@
         class="form-control"
         id="name"
         placeholder="Type Name"
-        v-model.trim="informations.name"
+        v-model.trim="information.name"
       />
 
       <label for="description">Description :</label>
@@ -16,7 +16,7 @@
         class="form-control"
         id="description"
         placeholder="Type description"
-        v-model.trim="informations.description"
+        v-model.trim="information.description"
       />
 
       <label for="select"> Category :</label>
@@ -25,16 +25,22 @@
         aria-label="Select"
         name="category"
         id="category"
-        v-model="informations.category"
+        v-model="information.category"
       >
         <option selected disabled>select</option>
-        <option value="news">News</option>
-        <option value="announce">Announce</option>
-        <option value="activity">Activity</option>
+        <option value="News">News</option>
+        <option value="Announce">Announce</option>
+        <option value="Activity">Activity</option>
       </select>
 
       <label for="formFileSm" class="form-label">Image :</label>
-      <input class="form-control form-control-sm" id="image" type="file" />
+      <input
+        class="form-control form-control-sm"
+        id="image"
+        type="file"
+        ref="file"
+        @change="selectFile"
+      />
 
       <label for="content">Content :</label>
       <textarea
@@ -42,7 +48,7 @@
         aria-label="With textarea"
         id="content"
         placeholder="Type content"
-        v-model="informations.content"
+        v-model="information.content"
       ></textarea>
 
       <button type="button" class="btn btn-success" @click="CreateInfo">
@@ -57,12 +63,13 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "Create",
   components: {},
   data() {
     return {
-      informations: {
+      information: {
         name: "",
         description: "",
         category: "",
@@ -72,11 +79,30 @@ export default {
     };
   },
   methods: {
-    submitForm() {
+    async submitForm() {
       console.log("submitForm");
-      console.log("create", this.informations);
-      this.$emit("create", this.informations);
-      this.$router.push("/");
+      console.log("create", this.information);
+
+      const formData = new FormData();
+      formData.append("name", this.information.name);
+      formData.append("description", this.information.description);
+      formData.append("category", this.information.category);
+      formData.append("file", this.file);
+      formData.append("content", this.information.content);
+      console.log("formData", formData);
+
+      try {
+        await axios
+          .post("http://127.0.0.1:8080/information/create", formData)
+          .then((response) => {
+            console.log("response", response);
+            this.$router.push("/");
+            this.$swal("Success", "Create Information Success", "success");
+          });
+      } catch (error) {
+        console.log("error", error);
+        this.$swal("Error", "Please try again", "error");
+      }
     },
     CreateInfo() {
       console.log("Create");
@@ -88,11 +114,17 @@ export default {
       this.resetForm();
     },
     resetForm() {
-      this.informations.name = "";
-      this.informations.description = "";
-      this.informations.category = "";
-      this.informations.file = "";
-      this.informations.content = "";
+      this.information.name = "";
+      this.information.description = "";
+      this.information.category = "";
+      this.information.file = "";
+      this.information.content = "";
+    },
+
+    selectFile(event) {
+      console.log("event", event);
+      this.file = this.$refs.file.files[0];
+      console.log("file_name", this.file);
     },
   },
 };

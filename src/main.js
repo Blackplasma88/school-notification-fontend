@@ -2,6 +2,9 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import "bootstrap/dist/css/bootstrap.css";
+
+import "sweetalert2/dist/sweetalert2.min.css";
+import VueSweetalert2 from "vue-sweetalert2";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -17,8 +20,11 @@ import { faList } from "@fortawesome/free-solid-svg-icons";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { faTableList } from "@fortawesome/free-solid-svg-icons";
-
+import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faAward } from "@fortawesome/free-solid-svg-icons";
+import { faSchoolFlag } from "@fortawesome/free-solid-svg-icons";
+import { faChartLine } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faBars);
 library.add(faChevronLeft);
@@ -33,8 +39,13 @@ library.add(faCheck);
 library.add(faRightFromBracket);
 library.add(faTableList);
 library.add(faSearch);
+library.add(faBell);
+library.add(faAward);
+library.add(faSchoolFlag);
+library.add(faChartLine);
 
 createApp(App)
+  .use(VueSweetalert2)
   .use(router)
   .component("font-awesome-icon", FontAwesomeIcon)
   .mount("#app");
