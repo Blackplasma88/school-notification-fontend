@@ -13,6 +13,7 @@ import Summary from "@/views/summary/Summary.vue";
 import SchoolManage from "@/views/school-mange/SchoolManage.vue";
 
 import informationCreate from "@/views/information/Create.vue";
+import informationRead from "@/views/information/Read.vue";
 import informationUpdate from "@/views/information/Update.vue";
 
 import locationCreate from "@/views/location/Create.vue";
@@ -36,7 +37,12 @@ const router = createRouter({
       component: informationCreate,
     },
     {
-      path: "/information/update",
+      path: "/information/:id",
+      name: "InformationRead",
+      component: informationRead,
+    },
+    {
+      path: "/information/update/:id",
       name: "InformationUpdate",
       component: informationUpdate,
     },

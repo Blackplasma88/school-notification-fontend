@@ -1,6 +1,6 @@
 <template>
     <div>
-        Edit
+        Read by id
     </div>
 </template>
 <script>

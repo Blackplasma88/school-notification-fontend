@@ -1,11 +1,14 @@
 <template>
-  <div>Edit</div>
+  <div>read by ID</div>
 </template>
 <script>
 
 
 export default {
-  name: "Edit",
+  name: "Read",
+  components: {
+    
+  },
 };
 </script>
 <style></style>
