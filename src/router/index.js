@@ -1,16 +1,21 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import Information from "@/views/Information.vue";
-import Location from "@/views/Location.vue";
-import Subject from "@/views/Subject.vue";
-import Profile from "@/views/Profile.vue";
-import Class from "@/views/Class.vue";
-import Course from "@/views/Course.vue";
-import Login from "@/views/Login.vue";
-import CheckName from "@/views/CheckName.vue";
-import Score from "@/views/Score.vue";
+import Information from "@/views/information/Information.vue";
+import Location from "@/views/location/Location.vue";
+import Subject from "@/views/subject/Subject.vue";
+import Profile from "@/views/profiles/Profile.vue";
+import Class from "@/views/class/Class.vue";
+import Course from "@/views/course/Course.vue";
+import Login from "@/views/login/Login.vue";
+import Score from "@/views/score/Score.vue";
+import CheckName from "@/views/check-name/CheckName.vue";
+import Summary from "@/views/summary/Summary.vue";
+import SchoolManage from "@/views/school-mange/SchoolManage.vue";
 
 import informationCreate from "@/views/information/Create.vue";
+import informationRead from "@/views/information/Read.vue";
+import informationUpdate from "@/views/information/Update.vue";
+
 import locationCreate from "@/views/location/Create.vue";
 
 const router = createRouter({
@@ -30,6 +35,16 @@ const router = createRouter({
       path: "/information/create",
       name: "InformationCreate",
       component: informationCreate,
+    },
+    {
+      path: "/information/:id",
+      name: "InformationRead",
+      component: informationRead,
+    },
+    {
+      path: "/information/update/:id",
+      name: "InformationUpdate",
+      component: informationUpdate,
     },
     {
       path: "/locations",
@@ -62,14 +77,24 @@ const router = createRouter({
       component: Course,
     },
     {
+      path: "/scores",
+      name: "Scores",
+      component: Score,
+    },
+    {
       path: "/check-names",
       name: "CheckNames",
       component: CheckName,
     },
     {
-      path: "/scores",
-      name: "Scores",
-      component: Score,
+      path: "/summary",
+      name: "Summary",
+      component: Summary,
+    },
+    {
+      path: "/school-manage",
+      name: "SchoolManage",
+      component: SchoolManage,
     },
     {
       path: "/login",

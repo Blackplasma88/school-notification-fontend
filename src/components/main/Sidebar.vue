@@ -56,17 +56,29 @@
         </span>
         <span class="text">Courses</span>
       </router-link>
-      <router-link to="/check-names" class="button">
-        <span class="material-icons">
-          <font-awesome-icon icon="fa-solid fa-check" />
-        </span>
-        <span class="text">CheckNames</span>
-      </router-link>
       <router-link to="/scores" class="button">
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-table-list" />
         </span>
         <span class="text">Score</span>
+      </router-link>
+      <router-link to="/check-names" class="button">
+        <span class="material-icons">
+          <font-awesome-icon icon="fa-solid fa-check" />
+        </span>
+        <span class="text">Check Names</span>
+      </router-link>
+      <router-link to="/summary" class="button">
+        <span class="material-icons">
+          <font-awesome-icon icon="fa-solid fa-chart-line" />
+        </span>
+        <span class="text">Summary</span>
+      </router-link>
+      <router-link to="/school-manage" class="button">
+        <span class="material-icons">
+          <font-awesome-icon icon="fa-solid fa-school-flag" />
+        </span>
+        <span class="text">School Mange</span>
       </router-link>
     </div>
   </aside>

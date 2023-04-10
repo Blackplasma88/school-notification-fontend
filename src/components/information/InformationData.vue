@@ -1,14 +1,16 @@
 <template>
   <CardInfo v-if="filepath">
     <template v-slot:card-image>
-      <img v-bind:src="'http://127.0.0.1:8080' + filepath" width="200" />
+      <button class="card-button" @click="viewdata">
+        <img v-bind:src="'http://127.0.0.1:8080' + filepath" width="200" />
+      </button>
     </template>
     <template v-slot:card-header>
-      <div>
+      <button class="card-button" @click="viewdata">
         <h3>{{ name }}</h3>
         <p>{{ description }}</p>
         <p>{{ category }}</p>
-      </div>
+      </button>
     </template>
     <template v-slot:card-content>
       <div class="content">
@@ -22,11 +24,11 @@
   </CardInfo>
   <CardInfo v-else>
     <template v-slot:card-header>
-      <div>
+      <button class="card-button" @click="viewdata">
         <h3>{{ name }}</h3>
         <p>{{ description }}</p>
         <p>{{ category }}</p>
-      </div>
+      </button>
     </template>
     <template v-slot:card-content>
       <div class="content">
@@ -80,11 +82,27 @@ export default {
       required: true,
     },
   },
+  methods: {
+    viewdata() {
+      console.log("viewdata");
+      console.log(this.id);
+      this.$router.push("/information/" + this.id + "");
+    },
+  },
 };
 </script>
 
 <style>
 .content {
   display: flex;
+}
+.card-button {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  text-align: left;
 }
 </style>

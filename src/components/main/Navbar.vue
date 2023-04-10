@@ -1,5 +1,8 @@
 <template>
-  <nav class="navbar sticky-top navbar-expand-lg">
+  <nav
+    class="navbar sticky-top navbar-expand-lg"
+    style="background-color: #3b5998"
+  >
     <div class="container-fluid">
       <div class="container-fluid">
         <h2 class="navbar-brand">School Notification</h2>
@@ -13,7 +16,7 @@
                 <font-awesome-icon
                   icon="fa-solid fa-right-from-bracket"
                   size="2x"
-                  style="color: #ff0000"
+                  style="color: #ffffff"
                 />
               </span>
             </router-link>
@@ -37,4 +40,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+h2 {
+  color: #ffffff;
+}
+</style>
