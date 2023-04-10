@@ -53,13 +53,9 @@
 </template>
 
 <script>
-// import SubjectData from "./SubjectData.vue";
-
 export default {
   name: "ListSubjectData",
-  components: {
-    // SubjectData,
-  },
+  components: {},
   data() {
     return {
       subjects: [
@@ -125,15 +121,6 @@ export default {
           credit: 3,
           year: 1,
           instructor: ["อาจารย์ 1", "อาจารย์ 2", "อาจารย์ 3"],
-        },
-        {
-          id: 8,
-          subject_code: "011529",
-          subject_category: "วิทยาศาสตร์",
-          subject_name: "วิทยาศาสตร์ 2",
-          credit: 3,
-          year: 1,
-          instructor: ["อาจารย์ 1", "อาจารย์ 2"],
         },
         {
           id: 9,
@@ -261,11 +248,6 @@ export default {
       this.dataForPagination = [];
       let start = (NumberPage - 1) * this.ElementPerPage;
       let end = NumberPage * this.ElementPerPage;
-
-      //   for (let i = start; i < end; i++) {
-      //     this.dataForPagination.push(this.subjects[i]);
-      //   }
-
       this.dataForPagination = this.subjects.slice(start, end);
     },
     getPreviousPage() {
