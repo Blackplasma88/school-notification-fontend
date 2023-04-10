@@ -6,11 +6,11 @@
 </template>
 
 <script>
-import InformationForm from "@/components/information/InformationForm"
+import InformationForm from "@/components/information/InformationForm";
 export default {
   name: "Information",
   components: {
-    InformationForm
+    InformationForm,
   },
 };
 </script>
