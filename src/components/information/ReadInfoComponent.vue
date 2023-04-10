@@ -1,6 +1,11 @@
 <template>
   <div class="info-detail">
-    <h2>Information Details</h2>
+    <div class="info-head">
+      <h2>Information Details</h2>
+      <button type="button" class="btn btn-secondary" @click="editInfo">
+        Edit
+      </button>
+    </div>
 
     <div class="card-info-detail">
       <div class="info-w-i" v-if="information.filepath">
@@ -49,8 +54,15 @@ export default {
       information: [],
     };
   },
-  mounted() {
-    axios
+  methods: {
+    editInfo() {
+      console.log("editInfo");
+      console.log(this.$route.params.id);
+      this.$router.push("/information/update/" + this.$route.params.id);
+    },
+  },
+  async mounted() {
+    await axios
       .get("http://127.0.0.1:8080/information/id?id=" + this.$route.params.id)
       .then((response) => {
         console.log("information_id", this.$route.params.id);
@@ -65,6 +77,12 @@ export default {
 };
 </script>
 <style scoped>
+.info-head {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 2rem;
+}
 .card-info-detail {
   background-color: #f5f5f5;
   border-radius: 10px;
