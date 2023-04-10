@@ -35,26 +35,26 @@
       </div>
     </div>
     <div class="rightContent">
-      <button type="button" class="btn btn-secondary" @click="createInfo">
+      <button type="button" class="btn btn-secondary" @click="createSubject">
         Create
       </button>
     </div>
 
-    <ListInfoData />
+    <ListSubjectData />
   </section>
 </template>
 
 <script>
-import ListInfoData from "@/components/information/ListInfoData.vue";
+import ListSubjectData from "@/components/subject/ListSubjectData.vue";
 export default {
-  name: "InformationForm",
+  name: "SubjectForm",
   components: {
-    ListInfoData,
+    ListSubjectData,
   },
   methods: {
-    createInfo() {
-      console.log("createInfo");
-      this.$router.push("/information/create");
+    createSubject() {
+      console.log("createSubject");
+      // this.$router.push("/subject/create");
     },
   },
 };
