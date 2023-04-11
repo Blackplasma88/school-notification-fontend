@@ -56,6 +56,12 @@
         </span>
         <span class="text">Courses</span>
       </router-link>
+      <router-link to="/school-manage" class="button">
+        <span class="material-icons">
+          <font-awesome-icon icon="fa-solid fa-school-flag" />
+        </span>
+        <span class="text">School Mange</span>
+      </router-link>
       <router-link to="/scores" class="button">
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-table-list" />
@@ -73,12 +79,6 @@
           <font-awesome-icon icon="fa-solid fa-chart-line" />
         </span>
         <span class="text">Summary</span>
-      </router-link>
-      <router-link to="/school-manage" class="button">
-        <span class="material-icons">
-          <font-awesome-icon icon="fa-solid fa-school-flag" />
-        </span>
-        <span class="text">School Mange</span>
       </router-link>
     </div>
   </aside>
@@ -121,7 +121,7 @@ aside {
   .menu-toggle-wrap {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 1rem;
+    // margin-bottom: 1rem;
     position: relative;
     top: 0;
     transition: 0.2s ease-in-out;
@@ -161,7 +161,7 @@ aside {
       transition: 0.2s ease-in-out;
       padding: 0.5rem 1rem;
       .material-icons {
-        font-size: 1.5rem;
+        font-size: 1.125rem;
         color: var(--light);
         transition: 0.2s ease-in-out;
       }
@@ -196,13 +196,6 @@ aside {
   }
   &.is-expanded {
     width: var(--sidebar-width);
-    .menu-toggle-wrap {
-      top: -3rem;
-
-      .menu-toggle {
-        transform: rotate(-180deg);
-      }
-    }
     h3,
     .button .text {
       opacity: 1;

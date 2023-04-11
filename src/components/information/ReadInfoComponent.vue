@@ -14,8 +14,8 @@
             width="700"
           />
           <div class="info-cate-i">
-            <p>Create at : {{ information.created_at }}</p>
-            <p>Update at : {{ information.updated_at }}</p>
+            <p>Create at : {{ format_date(information.created_at) }}</p>
+            <p>Update at : {{ format_date(information.updated_at) }}</p>
             <p>Category : {{ information.category }}</p>
           </div>
         </div>
@@ -42,8 +42,8 @@
         </div>
         <div class="info-data">
           <p>Category : {{ information.category }}</p>
-          <p>Create at : {{ information.created_at }}</p>
-          <p>Update at : {{ information.updated_at }}</p>
+          <p>Create at : {{ format_date(information.created_at) }}</p>
+          <p>Update at : {{ format_date(information.updated_at) }}</p>
           <p>Description: {{ information.description }}</p>
           <p>Content: {{ information.content }}</p>
         </div>
@@ -52,6 +52,7 @@
   </div>
 </template>
 <script>
+import moment from "moment";
 import axios from "axios";
 export default {
   data() {
@@ -64,6 +65,11 @@ export default {
       console.log("editInfo");
       console.log(this.$route.params.id);
       this.$router.push("/information/update/" + this.$route.params.id);
+    },
+    format_date(value) {
+      if (value) {
+        return moment(String(value)).format("DD/MM/YYYY");
+      }
     },
   },
   async mounted() {

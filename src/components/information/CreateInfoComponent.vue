@@ -97,11 +97,11 @@ export default {
           .then((response) => {
             console.log("response", response);
             this.$router.push("/");
-            this.$swal("Success", "Create Information Success", "success");
+            this.$swal("Success", "สำเร็จ", "success");
           });
       } catch (error) {
         console.log("error", error);
-        this.$swal("Error", "Please try again", "error");
+        this.$swal("Error", "กรุณากรอกข้อมูล", "error");
       }
     },
     CreateInfo() {

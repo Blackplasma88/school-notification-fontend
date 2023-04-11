@@ -10,8 +10,8 @@
           :category="info.category"
           :filepath="info.filepath"
           :content="info.content"
-          :created_at="info.created_at"
-          :updated_at="info.updated_at"
+          :created_at="format_date(info.created_at)"
+          :updated_at="format_date(info.updated_at)"
         />
       </div>
     </div>
@@ -20,6 +20,7 @@
 
 <script>
 import InformationData from "@/components/information/InformationData.vue";
+import moment from "moment";
 import axios from "axios";
 export default {
   name: "ListInfoData",
@@ -30,6 +31,11 @@ export default {
     return {
       informations: [],
     };
+  },
+  methods: {
+    format_date(date) {
+      return moment(date).format("DD/MM/YYYY");
+    },
   },
   mounted() {
     axios
