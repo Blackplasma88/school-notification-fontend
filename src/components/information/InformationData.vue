@@ -14,7 +14,7 @@
     </template>
     <template v-slot:card-content>
       <div class="content">
-        <p>Create : {{ format_date(created_at) }}</p>
+        <p>Create : {{ created_at }}</p>
         &nbsp; &nbsp;
         <p>Name: Admin</p>
       </div>
@@ -30,7 +30,7 @@
     </template>
     <template v-slot:card-content>
       <div class="content">
-        <p>Create : {{ format_date(created_at) }}</p>
+        <p>Create : {{ created_at }}</p>
         &nbsp;
         <p>by</p>
         &nbsp;
@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import moment from "moment";
 import CardInfo from "@/components/information/CardInfo.vue";
 export default {
   name: "InformationData",
@@ -86,11 +85,6 @@ export default {
       console.log("viewdata");
       console.log(this.id);
       this.$router.push("/information/" + this.id + "");
-    },
-    format_date(value) {
-      if (value) {
-        return moment(String(value)).format("DD/MM/YYYY");
-      }
     },
   },
 };
