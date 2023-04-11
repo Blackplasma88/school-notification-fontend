@@ -27,7 +27,8 @@ export default {
   justify-content: center;
   .popup-inner {
     background: #fff;
-    padding: 32px;
+    padding: 1rem;
+    width: 30%;
   }
 }
 </style>
