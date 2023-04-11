@@ -194,6 +194,17 @@ export default {
     submitForm() {
       console.log(this.subject);
       console.log("submit");
+      this.resetForm();
+    },
+    resetForm() {
+      console.log("reset");
+      this.subject.subject_code = "";
+      this.subject.subject_name = "";
+      this.subject.credit = "";
+      this.subject.category = "";
+      this.subject.instructor1 = "";
+      this.subject.instructor2 = "";
+      this.subject.instructor3 = "";
     },
   },
 };
