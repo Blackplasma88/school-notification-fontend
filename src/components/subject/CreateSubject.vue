@@ -1,32 +1,7 @@
 <template>
-  <div
-    class="modal fade"
-    id="createSubject"
-    tabindex="-1"
-    aria-labelledby="createSubjectLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="createSubjectLabel">
-            Create Subject
-          </h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">content to add</div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-            Cancel
-          </button>
-          <button type="button" class="btn btn-success">Confirm</button>
-        </div>
-      </div>
+  <div class="popup">
+    <div class="popup-inner">
+      <slot />
     </div>
   </div>
 </template>
@@ -37,4 +12,22 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.2);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .popup-inner {
+    background: #fff;
+    padding: 32px;
+  }
+}
+</style>

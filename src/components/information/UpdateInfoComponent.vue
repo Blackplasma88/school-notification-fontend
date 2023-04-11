@@ -1,6 +1,6 @@
 <template>
   <div class="info-detail">
-    <!-- <div>Data : {{ information }}</div> -->
+    <div>Data : {{ information }}</div>
     <div class="card-info-detail">
       <div class="info-w-i" v-if="information.filepath">
         <form @submit.prevent="submitForm">
