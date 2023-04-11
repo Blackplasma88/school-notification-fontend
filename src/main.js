@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-
+import moment from "moment/moment";
 import "bootstrap/dist/css/bootstrap.css";
 
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -47,5 +47,6 @@ library.add(faChartLine);
 createApp(App)
   .use(VueSweetalert2)
   .use(router)
+  .use(moment)
   .component("font-awesome-icon", FontAwesomeIcon)
   .mount("#app");

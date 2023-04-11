@@ -195,7 +195,7 @@ export default {
             console.log("response", response);
             console.log("response.data", response.data);
             this.$router.push("/information/" + this.$route.params.id);
-            this.$swal("Success", "Create Information Success", "success");
+            this.$swal("Success", "แก้ไขสำเร็จ", "success");
           });
       } catch (error) {
         console.log("error", error);
