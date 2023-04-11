@@ -57,12 +57,17 @@
         Create
       </button>
     </div>
+    <ListLocationData />
   </section>
 </template>
 
 <script>
+import ListLocationData from "./ListLocationData.vue";
 export default {
   name: "LocationForm",
+  components: {
+    ListLocationData,
+  },
   methods: {
     createLocation() {
       console.log("createLocation");

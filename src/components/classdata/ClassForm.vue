@@ -75,6 +75,11 @@ export default {
       },
     };
   },
+  methods: {
+    TogglePopup() {
+      console.log("TogglePopup");
+    },
+  },
 };
 </script>
 

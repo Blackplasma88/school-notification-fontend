@@ -9,13 +9,14 @@
           <select
             class="form-select"
             aria-label="Select"
-            name="category"
-            id="category"
+            name="filter"
+            id="filter"
           >
             <option selected disabled>Filter</option>
-            <option value="news">News</option>
-            <option value="announce">Announce</option>
-            <option value="activity">Activity</option>
+            <option value="subject_code">รหัสวิชา</option>
+            <option value="category">หมวดหมู่</option>
+            <option value="subject_name">ชื่อวิชา</option>
+            <option value="news">ชั้นปี</option>
           </select>
         </div>
         &nbsp;
@@ -23,13 +24,14 @@
           <select
             class="form-select"
             aria-label="Select"
-            name="category"
-            id="category"
+            name="sortyBy"
+            id="sortyBy"
           >
             <option selected disabled>Sort by</option>
-            <option value="news">News</option>
-            <option value="announce">Announce</option>
-            <option value="activity">Activity</option>
+            <option value="subject_code">รหัสวิชา</option>
+            <option value="category">หมวดหมู่</option>
+            <option value="subject_name">ชื่อวิชา</option>
+            <option value="news">ชั้นปี</option>
           </select>
         </div>
       </div>
@@ -160,8 +162,8 @@
 </template>
 
 <script>
-import ListSubjectData from "@/components/subject/ListSubjectData.vue";
 import { ref } from "vue";
+import ListSubjectData from "@/components/subject/ListSubjectData.vue";
 import CreateSubject from "@/components/subject/CreateSubject.vue";
 export default {
   name: "SubjectForm",

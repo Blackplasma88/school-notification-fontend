@@ -13,6 +13,7 @@
             <th scope="col">ผู้สอน</th>
             <th scope="col">ผู้สอน</th>
             <th scope="col">ผู้สอน</th>
+            <th scope="col">หมายเหตุ</th>
           </tr>
         </thead>
         <tbody>
@@ -25,6 +26,11 @@
             <td>{{ subject.instructor[0] }}</td>
             <td>{{ subject.instructor[1] }}</td>
             <td>{{ subject.instructor[2] }}</td>
+            <td>
+              <!-- <router-link :to="'/subject/edit/' + subject.id"> -->
+              <button class="btn btn-primary">อัพเดตผู้สอน</button>
+              <!-- </router-link> -->
+            </td>
           </tr>
         </tbody>
       </table>
