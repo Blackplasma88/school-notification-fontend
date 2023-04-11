@@ -232,7 +232,7 @@ export default {
         },
       ],
       dataForPagination: [],
-      ElementPerPage: 10,
+      elementPerpage: 10,
       currentPage: 1,
     };
   },
@@ -241,13 +241,13 @@ export default {
   },
   methods: {
     totalPage() {
-      return Math.ceil(this.subjects.length / this.ElementPerPage);
+      return Math.ceil(this.subjects.length / this.elementPerpage);
     },
     getDataPagination(NumberPage) {
       this.currentPage = NumberPage;
       this.dataForPagination = [];
-      let start = (NumberPage - 1) * this.ElementPerPage;
-      let end = NumberPage * this.ElementPerPage;
+      let start = (NumberPage - 1) * this.elementPerpage;
+      let end = NumberPage * this.elementPerpage;
       this.dataForPagination = this.subjects.slice(start, end);
     },
     getPreviousPage() {

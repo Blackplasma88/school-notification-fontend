@@ -15,10 +15,8 @@
     <template v-slot:card-content>
       <div class="content">
         <p>Create : {{ created_at }}</p>
-        &nbsp;
-        <p>by</p>
-        &nbsp;
-        <p>Name: {{ id }}</p>
+        &nbsp; &nbsp;
+        <p>Name: Admin</p>
       </div>
     </template>
   </CardInfo>
@@ -36,7 +34,7 @@
         &nbsp;
         <p>by</p>
         &nbsp;
-        <p>Name: {{ id }}</p>
+        <p>Name: Admin</p>
       </div>
     </template>
   </CardInfo>
