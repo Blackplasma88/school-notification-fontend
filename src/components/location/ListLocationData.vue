@@ -5,7 +5,7 @@
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
-            <th scope="col">#</th>
+            <th scope="col">เลขสถานที่</th>
             <th scope="col">ชื่ออาคาร</th>
             <th scope="col">ชั้น</th>
             <th scope="col">ห้อง</th>
@@ -53,212 +53,27 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "ListLocationData",
   components: {},
   data() {
     return {
-      locations: [
-        {
-          id: 1,
-          building_name: "อาคาร 1",
-          floor: "1",
-          room: "1",
-        },
-        {
-          id: 2,
-          building_name: "อาคาร 1",
-          floor: "1",
-          room: "2",
-        },
-        {
-          id: 3,
-          building_name: "อาคาร 1",
-          floor: "1",
-          room: "3",
-        },
-        {
-          id: 4,
-          building_name: "อาคาร 1",
-          floor: "1",
-          room: "4",
-        },
-        {
-          id: 5,
-          building_name: "อาคาร 1",
-          floor: "1",
-          room: "5",
-        },
-        {
-          id: 6,
-          building_name: "อาคาร 1",
-          floor: "1",
-          room: "6",
-        },
-        {
-          id: 7,
-          building_name: "อาคาร 1",
-          floor: "1",
-          room: "7",
-        },
-        {
-          id: 8,
-          building_name: "อาคาร 1",
-          floor: "1",
-          room: "8",
-        },
-        {
-          id: 9,
-          building_name: "อาคาร 1",
-          floor: "2",
-          room: "1",
-        },
-        {
-          id: 10,
-          building_name: "อาคาร 1",
-          floor: "2",
-          room: "2",
-        },
-        {
-          id: 11,
-          building_name: "อาคาร 1",
-          floor: "2",
-          room: "3",
-        },
-        {
-          id: 12,
-          building_name: "อาคาร 1",
-          floor: "2",
-          room: "4",
-        },
-        {
-          id: 13,
-          building_name: "อาคาร 1",
-          floor: "2",
-          room: "5",
-        },
-        {
-          id: 14,
-          building_name: "อาคาร 1",
-          floor: "2",
-          room: "6",
-        },
-        {
-          id: 15,
-          building_name: "อาคาร 1",
-          floor: "2",
-          room: "7",
-        },
-        {
-          id: 16,
-          building_name: "อาคาร 1",
-          floor: "2",
-          room: "8",
-        },
-        {
-          id: 17,
-          building_name: "อาคาร 1",
-          floor: "3",
-          room: "1",
-        },
-        {
-          id: 18,
-          building_name: "อาคาร 1",
-          floor: "3",
-          room: "2",
-        },
-        {
-          id: 19,
-          building_name: "อาคาร 1",
-          floor: "3",
-          room: "3",
-        },
-        {
-          id: 20,
-          building_name: "อาคาร 1",
-          floor: "3",
-          room: "4",
-        },
-        {
-          id: 21,
-          building_name: "อาคาร 1",
-          floor: "3",
-          room: "5",
-        },
-        {
-          id: 22,
-          building_name: "อาคาร 1",
-          floor: "3",
-          room: "6",
-        },
-        {
-          id: 23,
-          building_name: "อาคาร 1",
-          floor: "3",
-          room: "7",
-        },
-        {
-          id: 24,
-          building_name: "อาคาร 1",
-          floor: "3",
-          room: "8",
-        },
-        {
-          id: 25,
-          building_name: "อาคาร 1",
-          floor: "4",
-          room: "1",
-        },
-        {
-          id: 26,
-          building_name: "อาคาร 1",
-          floor: "4",
-          room: "2",
-        },
-        {
-          id: 27,
-          building_name: "อาคาร 1",
-          floor: "4",
-          room: "3",
-        },
-        {
-          id: 28,
-          building_name: "อาคาร 1",
-          floor: "4",
-          room: "4",
-        },
-        {
-          id: 29,
-          building_name: "อาคาร 1",
-          floor: "4",
-          room: "5",
-        },
-        {
-          id: 30,
-          building_name: "อาคาร 1",
-          floor: "4",
-          room: "6",
-        },
-        {
-          id: 31,
-          building_name: "อาคาร 1",
-          floor: "4",
-          room: "7",
-        },
-        {
-          id: 32,
-          building_name: "อาคาร 1",
-          floor: "4",
-          room: "8",
-        },
-      ],
+      locations: [],
       dataForPagination: [],
       elementPerpage: 10,
       currentPage: 1,
     };
   },
   mounted() {
-    this.getDataPagination(1);
+    axios.get("http://127.0.0.1:8080/location/all").then((response) => {
+      console.log("location_list");
+      console.log(response.data.data.location_list);
+      console.log("this.locations");
+      this.locations = response.data.data.location_list;
+      console.log("this.locations", this.locations);
+      this.getDataPagination(1);
+    });
   },
   methods: {
     totalPage() {
