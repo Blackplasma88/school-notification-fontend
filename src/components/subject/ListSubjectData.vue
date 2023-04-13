@@ -14,7 +14,6 @@
             <th scope="col">ผู้สอน</th>
             <th scope="col">ผู้สอน</th>
             <th scope="col">ผู้สอน</th>
-            <th scope="col">หมายเหตุ</th>
           </tr>
         </thead>
         <tbody>
@@ -24,14 +23,16 @@
             <td>{{ subject.name }}</td>
             <td>{{ subject.credit }}</td>
             <td>ม.{{ subject.class_year }}</td>
-            <td>{{ subject.instructor_id }}</td>
-            <td>{{ subject.instructor_id }}</td>
-            <td>{{ subject.instructor_id }}</td>
-
             <td>
-              <!-- <router-link :to="'/subject/edit/' + subject.id"> -->
-              <button class="btn btn-primary">อัพเดตผู้สอน</button>
-              <!-- </router-link> -->
+              <button class="btn btn-outline-secondary" @click="TogglePopup">
+                เพิ่ม
+              </button>
+            </td>
+            <td>
+              <button class="btn btn-outline-secondary">เพิ่ม</button>
+            </td>
+            <td>
+              <button class="btn btn-outline-secondary">เพิ่ม</button>
             </td>
           </tr>
         </tbody>
@@ -71,6 +72,7 @@ export default {
       dataForPagination: [],
       elementPerpage: 10,
       currentPage: 1,
+      instructor_list: [],
     };
   },
   mounted() {
