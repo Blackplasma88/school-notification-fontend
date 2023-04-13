@@ -198,8 +198,7 @@ export default {
   },
   mounted() {
     axios.get("http://127.0.0.1:8080/subject/all").then((response) => {
-      console.log("subject_list");
-      console.log(response.data.data.subject_list);
+      console.log("subject_list", response.data.data.subject_list);
       this.subjects = response.data.data.subject_list;
       console.log("this.subjects", this.subjects);
       this.getDataPagination(1);
@@ -274,13 +273,15 @@ export default {
             console.log(response.data);
             this.resetForm();
             this.popupTriggers.buttonPopup = false;
-            this.$swal("Success!", "เพิ่มอาจารย์สำเร็จ", "success").then(() => {
-              window.location.reload();
-            });
+            this.$swal("Success!", response.data.message, "success").then(
+              () => {
+                window.location.reload();
+              }
+            );
           });
       } catch (error) {
-        console.log(error);
-        this.$swal("Error!", "เพิ่มอาจารย์ไม่สำเร็จ", "error");
+        console.log(error.response.data.message);
+        this.$swal("Error!", error.response.data.message, "error");
       }
     },
     resetForm() {

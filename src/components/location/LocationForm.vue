@@ -147,13 +147,13 @@ export default {
             console.log(response);
             this.resetForm();
             this.popupTriggers.buttonPopup = false;
-            this.$swal("Success", "สำเร็จ", "success").then(() => {
+            this.$swal("Success", response.data.message, "success").then(() => {
               window.location.reload();
             });
           });
       } catch (error) {
         console.log(error);
-        this.$swal("Error", "กรอกข้อมูลให้ครบ", "error");
+        this.$swal("Error", error.response.data.message, "error");
       }
     },
     resetForm() {

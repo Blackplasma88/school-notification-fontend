@@ -195,11 +195,11 @@ export default {
             console.log("response", response);
             console.log("response.data", response.data);
             this.$router.push("/information/" + this.$route.params.id);
-            this.$swal("Success", "แก้ไขสำเร็จ", "success");
+            this.$swal("Success", response.data.message, "success");
           });
       } catch (error) {
         console.log("error", error);
-        this.$swal("Error", "Please try again", "error");
+        this.$swal("Error", error.response.data.message, "error");
       }
     },
     CreateInfo() {
