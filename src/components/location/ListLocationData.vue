@@ -70,7 +70,6 @@ export default {
     axios.get("http://127.0.0.1:8080/location/all").then((response) => {
       console.log("location_list");
       console.log(response.data.data.location_list);
-      console.log("this.locations");
       this.locations = response.data.data.location_list;
       console.log("this.locations", this.locations);
       this.getDataPagination(1);
@@ -102,7 +101,6 @@ export default {
     isActive(NumberPage) {
       return NumberPage == this.currentPage ? "active" : "";
     },
-    
   },
 };
 </script>

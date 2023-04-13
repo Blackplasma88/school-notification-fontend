@@ -13,9 +13,8 @@
             id="category"
           >
             <option selected disabled>Filter</option>
-            <option value="news">News</option>
-            <option value="announce">Announce</option>
-            <option value="activity">Activity</option>
+            <option value="class_year">ชั้นปี</option>
+            <option value="class_room">ห้อง</option>
           </select>
         </div>
         &nbsp;
@@ -27,19 +26,14 @@
             id="category"
           >
             <option selected disabled>Sort by</option>
-            <option value="news">News</option>
-            <option value="announce">Announce</option>
-            <option value="activity">Activity</option>
+            <option value="class_year">ชั้นปี</option>
+            <option value="class_room">ห้อง</option>
           </select>
         </div>
       </div>
     </div>
     <div class="rightContent">
-      <button
-        type="button"
-        class="btn btn-secondary"
-        @click="submitForm"
-      >
+      <button type="button" class="btn btn-secondary" @click="submitForm">
         Create Class
       </button>
     </div>
@@ -79,8 +73,9 @@ export default {
           .post("http://127.0.0.1:8080/class/create", this.class)
           .then((response) => {
             console.log(response);
-            this.$swal("Success", "สร้างห้องใหม่สำเร็จ", "success");
-            window.location.reload();
+            this.$swal("Success", "สร้างห้องใหม่สำเร็จ", "success").then(() => {
+              window.location.reload();
+            });
           });
       } catch (error) {
         console.log(error);

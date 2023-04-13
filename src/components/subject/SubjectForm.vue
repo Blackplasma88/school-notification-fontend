@@ -55,32 +55,11 @@
           <input
             type="text"
             class="form-control"
-            id="subject_code"
-            placeholder="Type Name"
-            v-model="subject.subject_code"
+            id="subject_id"
+            placeholder="กรอกรหัสวิชา"
+            v-model="subject.subject_id"
           />
-          <label for="name">ชื่อวิชา :</label>
-          <input
-            type="text"
-            class="form-control"
-            id="subject_name"
-            placeholder="Type Name"
-            v-model="subject.subject_name"
-          />
-          <label for="select"> หน่วยกิต :</label>
-          <select
-            class="form-select"
-            aria-label="Select"
-            name="credit"
-            id="credit"
-            v-model="subject.credit"
-          >
-            <option selected disabled>Select</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="3">4</option>
-          </select>
+
           <label for="select"> หมวดหมู่ :</label>
           <select
             class="form-select"
@@ -99,8 +78,41 @@
             <option value="ศิลปะ">ศิลปะ</option>
             <option value="การงานอาชีพ">การงานอาชีพ</option>
           </select>
+          
+          <label for="name">ชื่อวิชา :</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            placeholder="กรอกชื่อวิชา"
+            v-model="subject.name"
+          />
+          <label for="select"> ชั้นปี :</label>
+          <select
+            class="form-select"
+            aria-label="Select"
+            name="class_year"
+            id="class_year"
+            v-model="subject.class_year"
+          >
+            <option selected disabled>Select</option>
+            <option value="1">ม.1</option>
+            <option value="2">ม.2</option>
+            <option value="3">ม.3</option>
+            <option value="4">ม.4</option>
+            <option value="5">ม.5</option>
+            <option value="6">ม.6</option>
+          </select>
+          <label for="select"> หน่วยกิต :</label>
+          <input
+            type="number"
+            class="form-control"
+            id="credit"
+            placeholder="กรอกหน่วยกิต Ex. 4"
+            v-model="subject.credit"
+          />
 
-          <label for="select"> ครูผู้สอน 1:</label>
+          <!-- <label for="select"> ครูผู้สอน 1:</label>
           <select
             class="form-select"
             aria-label="Select"
@@ -143,7 +155,7 @@
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="3">4</option>
-          </select>
+          </select> -->
 
           <button class="popup-close btn btn-success">Confirm</button>
           &nbsp;
@@ -163,6 +175,7 @@
 
 <script>
 import { ref } from "vue";
+import axios from "axios";
 import ListSubjectData from "@/components/subject/ListSubjectData.vue";
 import CreatePopup from "@/components/main/CreatePopup.vue";
 export default {
@@ -177,10 +190,11 @@ export default {
         buttonPopup: false,
       }),
       subject: {
-        subject_code: "",
-        subject_name: "",
-        credit: "",
+        subject_id: "",
         category: "",
+        name: "",
+        credit: "",
+        class_year: "",
         instructor1: "",
         instructor2: "",
         instructor3: "",
@@ -193,14 +207,27 @@ export default {
       this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
       console.log(this.popupTriggers.buttonPopup);
     },
-    submitForm() {
-      console.log(this.subject);
-      console.log("submit");
-      this.resetForm();
+    async submitForm() {
+      console.log("create Class", this.subject);
+      try {
+        await axios
+          .post("http://127.0.0.1:8080/subject/create", this.subject)
+          .then((response) => {
+            console.log(response);
+            this.resetForm();
+            this.popupTriggers.buttonPopup = false;
+            this.$swal("Success!", "สำเร็จ", "success").then(() => {
+              window.location.reload();
+            });
+          });
+      } catch (error) {
+        console.log(error);
+        this.$swal("Error!", "กรอกข้อมูลให้ครบ", "error");
+      }
     },
     resetForm() {
       console.log("reset");
-      this.subject.subject_code = "";
+      this.subject.subject_id = "";
       this.subject.subject_name = "";
       this.subject.credit = "";
       this.subject.category = "";
