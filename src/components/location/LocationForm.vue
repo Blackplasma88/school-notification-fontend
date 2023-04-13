@@ -112,7 +112,7 @@
 import { ref } from "vue";
 import axios from "axios";
 import ListLocationData from "./ListLocationData.vue";
-import CreatePopup from "../subject/CreatePopup.vue";
+import CreatePopup from "@/components/main/CreatePopup.vue"
 export default {
   name: "LocationForm",
   components: {
@@ -147,13 +147,8 @@ export default {
             console.log(response);
             this.resetForm();
             this.popupTriggers.buttonPopup = false;
-            this.$router.push("/locations");
-            this.$swal({
-              title: "สำเร็จ!",
-              text: "เพิ่มข้อมูลสำเร็จ",
-              icon: "success",
-              confirmButtonText: "ตกลง",
-            });
+            this.$swal("Success", "สำเร็จ", "success");
+            window.location.reload();
           });
       } catch (error) {
         console.log(error);

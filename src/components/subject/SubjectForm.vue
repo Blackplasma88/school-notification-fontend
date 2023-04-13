@@ -164,7 +164,7 @@
 <script>
 import { ref } from "vue";
 import ListSubjectData from "@/components/subject/ListSubjectData.vue";
-import CreatePopup from "@/components/subject/CreatePopup.vue";
+import CreatePopup from "@/components/main/CreatePopup.vue";
 export default {
   name: "SubjectForm",
   components: {

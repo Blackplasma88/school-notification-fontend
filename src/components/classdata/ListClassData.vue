@@ -2,6 +2,7 @@
   <div>
     <h2>List of Class</h2>
     <div>
+      {{ classes }}
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
@@ -61,114 +62,7 @@
 export default {
   data() {
     return {
-      classes: [
-        {
-          class_id: 1,
-          year: 1,
-          room: 1,
-          count_of_students: 10,
-          count_of_courses: 5,
-          advisor: "อาจารย์ 1",
-          student_list: [
-            {
-              student_id: 1,
-              student_name: "A",
-            },
-            {
-              student_id: 2,
-              student_name: "B",
-            },
-            {
-              student_id: 3,
-              student_name: "C",
-            },
-            {
-              student_id: 4,
-              student_name: "D",
-            },
-            {
-              student_id: 5,
-              student_name: "E",
-            },
-            {
-              student_id: 6,
-              student_name: "F",
-            },
-            {
-              student_id: 7,
-              student_name: "G",
-            },
-            {
-              student_id: 8,
-              student_name: "H",
-            },
-            {
-              student_id: 9,
-              student_name: "I",
-            },
-            {
-              student_id: 10,
-              student_name: "J",
-            },
-          ],
-        },
-        {
-          class_id: 2,
-          year: 1,
-          room: 2,
-          count_of_students: 5,
-          count_of_courses: 1,
-          advisor: "อาจารย์ 2",
-          student_list: [
-            {
-              student_id: 1,
-              student_name: "A",
-            },
-            {
-              student_id: 2,
-              student_name: "B",
-            },
-            {
-              student_id: 3,
-              student_name: "C",
-            },
-            {
-              student_id: 4,
-              student_name: "D",
-            },
-            {
-              student_id: 5,
-              student_name: "E",
-            },
-          ],
-        },
-        {
-          class_id: 3,
-          year: 2,
-          room: 2,
-          count_of_students: 4,
-          count_of_courses: 5,
-          advisor: "อาจารย์ 3",
-          student_list: [
-            {
-              student_id: 1,
-              student_name: "A",
-            },
-            {
-              student_id: 2,
-              student_name: "B",
-            },
-            {
-              student_id: 3,
-              student_name: "C",
-            },
-            {
-              student_id: 4,
-              student_name: "D",
-            },
-          ],
-        },
-      ],
+      classes: [],
       dataForPagination: [],
       elementPerpage: 10,
       currentPage: 1,
