@@ -1,6 +1,7 @@
 <template>
   <div>
     <h2>List of Location</h2>
+    <!-- {{ locations }} -->
     <div>
       <table class="table table-bordered table-hover">
         <thead>
@@ -101,6 +102,7 @@ export default {
     isActive(NumberPage) {
       return NumberPage == this.currentPage ? "active" : "";
     },
+    
   },
 };
 </script>

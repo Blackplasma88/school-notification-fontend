@@ -45,7 +45,7 @@
         Create Subject
       </button>
     </div>
-    <CreateSubject
+    <CreatePopup
       v-if="popupTriggers.buttonPopup"
       @close="TogglePopup('buttonPopup')"
     >
@@ -156,7 +156,7 @@
           </button>
         </div>
       </form>
-    </CreateSubject>
+    </CreatePopup>
     <ListSubjectData />
   </section>
 </template>
@@ -164,12 +164,12 @@
 <script>
 import { ref } from "vue";
 import ListSubjectData from "@/components/subject/ListSubjectData.vue";
-import CreateSubject from "@/components/subject/CreateSubject.vue";
+import CreatePopup from "@/components/subject/CreatePopup.vue";
 export default {
   name: "SubjectForm",
   components: {
     ListSubjectData,
-    CreateSubject,
+    CreatePopup,
   },
   data() {
     return {

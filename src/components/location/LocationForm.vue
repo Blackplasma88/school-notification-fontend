@@ -53,27 +53,131 @@
         </select>
       </div>
       &nbsp;
-      <button type="button" class="btn btn-secondary" @click="createLocation">
-        Create
+      <button
+        type="button"
+        class="btn btn-secondary"
+        @click="TogglePopup('buttonPopup')"
+      >
+        Create Location
       </button>
     </div>
+    <CreatePopup
+      v-if="popupTriggers.buttonPopup"
+      @close="TogglePopup('buttonPopup')"
+    >
+      <form @submit.prevent="submitForm">
+        <div class="form-control">
+          <label for="name">อาคาร :</label>
+          <input
+            type="text"
+            class="form-control"
+            id="building_name"
+            placeholder="กรอกชื่ออาคาร"
+            v-model="location.building_name"
+          />
+          <label for="name">ชั้น :</label>
+          <input
+            type="text"
+            class="form-control"
+            id="floor"
+            placeholder="กรอกเลขชั้น"
+            v-model="location.floor"
+          />
+          <label for="name">ห้อง :</label>
+          <input
+            type="text"
+            class="form-control"
+            id="room"
+            placeholder="กรอกเลขห้อง"
+            v-model="location.room"
+          />
+
+          <button class="popup-close btn btn-success">Confirm</button>
+          &nbsp;
+          <button
+            type="button"
+            class="popup-close btn btn-danger"
+            @click="TogglePopup('buttonPopup')"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </CreatePopup>
     <ListLocationData />
   </section>
 </template>
 
 <script>
+import { ref } from "vue";
+import axios from "axios";
 import ListLocationData from "./ListLocationData.vue";
+import CreatePopup from "../subject/CreatePopup.vue";
 export default {
   name: "LocationForm",
   components: {
     ListLocationData,
+    CreatePopup,
+  },
+  data() {
+    return {
+      popupTriggers: ref({
+        buttonPopup: false,
+      }),
+      location: {
+        building_name: "",
+        floor: "",
+        room: "",
+      },
+    };
   },
   methods: {
-    createLocation() {
-      console.log("createLocation");
+    TogglePopup(trigger) {
+      console.log(trigger);
+      this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
+      console.log(this.popupTriggers.buttonPopup);
+    },
+    async submitForm() {
+      console.log("create Location", this.location);
+
+      try {
+        await axios
+          .post("http://127.0.0.1:8080/location/create", this.location)
+          .then((response) => {
+            console.log(response);
+            this.resetForm();
+            this.popupTriggers.buttonPopup = false;
+            this.$router.push("/locations");
+            this.$swal({
+              title: "สำเร็จ!",
+              text: "เพิ่มข้อมูลสำเร็จ",
+              icon: "success",
+              confirmButtonText: "ตกลง",
+            });
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    resetForm() {
+      this.location.building_name = "";
+      this.location.floor = "";
+      this.location.room = "";
     },
   },
 };
 </script>
 
-<style></style>
+<style>
+.filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: right;
+  margin-bottom: 0.5rem;
+}
+
+.rightContent {
+  display: flex;
+  justify-content: right;
+}
+</style>
