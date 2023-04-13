@@ -9,13 +9,14 @@
           <select
             class="form-select"
             aria-label="Select"
-            name="category"
-            id="category"
+            name="filter"
+            id="filter"
           >
             <option selected disabled>Filter</option>
-            <option value="news">News</option>
-            <option value="announce">Announce</option>
-            <option value="activity">Activity</option>
+            <option value="subject_code">รหัสวิชา</option>
+            <option value="category">หมวดหมู่</option>
+            <option value="subject_name">ชื่อวิชา</option>
+            <option value="news">ชั้นปี</option>
           </select>
         </div>
         &nbsp;
@@ -23,13 +24,14 @@
           <select
             class="form-select"
             aria-label="Select"
-            name="category"
-            id="category"
+            name="sortyBy"
+            id="sortyBy"
           >
             <option selected disabled>Sort by</option>
-            <option value="news">News</option>
-            <option value="announce">Announce</option>
-            <option value="activity">Activity</option>
+            <option value="subject_code">รหัสวิชา</option>
+            <option value="category">หมวดหมู่</option>
+            <option value="subject_name">ชื่อวิชา</option>
+            <option value="news">ชั้นปี</option>
           </select>
         </div>
       </div>
@@ -43,7 +45,7 @@
         Create Subject
       </button>
     </div>
-    <CreateSubject
+    <CreatePopup
       v-if="popupTriggers.buttonPopup"
       @close="TogglePopup('buttonPopup')"
     >
@@ -53,32 +55,11 @@
           <input
             type="text"
             class="form-control"
-            id="subject_code"
-            placeholder="Type Name"
-            v-model="subject.subject_code"
+            id="subject_id"
+            placeholder="กรอกรหัสวิชา"
+            v-model="subject.subject_id"
           />
-          <label for="name">ชื่อวิชา :</label>
-          <input
-            type="text"
-            class="form-control"
-            id="subject_name"
-            placeholder="Type Name"
-            v-model="subject.subject_name"
-          />
-          <label for="select"> หน่วยกิต :</label>
-          <select
-            class="form-select"
-            aria-label="Select"
-            name="credit"
-            id="credit"
-            v-model="subject.credit"
-          >
-            <option selected disabled>Select</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="3">4</option>
-          </select>
+
           <label for="select"> หมวดหมู่ :</label>
           <select
             class="form-select"
@@ -87,87 +68,77 @@
             id="category"
             v-model="subject.category"
           >
-            <option selected disabled>Select</option>
-            <option value="คณิตศาสตร์">คณิตศาสตร์</option>
-            <option value="วิทยาศาสตร์">วิทยาศาสตร์</option>
-            <option value="ภาษาไทย">ภาษาไทย</option>
-            <option value="ภาษาต่างประเทศ">ภาษาต่างประเทศ</option>
-            <option value="สังคมศึกษา">สังคมศึกษา</option>
-            <option value="สุขศึกษา">สุขศึกษา</option>
-            <option value="ศิลปะ">ศิลปะ</option>
-            <option value="การงานอาชีพ">การงานอาชีพ</option>
+            <option v-for="index in subject_category_list" :key="index">
+              {{ index }}
+            </option>
           </select>
 
-          <label for="select"> ครูผู้สอน 1:</label>
+          <label for="name">ชื่อวิชา :</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            placeholder="กรอกชื่อวิชา"
+            v-model="subject.name"
+          />
+          <label for="select"> ชั้นปี :</label>
           <select
             class="form-select"
             aria-label="Select"
-            name="instructor1"
-            id="instructor1"
-            v-model="subject.instructor1"
+            name="class_year"
+            id="class_year"
+            v-model="subject.class_year"
+          >
+            <option selected disabled>Select</option>
+            <option value="1">ม.1</option>
+            <option value="2">ม.2</option>
+            <option value="3">ม.3</option>
+            <option value="4">ม.4</option>
+            <option value="5">ม.5</option>
+            <option value="6">ม.6</option>
+          </select>
+          <label for="select"> หน่วยกิต :</label>
+          <select
+            class="form-select"
+            aria-label="Select"
+            name="credit"
+            id="credit"
+            v-model="credit"
           >
             <option selected disabled>Select</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
-            <option value="3">4</option>
+            <option value="4">4</option>
           </select>
-
-          <label for="select"> ครูผู้สอน 2:</label>
-          <select
-            class="form-select"
-            aria-label="Select"
-            name="instructor2"
-            id="instructor2"
-            v-model="subject.instructor2"
-          >
-            <option selected disabled>Select</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="3">4</option>
-          </select>
-
-          <label for="select"> ครูผู้สอน 3:</label>
-          <select
-            class="form-select"
-            aria-label="Select"
-            name="instructor3"
-            id="instructor3"
-            v-model="subject.instructor3"
-          >
-            <option selected disabled>Select</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="3">4</option>
-          </select>
-
-          <button class="popup-close btn btn-success">Confirm</button>
-          &nbsp;
-          <button
-            type="button"
-            class="popup-close btn btn-danger"
-            @click="TogglePopup('buttonPopup')"
-          >
-            Cancel
-          </button>
+          <div class="button-group">
+            <button class="popup-close btn btn-success">Confirm</button>
+            &nbsp;
+            <button
+              type="button"
+              class="popup-close btn btn-danger"
+              @click="TogglePopup('buttonPopup')"
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       </form>
-    </CreateSubject>
+    </CreatePopup>
     <ListSubjectData />
   </section>
 </template>
 
 <script>
-import ListSubjectData from "@/components/subject/ListSubjectData.vue";
 import { ref } from "vue";
-import CreateSubject from "@/components/subject/CreateSubject.vue";
+import axios from "axios";
+import ListSubjectData from "@/components/subject/ListSubjectData.vue";
+import CreatePopup from "@/components/main/CreatePopup.vue";
 export default {
   name: "SubjectForm",
   components: {
     ListSubjectData,
-    CreateSubject,
+    CreatePopup,
   },
   data() {
     return {
@@ -175,14 +146,14 @@ export default {
         buttonPopup: false,
       }),
       subject: {
-        subject_code: "",
-        subject_name: "",
-        credit: "",
+        subject_id: "",
         category: "",
-        instructor1: "",
-        instructor2: "",
-        instructor3: "",
+        name: "",
+        credit: 0,
+        class_year: "",
       },
+      credit: 0,
+      subject_category_list: [],
     };
   },
   methods: {
@@ -190,21 +161,46 @@ export default {
       console.log(trigger);
       this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
       console.log(this.popupTriggers.buttonPopup);
+
+      axios
+        .get("http://127.0.0.1:8080/school-data/subject-category")
+        .then((response) => {
+          console.log(response.data.data.school_data.length);
+          for (let i = 0; i < response.data.data.school_data.length; i++) {
+            this.subject_category_list.push(
+              response.data.data.school_data[i].subject_category
+            );
+          }
+        });
     },
-    submitForm() {
-      console.log(this.subject);
-      console.log("submit");
-      this.resetForm();
+    async submitForm() {
+      try {
+        console.log(this.credit);
+        this.subject.credit = parseInt(this.credit);
+        console.log("create Class", this.subject);
+        await axios
+          .post("http://127.0.0.1:8080/subject/create", this.subject)
+          .then((response) => {
+            console.log(response);
+            this.resetForm();
+            this.popupTriggers.buttonPopup = false;
+            this.$swal("Success!", response.data.message, "success").then(
+              () => {
+                window.location.reload();
+              }
+            );
+          });
+      } catch (error) {
+        console.log(error);
+        this.$swal("Error!", error.response.data.message, "error");
+      }
     },
     resetForm() {
       console.log("reset");
-      this.subject.subject_code = "";
+      this.subject.subject_id = "";
       this.subject.subject_name = "";
       this.subject.credit = "";
       this.subject.category = "";
-      this.subject.instructor1 = "";
-      this.subject.instructor2 = "";
-      this.subject.instructor3 = "";
     },
   },
 };
@@ -221,5 +217,11 @@ export default {
 .rightContent {
   display: flex;
   justify-content: right;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
 }
 </style>

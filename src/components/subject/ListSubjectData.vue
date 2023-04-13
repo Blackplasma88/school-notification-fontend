@@ -1,6 +1,7 @@
 <template>
   <div>
     <h2>List of Subject</h2>
+    <!-- {{ subjects }} -->
     <div>
       <table class="table table-bordered table-hover">
         <thead>
@@ -17,14 +18,95 @@
         </thead>
         <tbody>
           <tr v-for="subject in dataForPagination" :key="subject.id">
-            <td>{{ subject.subject_code }}</td>
-            <td>{{ subject.subject_category }}</td>
-            <td>{{ subject.subject_name }}</td>
+            <td>{{ subject.subject_id }}</td>
+            <td>{{ subject.category }}</td>
+            <td>{{ subject.name }}</td>
             <td>{{ subject.credit }}</td>
-            <td>ม.{{ subject.year }}</td>
-            <td>{{ subject.instructor[0] }}</td>
-            <td>{{ subject.instructor[1] }}</td>
-            <td>{{ subject.instructor[2] }}</td>
+            <td>ม.{{ subject.class_year }}</td>
+            <td>
+              <div
+                v-if="
+                  subject.instructor_id != null &&
+                  subject.instructor_id[0] != null
+                "
+              >
+                <td>
+                  {{ subject.instructor_id[0] }}
+                </td>
+              </div>
+              <div v-else>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary"
+                  @click="
+                    TogglePopup(
+                      'buttonPopup',
+                      subject.id,
+                      subject.subject_id,
+                      subject.category
+                    )
+                  "
+                >
+                  เพิ่ม
+                </button>
+              </div>
+            </td>
+            <td>
+              <div
+                v-if="
+                  subject.instructor_id != null &&
+                  subject.instructor_id[1] != null
+                "
+              >
+                <td>
+                  {{ subject.instructor_id[1] }}
+                </td>
+              </div>
+              <div v-else>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary"
+                  @click="
+                    TogglePopup(
+                      'buttonPopup',
+                      subject.id,
+                      subject.subject_id,
+                      subject.category
+                    )
+                  "
+                >
+                  เพิ่ม
+                </button>
+              </div>
+            </td>
+            <td>
+              <div
+                v-if="
+                  subject.instructor_id != null &&
+                  subject.instructor_id[2] != null
+                "
+              >
+                <td>
+                  {{ subject.instructor_id[2] }}
+                </td>
+              </div>
+              <div v-else>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary"
+                  @click="
+                    TogglePopup(
+                      'buttonPopup',
+                      subject.id,
+                      subject.subject_id,
+                      subject.category
+                    )
+                  "
+                >
+                  เพิ่ม
+                </button>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -49,195 +131,79 @@
         </li>
       </ul>
     </nav>
+    <EditPopup
+      v-if="popupTriggers.buttonPopup"
+      @close="TogglePopup('buttonPopup')"
+    >
+      <form @submit.prevent="submitForm">
+        <div class="form-control">
+          <div>
+            <label for="subject_id">รหัสวิชา :</label>
+            {{ subject_id }}
+          </div>
+
+          <label for="select"> ผู้สอน :</label>
+          <select
+            class="form-select"
+            aria-label="Select"
+            name="instructor"
+            id="instructor"
+            v-model="instructor.instructor_name"
+          >
+            <option v-for="index in instructor_list" :key="index">
+              {{ index }}
+            </option>
+          </select>
+          <div class="button-group">
+            <button class="popup-close btn btn-success">Confirm</button>
+            &nbsp;
+            <button
+              type="button"
+              class="popup-close btn btn-danger"
+              @click="ToggleClose('buttonPopup')"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </EditPopup>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import { ref } from "vue";
+import EditPopup from "@/components/main/EditPopup.vue";
 export default {
   name: "ListSubjectData",
-  components: {},
+  components: { EditPopup },
   data() {
     return {
-      subjects: [
-        {
-          id: 1,
-          subject_code: "011528",
-          subject_category: "วิทยาศาสตร์",
-          subject_name: "วิทยาศาสตร์ 1",
-          credit: 3,
-          year: 1,
-          instructor: ["อาจารย์ 1", "อาจารย์ 2", "อาจารย์ 3"],
-        },
-        {
-          id: 2,
-          subject_code: "011529",
-          subject_category: "วิทยาศาสตร์",
-          subject_name: "วิทยาศาสตร์ 2",
-          credit: 3,
-          year: 1,
-          instructor: ["อาจารย์ 1", "อาจารย์ 2"],
-        },
-        {
-          id: 3,
-          subject_code: "011530",
-          subject_category: "คณิตศาสตร์",
-          subject_name: "คณิตศาสตร์ 1",
-          credit: 4,
-          year: 2,
-          instructor: ["อาจารย์ 1", "อาจารย์ 2", "อาจารย์ 3"],
-        },
-        {
-          id: 4,
-          subject_code: "011531",
-          subject_category: "ภาษาอังกฤษ",
-          subject_name: "ภาษาอังกฤษ 1",
-          credit: 3,
-          year: 1,
-          instructor: ["อาจารย์ 1", "อาจารย์ 3"],
-        },
-        {
-          id: 5,
-          subject_code: "011532",
-          subject_category: "ภาษาไทย",
-          subject_name: "ภาษาอังกฤษ 1",
-          credit: 2,
-          year: 1,
-          instructor: ["อาจารย์ 1", "อาจารย์ 2", "อาจารย์ 3"],
-        },
-        {
-          id: 6,
-          subject_code: "011533",
-          subject_category: "สังคม",
-          subject_name: "สังคม 1",
-          credit: 1,
-          year: 1,
-          instructor: ["อาจารย์ 2", "อาจารย์ 3"],
-        },
-        {
-          id: 7,
-          subject_code: "011528",
-          subject_category: "วิทยาศาสตร์",
-          subject_name: "วิทยาศาสตร์ 1",
-          credit: 3,
-          year: 1,
-          instructor: ["อาจารย์ 1", "อาจารย์ 2", "อาจารย์ 3"],
-        },
-        {
-          id: 9,
-          subject_code: "011530",
-          subject_category: "คณิตศาสตร์",
-          subject_name: "คณิตศาสตร์ 1",
-          credit: 4,
-          year: 2,
-          instructor: ["อาจารย์ 1", "อาจารย์ 2", "อาจารย์ 3"],
-        },
-        {
-          id: 10,
-          subject_code: "011531",
-          subject_category: "ภาษาอังกฤษ",
-          subject_name: "ภาษาอังกฤษ 1",
-          credit: 3,
-          year: 1,
-          instructor: ["อาจารย์ 1", "อาจารย์ 3"],
-        },
-        {
-          id: 11,
-          subject_code: "011528",
-          subject_category: "วิทยาศาสตร์",
-          subject_name: "วิทยาศาสตร์ 1",
-          credit: 3,
-          year: 1,
-          instructor: ["อาจารย์ 1", "อาจารย์ 2", "อาจารย์ 3"],
-        },
-        {
-          id: 12,
-          subject_code: "011529",
-          subject_category: "วิทยาศาสตร์",
-          subject_name: "วิทยาศาสตร์ 2",
-          credit: 3,
-          year: 1,
-          instructor: ["อาจารย์ 1", "อาจารย์ 2"],
-        },
-        {
-          id: 13,
-          subject_code: "011530",
-          subject_category: "คณิตศาสตร์",
-          subject_name: "คณิตศาสตร์ 1",
-          credit: 4,
-          year: 2,
-          instructor: ["อาจารย์ 1", "อาจารย์ 2", "อาจารย์ 3"],
-        },
-        {
-          id: 14,
-          subject_code: "011531",
-          subject_category: "ภาษาอังกฤษ",
-          subject_name: "ภาษาอังกฤษ 1",
-          credit: 3,
-          year: 1,
-          instructor: ["อาจารย์ 1", "อาจารย์ 3"],
-        },
-        {
-          id: 15,
-          subject_code: "011532",
-          subject_category: "ภาษาไทย",
-          subject_name: "ภาษาอังกฤษ 1",
-          credit: 2,
-          year: 1,
-          instructor: ["อาจารย์ 1", "อาจารย์ 2", "อาจารย์ 3"],
-        },
-        {
-          id: 16,
-          subject_code: "011533",
-          subject_category: "สังคม",
-          subject_name: "สังคม 1",
-          credit: 1,
-          year: 1,
-          instructor: ["อาจารย์ 2", "อาจารย์ 3"],
-        },
-        {
-          id: 17,
-          subject_code: "011528",
-          subject_category: "วิทยาศาสตร์",
-          subject_name: "วิทยาศาสตร์ 1",
-          credit: 3,
-          year: 1,
-          instructor: ["อาจารย์ 1", "อาจารย์ 2", "อาจารย์ 3"],
-        },
-        {
-          id: 18,
-          subject_code: "011529",
-          subject_category: "วิทยาศาสตร์",
-          subject_name: "วิทยาศาสตร์ 2",
-          credit: 3,
-          year: 1,
-          instructor: ["อาจารย์ 1", "อาจารย์ 2"],
-        },
-        {
-          id: 19,
-          subject_code: "011530",
-          subject_category: "คณิตศาสตร์",
-          subject_name: "คณิตศาสตร์ 1",
-          credit: 4,
-          year: 2,
-          instructor: ["อาจารย์ 1", "อาจารย์ 2", "อาจารย์ 3"],
-        },
-        {
-          id: 20,
-          subject_code: "011531",
-          subject_category: "ภาษาอังกฤษ",
-          subject_name: "ภาษาอังกฤษ 1",
-          credit: 3,
-          year: 1,
-          instructor: ["อาจารย์ 1", "อาจารย์ 3"],
-        },
-      ],
+      subjects: [],
       dataForPagination: [],
       elementPerpage: 10,
       currentPage: 1,
+      instructor: {
+        subject_id: "",
+        instructor_id: "",
+        instructor_name: "",
+      },
+      instructor_list: [],
+      instructor_list_id: [],
+      popupTriggers: ref({
+        buttonPopup: false,
+      }),
     };
   },
   mounted() {
-    this.getDataPagination(1);
+    axios.get("http://127.0.0.1:8080/subject/all").then((response) => {
+      console.log("subject_list", response.data.data.subject_list);
+      this.subjects = response.data.data.subject_list;
+      console.log("this.subjects", this.subjects);
+      this.getDataPagination(1);
+      console.log("this.dataForPagination", this.dataForPagination);
+    });
   },
   methods: {
     totalPage() {
@@ -264,6 +230,66 @@ export default {
     },
     isActive(NumberPage) {
       return NumberPage == this.currentPage ? "active" : "";
+    },
+    TogglePopup(trigger, id, subject_id, category) {
+      console.log(trigger, id, subject_id, category);
+      this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
+      console.log(this.popupTriggers.buttonPopup);
+      this.subject_id = subject_id;
+      console.log("Subject ID", this.subject_id);
+      axios
+        .get(
+          "http://127.0.0.1:8080/profile/teacher/category?category=" + category
+        )
+        .then((response) => {
+          console.log(response.data.data.profile_list);
+          for (let i = 0; i < response.data.data.profile_list.length; i++) {
+            this.instructor_list.push(response.data.data.profile_list[i].name);
+            this.instructor_list_id.push(
+              response.data.data.profile_list[i].profile_id
+            );
+          }
+        });
+    },
+    ToggleClose(trigger) {
+      console.log(trigger);
+      this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
+      this.resetForm();
+    },
+    async submitForm() {
+      console.log("submit");
+      for (let i = 0; i < this.instructor_list.length; i++) {
+        if (this.instructor.instructor_name == this.instructor_list[i]) {
+          this.instructor.instructor_id = this.instructor_list_id[i];
+          break;
+        }
+      }
+      this.instructor.subject_id = this.subject_id;
+      console.log(this.instructor);
+      try {
+        await axios
+          .post("http://127.0.0.1:8080/subject/add-instructor", this.instructor)
+          .then((response) => {
+            console.log(response.data);
+            this.resetForm();
+            this.popupTriggers.buttonPopup = false;
+            this.$swal("Success!", response.data.message, "success").then(
+              () => {
+                window.location.reload();
+              }
+            );
+          });
+      } catch (error) {
+        console.log(error.response.data.message);
+        this.$swal("Error!", error.response.data.message, "error");
+      }
+    },
+    resetForm() {
+      console.log("reset");
+      this.instructor.subject_id = "";
+      this.instructor.instructor_id = "";
+      this.instructor.instructor_name = "";
+      this.instructor_list = [];
     },
   },
 };
