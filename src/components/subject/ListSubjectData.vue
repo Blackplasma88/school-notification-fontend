@@ -24,52 +24,88 @@
             <td>{{ subject.credit }}</td>
             <td>ม.{{ subject.class_year }}</td>
             <td>
-              <button
-                type="button"
-                class="btn btn-outline-secondary"
-                @click="
-                  TogglePopup(
-                    'buttonPopup',
-                    subject.id,
-                    subject.subject_id,
-                    subject.category
-                  )
+              <div
+                v-if="
+                  subject.instructor_id != null &&
+                  subject.instructor_id[0] != null
                 "
               >
-                เพิ่ม
-              </button>
+                <td>
+                  {{ subject.instructor_id[0] }}
+                </td>
+              </div>
+              <div v-else>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary"
+                  @click="
+                    TogglePopup(
+                      'buttonPopup',
+                      subject.id,
+                      subject.subject_id,
+                      subject.category
+                    )
+                  "
+                >
+                  เพิ่ม
+                </button>
+              </div>
             </td>
             <td>
-              <button
-                type="button"
-                class="btn btn-outline-secondary"
-                @click="
-                  TogglePopup(
-                    'buttonPopup',
-                    subject.id,
-                    subject.subject_id,
-                    subject.category
-                  )
+              <div
+                v-if="
+                  subject.instructor_id != null &&
+                  subject.instructor_id[1] != null
                 "
               >
-                เพิ่ม
-              </button>
+                <td>
+                  {{ subject.instructor_id[1] }}
+                </td>
+              </div>
+              <div v-else>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary"
+                  @click="
+                    TogglePopup(
+                      'buttonPopup',
+                      subject.id,
+                      subject.subject_id,
+                      subject.category
+                    )
+                  "
+                >
+                  เพิ่ม
+                </button>
+              </div>
             </td>
             <td>
-              <button
-                type="button"
-                class="btn btn-outline-secondary"
-                @click="
-                  TogglePopup(
-                    'buttonPopup',
-                    subject.id,
-                    subject.subject_id,
-                    subject.category
-                  )
+              <div
+                v-if="
+                  subject.instructor_id != null &&
+                  subject.instructor_id[2] != null
                 "
               >
-                เพิ่ม
-              </button>
+                <td>
+                  {{ subject.instructor_id[2] }}
+                </td>
+              </div>
+              <div v-else>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary"
+                  @click="
+                    TogglePopup(
+                      'buttonPopup',
+                      subject.id,
+                      subject.subject_id,
+                      subject.category
+                    )
+                  "
+                >
+                  เพิ่ม
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -244,12 +280,14 @@ export default {
           });
       } catch (error) {
         console.log(error);
+        this.$swal("Error!", "เพิ่มอาจารย์ไม่สำเร็จ", "error");
       }
     },
     resetForm() {
       console.log("reset");
       this.instructor.subject_id = "";
       this.instructor.instructor_id = "";
+      this.instructor.instructor_name = "";
       this.instructor_list = [];
     },
   },
