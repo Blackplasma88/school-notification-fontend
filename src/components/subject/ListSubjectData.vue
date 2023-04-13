@@ -17,7 +17,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="subject in dataForPagination" :key="subject.id">
+          <tr v-for="(subject, i) in dataForPagination" :key="subject.id">
             <td>{{ subject.subject_id }}</td>
             <td>{{ subject.category }}</td>
             <td>{{ subject.name }}</td>
@@ -31,7 +31,7 @@
                 "
               >
                 <td>
-                  {{ subject.instructor_id[0] }}
+                  {{ this.instructor_name_list[i][0] }}
                 </td>
               </div>
               <div v-else>
@@ -59,7 +59,7 @@
                 "
               >
                 <td>
-                  {{ subject.instructor_id[1] }}
+                  {{ this.instructor_name_list[i][1] }}
                 </td>
               </div>
               <div v-else>
@@ -87,7 +87,7 @@
                 "
               >
                 <td>
-                  {{ subject.instructor_id[2] }}
+                  {{ this.instructor_name_list[i][2] }}
                 </td>
               </div>
               <div v-else>
@@ -191,6 +191,7 @@ export default {
       },
       instructor_list: [],
       instructor_list_id: [],
+      instructor_name_list: [[]],
       popupTriggers: ref({
         buttonPopup: false,
       }),
@@ -203,6 +204,31 @@ export default {
       console.log("this.subjects", this.subjects);
       this.getDataPagination(1);
       console.log("this.dataForPagination", this.dataForPagination);
+      for (var i = 0; i < this.subjects.length; i++) {
+        let indexI = i;
+        this.instructor_name_list.push([null, null, null]);
+        if (this.subjects[i].instructor_id != null) {
+          for (var j = 0; j < this.subjects[i].instructor_id.length; j++) {
+            let indexJ = j;
+
+            if (this.subjects[i].instructor_id[j] != null) {
+              axios
+                .get(
+                  "http://127.0.0.1:8080/profile/id?id=" +
+                    this.subjects[i].instructor_id[j] +
+                    "&role=teacher"
+                )
+                .then((response) => {
+                  console.log(indexI, "-", indexJ);
+                  this.instructor_name_list[indexI][indexJ] =
+                    response.data.data.profile.name;
+                  console.log(response.data.data.profile.name);
+                });
+            }
+          }
+        }
+      }
+      console.log("this.instructor_name_list", this.instructor_name_list);
     });
   },
   methods: {
