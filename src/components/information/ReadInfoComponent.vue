@@ -82,7 +82,13 @@ export default {
         this.information = response.data.data.information;
       })
       .catch((error) => {
-        console.log(error);
+        this.$swal({
+          title: "Error!",
+          text: error.response.data.message,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+        // console.log(error.response.data.message);
       });
   },
 };

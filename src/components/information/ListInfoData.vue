@@ -47,7 +47,7 @@ export default {
         this.informations = response.data.data.information_list;
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response.data.message);
       });
   },
 };

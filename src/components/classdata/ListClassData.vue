@@ -2,24 +2,23 @@
   <div>
     <h2>List of Class</h2>
     <div>
+      <!-- {{ classes }} -->
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
             <th scope="col">ชั้นปี</th>
             <th scope="col">ห้อง</th>
             <th scope="col">จำนวนนักเรียน</th>
-            <th scope="col">จำนวนคอร์ส</th>
             <th scope="col">ที่ปรึกษา</th>
             <th scope="col">รายละเอียด</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="c in dataForPagination" :key="c.class_id">
-            <td>ม.{{ c.year }}</td>
-            <td>{{ c.room }}</td>
-            <td>{{ c.count_of_students }}</td>
-            <td>{{ c.count_of_courses }}</td>
-            <td>{{ c.advisor }}</td>
+          <tr v-for="c in dataForPagination" :key="c.id">
+            <td>ม.{{ c.class_year }}</td>
+            <td>{{ c.class_room }}</td>
+            <td>{{ c.number_of_student }}</td>
+            <td>{{ c.advisor_id }}</td>
             <td>
               <button
                 type="button"
@@ -58,124 +57,24 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
+  name: "ListClassData",
   data() {
     return {
-      classes: [
-        {
-          class_id: 1,
-          year: 1,
-          room: 1,
-          count_of_students: 10,
-          count_of_courses: 5,
-          advisor: "อาจารย์ 1",
-          student_list: [
-            {
-              student_id: 1,
-              student_name: "A",
-            },
-            {
-              student_id: 2,
-              student_name: "B",
-            },
-            {
-              student_id: 3,
-              student_name: "C",
-            },
-            {
-              student_id: 4,
-              student_name: "D",
-            },
-            {
-              student_id: 5,
-              student_name: "E",
-            },
-            {
-              student_id: 6,
-              student_name: "F",
-            },
-            {
-              student_id: 7,
-              student_name: "G",
-            },
-            {
-              student_id: 8,
-              student_name: "H",
-            },
-            {
-              student_id: 9,
-              student_name: "I",
-            },
-            {
-              student_id: 10,
-              student_name: "J",
-            },
-          ],
-        },
-        {
-          class_id: 2,
-          year: 1,
-          room: 2,
-          count_of_students: 5,
-          count_of_courses: 1,
-          advisor: "อาจารย์ 2",
-          student_list: [
-            {
-              student_id: 1,
-              student_name: "A",
-            },
-            {
-              student_id: 2,
-              student_name: "B",
-            },
-            {
-              student_id: 3,
-              student_name: "C",
-            },
-            {
-              student_id: 4,
-              student_name: "D",
-            },
-            {
-              student_id: 5,
-              student_name: "E",
-            },
-          ],
-        },
-        {
-          class_id: 3,
-          year: 2,
-          room: 2,
-          count_of_students: 4,
-          count_of_courses: 5,
-          advisor: "อาจารย์ 3",
-          student_list: [
-            {
-              student_id: 1,
-              student_name: "A",
-            },
-            {
-              student_id: 2,
-              student_name: "B",
-            },
-            {
-              student_id: 3,
-              student_name: "C",
-            },
-            {
-              student_id: 4,
-              student_name: "D",
-            },
-          ],
-        },
-      ],
+      classes: [],
       dataForPagination: [],
       elementPerpage: 10,
       currentPage: 1,
     };
   },
   mounted() {
-    this.getDataPagination(1);
+    axios.get("http://127.0.0.1:8080/class/all?class_year=1").then((res) => {
+      console.log("classes_list");
+      console.log(res.data.data.class_list);
+      this.classes = res.data.data.class_list;
+      this.getDataPagination(1);
+    });
   },
   methods: {
     totalPage() {
