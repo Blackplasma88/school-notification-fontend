@@ -2,25 +2,23 @@
   <div>
     <h2>List of Class</h2>
     <div>
-      {{ classes }}
+      <!-- {{ classes }} -->
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
             <th scope="col">ชั้นปี</th>
             <th scope="col">ห้อง</th>
             <th scope="col">จำนวนนักเรียน</th>
-            <th scope="col">จำนวนคอร์ส</th>
             <th scope="col">ที่ปรึกษา</th>
             <th scope="col">รายละเอียด</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="c in dataForPagination" :key="c.class_id">
-            <td>ม.{{ c.year }}</td>
-            <td>{{ c.room }}</td>
-            <td>{{ c.count_of_students }}</td>
-            <td>{{ c.count_of_courses }}</td>
-            <td>{{ c.advisor }}</td>
+          <tr v-for="c in dataForPagination" :key="c.id">
+            <td>ม.{{ c.class_year }}</td>
+            <td>{{ c.class_room }}</td>
+            <td>{{ c.number_of_student }}</td>
+            <td>{{ c.advisor_id }}</td>
             <td>
               <button
                 type="button"
@@ -59,7 +57,9 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
+  name: "ListClassData",
   data() {
     return {
       classes: [],
@@ -69,7 +69,12 @@ export default {
     };
   },
   mounted() {
-    this.getDataPagination(1);
+    axios.get("http://127.0.0.1:8080/class/all?class_year=1").then((res) => {
+      console.log("classes_list");
+      console.log(res.data.data.class_list);
+      this.classes = res.data.data.class_list;
+      this.getDataPagination(1);
+    });
   },
   methods: {
     totalPage() {
