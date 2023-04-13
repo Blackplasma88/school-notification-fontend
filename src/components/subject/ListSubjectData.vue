@@ -24,15 +24,52 @@
             <td>{{ subject.credit }}</td>
             <td>ม.{{ subject.class_year }}</td>
             <td>
-              <button class="btn btn-outline-secondary" @click="TogglePopup">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                @click="
+                  TogglePopup(
+                    'buttonPopup',
+                    subject.id,
+                    subject.subject_id,
+                    subject.category
+                  )
+                "
+              >
                 เพิ่ม
               </button>
             </td>
             <td>
-              <button class="btn btn-outline-secondary">เพิ่ม</button>
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                @click="
+                  TogglePopup(
+                    'buttonPopup',
+                    subject.id,
+                    subject.subject_id,
+                    subject.category
+                  )
+                "
+              >
+                เพิ่ม
+              </button>
             </td>
             <td>
-              <button class="btn btn-outline-secondary">เพิ่ม</button>
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                @click="
+                  TogglePopup(
+                    'buttonPopup',
+                    subject.id,
+                    subject.subject_id,
+                    subject.category
+                  )
+                "
+              >
+                เพิ่ม
+              </button>
             </td>
           </tr>
         </tbody>
@@ -58,21 +95,69 @@
         </li>
       </ul>
     </nav>
+    <EditPopup
+      v-if="popupTriggers.buttonPopup"
+      @close="TogglePopup('buttonPopup')"
+    >
+      <form @submit.prevent="submitForm">
+        <div class="form-control">
+          <div>
+            <label for="subject_id">รหัสวิชา :</label>
+            {{ subject_id }}
+          </div>
+
+          <label for="select"> ผู้สอน :</label>
+          <select
+            class="form-select"
+            aria-label="Select"
+            name="instructor"
+            id="instructor"
+            v-model="instructor.instructor_name"
+          >
+            <option v-for="index in instructor_list" :key="index">
+              {{ index }}
+            </option>
+          </select>
+          <div class="button-group">
+            <button class="popup-close btn btn-success">Confirm</button>
+            &nbsp;
+            <button
+              type="button"
+              class="popup-close btn btn-danger"
+              @click="ToggleClose('buttonPopup')"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </EditPopup>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import { ref } from "vue";
+import EditPopup from "@/components/main/EditPopup.vue";
 export default {
   name: "ListSubjectData",
-  components: {},
+  components: { EditPopup },
   data() {
     return {
       subjects: [],
       dataForPagination: [],
       elementPerpage: 10,
       currentPage: 1,
+      instructor: {
+        subject_id: "",
+        instructor_id: "",
+        instructor_name: "",
+      },
       instructor_list: [],
+      instructor_list_id: [],
+      popupTriggers: ref({
+        buttonPopup: false,
+      }),
     };
   },
   mounted() {
@@ -110,6 +195,62 @@ export default {
     },
     isActive(NumberPage) {
       return NumberPage == this.currentPage ? "active" : "";
+    },
+    TogglePopup(trigger, id, subject_id, category) {
+      console.log(trigger, id, subject_id, category);
+      this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
+      console.log(this.popupTriggers.buttonPopup);
+      this.subject_id = subject_id;
+      console.log("Subject ID", this.subject_id);
+      axios
+        .get(
+          "http://127.0.0.1:8080/profile/teacher/category?category=" + category
+        )
+        .then((response) => {
+          console.log(response.data.data.profile_list);
+          for (let i = 0; i < response.data.data.profile_list.length; i++) {
+            this.instructor_list.push(response.data.data.profile_list[i].name);
+            this.instructor_list_id.push(
+              response.data.data.profile_list[i].profile_id
+            );
+          }
+        });
+    },
+    ToggleClose(trigger) {
+      console.log(trigger);
+      this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
+      this.resetForm();
+    },
+    async submitForm() {
+      console.log("submit");
+      for (let i = 0; i < this.instructor_list.length; i++) {
+        if (this.instructor.instructor_name == this.instructor_list[i]) {
+          this.instructor.instructor_id = this.instructor_list_id[i];
+          break;
+        }
+      }
+      this.instructor.subject_id = this.subject_id;
+      console.log(this.instructor);
+      try {
+        await axios
+          .post("http://127.0.0.1:8080/subject/add-instructor", this.instructor)
+          .then((response) => {
+            console.log(response.data);
+            this.resetForm();
+            this.popupTriggers.buttonPopup = false;
+            this.$swal("Success!", "เพิ่มอาจารย์สำเร็จ", "success").then(() => {
+              window.location.reload();
+            });
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    resetForm() {
+      console.log("reset");
+      this.instructor.subject_id = "";
+      this.instructor.instructor_id = "";
+      this.instructor_list = [];
     },
   },
 };

@@ -151,9 +151,6 @@ export default {
         name: "",
         credit: 0,
         class_year: "",
-        instructor1: "",
-        instructor2: "",
-        instructor3: "",
       },
       credit: 0,
       subject_category_list: [],
@@ -202,9 +199,6 @@ export default {
       this.subject.subject_name = "";
       this.subject.credit = "";
       this.subject.category = "";
-      this.subject.instructor1 = "";
-      this.subject.instructor2 = "";
-      this.subject.instructor3 = "";
     },
   },
 };
