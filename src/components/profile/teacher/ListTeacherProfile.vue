@@ -1,33 +1,27 @@
 <template>
   <div>
-    <h2>List of Location</h2>
-    <!-- {{ locations }} -->
+    <h2>List of Teachers</h2>
+    <!-- {{ teachers }} -->
     <div>
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
-            <th scope="col">เลขสถานที่</th>
-            <th scope="col">ชื่ออาคาร</th>
-            <th scope="col">ชั้น</th>
-            <th scope="col">ห้อง</th>
-            <th scope="col">รายละเอียด</th>
+            <th scope="col">รหัสอาจารย์</th>
+            <th scope="col">ชื่อ - สกุล</th>
+            <th scope="col">ภาควิชา</th>
+            <th scope="col">ชั้นปีที่ดูแล</th>
+            <th scope="col">วิชาที่สอน</th>
+            <th scope="col">คอร์สในภาคเรียนนี้</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="location in dataForPagination" :key="location.id">
-            <td>
-              {{ location.building_name }}-{{ location.floor }}-{{
-                location.room
-              }}
-            </td>
-            <td>{{ location.building_name }}</td>
-            <td>{{ location.floor }}</td>
-            <td>{{ location.room }}</td>
-            <td>
-              <button class="btn btn-primary" @click="viewData(location.id)">
-                รายละเอียด
-              </button>
-            </td>
+          <tr v-for="teacher in dataForPagination" :key="teacher.id">
+            <td>{{ teacher.profile_id }}</td>
+            <td>{{ teacher.name }}</td>
+            <td>{{ teacher.category }}</td>
+            <td>{{ teacher.class_in_counseling }}</td>
+            <td>{{ teacher.course_teaches_list.course_id_list }}</td>
+            <td></td>
           </tr>
         </tbody>
       </table>
@@ -58,35 +52,33 @@
 <script>
 import axios from "axios";
 export default {
-  name: "ListLocationData",
-  components: {},
+  name: "ListTeacherProfile",
   data() {
     return {
-      locations: [],
+      teachers: [],
       dataForPagination: [],
       elementPerpage: 10,
       currentPage: 1,
     };
   },
   mounted() {
-    axios.get("http://127.0.0.1:8080/location/all").then((response) => {
-      console.log("location_list");
-      console.log(response.data.data.location_list);
-      this.locations = response.data.data.location_list;
-      console.log("this.locations", this.locations);
+    axios.get("http://127.0.0.1:8080/profile/all?role=teacher").then((res) => {
+      console.log("teacher_list", res.data.data.profile_list);
+      this.teachers = res.data.data.profile_list;
+      console.log("this.teachers", this.teachers);
       this.getDataPagination(1);
     });
   },
   methods: {
     totalPage() {
-      return Math.ceil(this.locations.length / this.elementPerpage);
+      return Math.ceil(this.teachers.length / this.elementPerpage);
     },
     getDataPagination(NumberPage) {
       this.currentPage = NumberPage;
       this.dataForPagination = [];
       let start = (NumberPage - 1) * this.elementPerpage;
       let end = NumberPage * this.elementPerpage;
-      this.dataForPagination = this.locations.slice(start, end);
+      this.dataForPagination = this.teachers.slice(start, end);
     },
     getPreviousPage() {
       if (this.currentPage > 1) {
@@ -102,11 +94,6 @@ export default {
     },
     isActive(NumberPage) {
       return NumberPage == this.currentPage ? "active" : "";
-    },
-
-    viewData(location_id) {
-      console.log("Location ID", location_id);
-      this.$router.push("/location/" + location_id);
     },
   },
 };
