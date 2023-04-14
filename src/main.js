@@ -25,12 +25,6 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faAward } from "@fortawesome/free-solid-svg-icons";
 import { faSchoolFlag } from "@fortawesome/free-solid-svg-icons";
 import { faChartLine } from "@fortawesome/free-solid-svg-icons";
-import { registerLicense } from "@syncfusion/ej2-base";
-import { SchedulePlugin } from "@syncfusion/ej2-vue-schedule";
-
-registerLicense(
-  "ORg4AjUWIQA/Gnt2VFhhQlJBfVpdXGdWfFN0RnNYfVRyfV9DZkwgOX1dQl9gSXpSckVjWntadX1XQWg="
-);
 
 library.add(faBars);
 library.add(faChevronLeft);
@@ -54,6 +48,5 @@ createApp(App)
   .use(VueSweetalert2)
   .use(router)
   .use(moment)
-  .use(SchedulePlugin)
   .component("font-awesome-icon", FontAwesomeIcon)
   .mount("#app");

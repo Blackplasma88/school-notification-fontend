@@ -12,7 +12,6 @@
           <thead>
             <tr>
               <th scope="col">วัน</th>
-              <th scope="col">8.00 - 8.30</th>
               <th scope="col">8.30 - 9.00</th>
               <th scope="col">9.00 - 9.30</th>
               <th scope="col">9.30 - 10.00</th>
@@ -26,6 +25,7 @@
               <th scope="col">14.30 - 15.00</th>
               <th scope="col">15.00 - 15.30</th>
               <th scope="col">15.30 - 16.00</th>
+              <th scope="col">16.00 - 16.30</th>
             </tr>
           </thead>
           <tbody>
@@ -34,48 +34,26 @@
                 <div>
                   {{ slot.day }}
                 </div>
-                <div>
-                  วันที่
-                  <!-- {{ slot.date }} -->
-                </div>
               </td>
               <td v-for="time in slot.time_slot" :key="time.time">
                 <div v-if="time.status == true" style="color: green">
                   In Use
-                </div>
-                <div v-else style="background-color: red">
-                  <!-- {{ time.time }} -->
-                  <!-- {{ time.status }} -->
                 </div>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-
-      <!-- <ejs-schedule height="550px" currentView="Week"> </ejs-schedule> -->
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-// import {
-//   ScheduleComponent,
-//   Day,
-//   Week,
-//   WorkWeek,
-//   Month,
-//   Agenda,
-// } from "@syncfusion/ej2-vue-schedule";
+
 export default {
   name: "ReadLocationComponent",
-  // components: {
-  //   "ejs-schedule": ScheduleComponent,
-  // },
-  // provide: {
-  //   schedule: [Day, Week, WorkWeek, Month, Agenda],
-  // },
+
   data() {
     return {
       location: {
@@ -121,13 +99,4 @@ export default {
 };
 </script>
 
-<style>
-@import "../../../node_modules/@syncfusion/ej2-base/styles/material.css";
-@import "../../../node_modules/@syncfusion/ej2-buttons/styles/material.css";
-@import "../../../node_modules/@syncfusion/ej2-calendars/styles/material.css";
-@import "../../../node_modules/@syncfusion/ej2-dropdowns/styles/material.css";
-@import "../../../node_modules/@syncfusion/ej2-inputs/styles/material.css";
-@import "../../../node_modules/@syncfusion/ej2-navigations/styles/material.css";
-@import "../../../node_modules/@syncfusion/ej2-popups/styles/material.css";
-@import "../../../node_modules/@syncfusion/ej2-vue-schedule/styles/material.css";
-</style>
+<style></style>
