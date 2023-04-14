@@ -17,12 +17,17 @@
           <tr v-for="c in dataForPagination" :key="c.id">
             <td>ม.{{ c.class_year }}</td>
             <td>{{ c.class_room }}</td>
-            <td>{{ c.number_of_student }}</td>
+            <td>
+              {{ c.number_of_student }}
+            </td>
             <td>
               <!-- <div v-if="c.advisor_id != null">
-                <td></td>
+                <td>
+                  {{ this.advisor_name_list[i][0]}}
+                </td>
               </div> -->
               <!-- <div v-else> -->
+              {{ c.advisor_id }}
               <button
                 type="button"
                 class="btn btn-outline-secondary"
@@ -74,7 +79,7 @@
             ม. {{ year }} / {{ room }}
           </div>
 
-          <label for="select"> ผู้สอน :</label>
+          <label for="select"> อาจารย์ที่ปรึกษา :</label>
           <select
             class="form-select"
             aria-label="Select"
@@ -119,6 +124,7 @@ export default {
       elementPerpage: 10,
       currentPage: 1,
       advisor: {
+        class_id: "",
         year: "",
         room: "",
         advisor_id: "",
@@ -133,13 +139,17 @@ export default {
     };
   },
   mounted() {
-    axios.get("http://127.0.0.1:8080/class/all?class_year=1").then((res) => {
-      console.log("classes_list");
-      console.log(res.data.data.class_list);
-      this.classes = res.data.data.class_list;
-      this.getDataPagination(1);
-      console.log("this.dataForPagination", this.dataForPagination);
-    });
+    axios
+      .get("http://127.0.0.1:8080/class/all?class_year=1")
+      .then((response) => {
+        console.log("classes_list");
+        console.log(response.data.data.class_list);
+        this.classes = response.data.data.class_list;
+        this.getDataPagination(1);
+        console.log("this.dataForPagination", this.dataForPagination);
+
+        console.log("this.instructor_name_list", this.instructor_name_list);
+      });
   },
   methods: {
     totalPage() {
@@ -171,14 +181,16 @@ export default {
       console.log("Class ID", class_id);
       this.$router.push("/class/" + class_id + "");
     },
-    TogglePopup(trigger, id, year, room) {
-      console.log(trigger, id, year, room);
+    TogglePopup(trigger, class_id, year, room) {
+      console.log(trigger, class_id, year, room);
       this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
       console.log(this.popupTriggers.buttonPopup);
       this.year = year;
       this.room = room;
-      console.log("Class : M.", this.year + "/" + this.room);
-
+      this.class_id = class_id;
+      console.log(
+        "Class ID :" + this.class_id + " M." + this.year + "/" + this.room
+      );
       axios
         .get("http://127.0.0.1:8080/profile/all?role=teacher")
         .then((response) => {
@@ -197,8 +209,39 @@ export default {
       this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
       this.resetForm();
     },
+    async submitForm() {
+      console.log("submit");
+      for (let i = 0; i < this.advisor_list.length; i++) {
+        if (this.advisor.advisor_name == this.advisor_list[i]) {
+          this.advisor.advisor_id = this.advisor_list_id[i];
+          break;
+        }
+      }
+      this.advisor.class_id = this.class_id;
+      this.advisor.year = this.year;
+      this.advisor.room = this.room;
+      console.log(this.advisor);
+      try {
+        await axios
+          .post("http://127.0.0.1:8080/class/set-advisor", this.advisor)
+          .then((response) => {
+            console.log(response.data);
+            this.resetForm();
+            this.popupTriggers.buttonPopup = false;
+            this.$swal("Success!", response.data.message, "success").then(
+              () => {
+                window.location.reload();
+              }
+            );
+          });
+      } catch (error) {
+        console.log(error.response.data.message);
+        this.$swal("Error!", error.response.data.message, "error");
+      }
+    },
     resetForm() {
       console.log("reset");
+      this.advisor.class_id = "";
       this.advisor.year = "";
       this.advisor.room = "";
       this.advisor.advisor_id = "";
