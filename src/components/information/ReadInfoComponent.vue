@@ -55,6 +55,7 @@
 import moment from "moment";
 import axios from "axios";
 export default {
+  name: "ReadInfoComponent",
   data() {
     return {
       information: [],
@@ -88,7 +89,7 @@ export default {
           icon: "error",
           confirmButtonText: "OK",
         });
-        // console.log(error.response.data.message);
+        console.log(error.response.data.message);
       });
   },
 };
