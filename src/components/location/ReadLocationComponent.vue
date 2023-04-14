@@ -1,37 +1,99 @@
 <template>
   <div>
-    <h2>Location Details</h2>
     <div>
       <!-- {{ location }} -->
-      {{ location.building_name }}
-      {{ location.floor }}
-      {{ location.room }}
-      <ejs-schedule height="550px"> </ejs-schedule>
+      <div>
+        <h4>ชื่ออาคาร : {{ location.building_name }}</h4>
+        <h4>ห้อง: {{ location.floor }}0{{ location.room }}</h4>
+      </div>
+
+      <div>
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th scope="col">วัน</th>
+              <th scope="col">8.00 - 8.30</th>
+              <th scope="col">8.30 - 9.00</th>
+              <th scope="col">9.00 - 9.30</th>
+              <th scope="col">9.30 - 10.00</th>
+              <th scope="col">10.00 - 10.30</th>
+              <th scope="col">10.30 - 11.00</th>
+              <th scope="col">12.00 - 12.30</th>
+              <th scope="col">12.30 - 13.00</th>
+              <th scope="col">13.00 - 13.30</th>
+              <th scope="col">13.30 - 14.00</th>
+              <th scope="col">14.00 - 14.30</th>
+              <th scope="col">14.30 - 15.00</th>
+              <th scope="col">15.00 - 15.30</th>
+              <th scope="col">15.30 - 16.00</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="slot in location.slot" :key="slot.day">
+              <td>
+                <div>
+                  {{ slot.day }}
+                </div>
+                <div>
+                  วันที่
+                  <!-- {{ slot.date }} -->
+                </div>
+              </td>
+              <td v-for="time in slot.time_slot" :key="time.time">
+                <div v-if="time.status == true" style="color: green">
+                  In Use
+                </div>
+                <div v-else style="background-color: red">
+                  <!-- {{ time.time }} -->
+                  <!-- {{ time.status }} -->
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- <ejs-schedule height="550px" currentView="Week"> </ejs-schedule> -->
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import {
-  ScheduleComponent,
-  Day,
-  Week,
-  WorkWeek,
-  Month,
-  Agenda,
-} from "@syncfusion/ej2-vue-schedule";
+// import {
+//   ScheduleComponent,
+//   Day,
+//   Week,
+//   WorkWeek,
+//   Month,
+//   Agenda,
+// } from "@syncfusion/ej2-vue-schedule";
 export default {
   name: "ReadLocationComponent",
-  components: {
-    "ejs-schedule": ScheduleComponent,
-  },
-  provide: {
-    schedule: [Day, Week, WorkWeek, Month, Agenda],
-  },
+  // components: {
+  //   "ejs-schedule": ScheduleComponent,
+  // },
+  // provide: {
+  //   schedule: [Day, Week, WorkWeek, Month, Agenda],
+  // },
   data() {
     return {
-      location: [],
+      location: {
+        building_name: "",
+        floor: "",
+        room: "",
+        slot: [
+          {
+            day: "",
+            time_slot: [
+              {
+                time: "",
+                status: "",
+              },
+            ],
+          },
+        ],
+      },
     };
   },
   mounted() {
