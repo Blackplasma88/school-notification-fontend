@@ -15,6 +15,7 @@ import ClassRead from "@/views/classData/Read.vue";
 
 import Profile from "@/views/profiles/Profile.vue";
 import TeacherProfile from "@/views/profiles/teacher/TeacherProfile.vue";
+import TeacherProfileRead from "@/views/profiles/teacher/Read.vue";
 import StudnetProfile from "@/views/profiles/student/StudentProfile.vue";
 import ParentProfile from "@/views/profiles/parent/ParentProfile.vue";
 
@@ -72,6 +73,11 @@ const router = createRouter({
       path: "/profile/teacher",
       name: "TeacherProfile",
       component: TeacherProfile,
+    },
+    {
+      path: "/profile/teacher/:id",
+      name: "TeacherProfileRead",
+      component: TeacherProfileRead,
     },
     {
       path: "/profile/student",

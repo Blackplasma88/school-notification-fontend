@@ -12,6 +12,7 @@
             <th scope="col">ชั้นปีที่ดูแล</th>
             <th scope="col">วิชาที่สอน</th>
             <th scope="col">คอร์สในภาคเรียนนี้</th>
+            <th scope="col">รายละเอียด</th>
           </tr>
         </thead>
         <tbody>
@@ -20,8 +21,21 @@
             <td>{{ teacher.name }}</td>
             <td>{{ teacher.category }}</td>
             <td>{{ teacher.class_in_counseling }}</td>
-            <td>{{ teacher.course_teaches_list.course_id_list }}</td>
-            <td></td>
+            <td>{{ teacher.subject_id }}</td>
+            <div v-if="teacher.course_teaches_list.course_id_list != null">
+              <td>{{ teacher.course_id_list.course_id_list.length - 1 }}</td>
+            </div>
+            <div v-else>
+              <td>{{ 0 }}</td>
+            </div>
+            <td>
+              <button
+                class="btn btn-primary"
+                @click="viewData(teacher.profile_id)"
+              >
+                รายละเอียด
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -94,6 +108,10 @@ export default {
     },
     isActive(NumberPage) {
       return NumberPage == this.currentPage ? "active" : "";
+    },
+    viewData(profile_id) {
+      console.log("teacher profile id ", profile_id);
+      this.$router.push("/profile/teacher/" + profile_id);
     },
   },
 };
