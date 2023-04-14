@@ -6,14 +6,29 @@
       {{ location.building_name }}
       {{ location.floor }}
       {{ location.room }}
+      <ejs-schedule height="550px"> </ejs-schedule>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import {
+  ScheduleComponent,
+  Day,
+  Week,
+  WorkWeek,
+  Month,
+  Agenda,
+} from "@syncfusion/ej2-vue-schedule";
 export default {
   name: "ReadLocationComponent",
+  components: {
+    "ejs-schedule": ScheduleComponent,
+  },
+  provide: {
+    schedule: [Day, Week, WorkWeek, Month, Agenda],
+  },
   data() {
     return {
       location: [],
@@ -44,4 +59,13 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+@import "../../../node_modules/@syncfusion/ej2-base/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-buttons/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-calendars/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-dropdowns/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-inputs/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-navigations/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-popups/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-vue-schedule/styles/material.css";
+</style>
