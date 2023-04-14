@@ -14,30 +14,36 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="c in dataForPagination" :key="c.id">
+          <tr v-for="(c, i) in dataForPagination" :key="c.id">
+            <!-- {{
+              (this.currentPage - 1) * this.elementPerpage + i
+            }} -->
             <td>ม.{{ c.class_year }}</td>
             <td>{{ c.class_room }}</td>
             <td>
               {{ c.number_of_student }}
             </td>
             <td>
-              <!-- <div v-if="c.advisor_id != null">
+              <div v-if="c.advisor_id != ''">
                 <td>
-                  {{ this.advisor_name_list[i][0]}}
+                  {{
+                    this.advisor_name_list[
+                      (this.currentPage - 1) * this.elementPerpage + i
+                    ]
+                  }}
                 </td>
-              </div> -->
-              <!-- <div v-else> -->
-              {{ c.advisor_id }}
-              <button
-                type="button"
-                class="btn btn-outline-secondary"
-                @click="
-                  TogglePopup('buttonPopup', c.id, c.class_year, c.class_room)
-                "
-              >
-                เพิ่ม
-              </button>
-              <!-- </div> -->
+              </div>
+              <div v-else>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary"
+                  @click="
+                    TogglePopup('buttonPopup', c.id, c.class_year, c.class_room)
+                  "
+                >
+                  เพิ่ม
+                </button>
+              </div>
             </td>
             <td>
               <button class="btn btn-primary" @click="viewData(c.id)">
@@ -132,7 +138,7 @@ export default {
       },
       advisor_list: [],
       advisor_list_id: [],
-      advisor_name_list: [[]],
+      advisor_name_list: [],
       popupTriggers: ref({
         buttonPopup: false,
       }),
@@ -147,8 +153,28 @@ export default {
         this.classes = response.data.data.class_list;
         this.getDataPagination(1);
         console.log("this.dataForPagination", this.dataForPagination);
+        console.log("this.advisor_name_list", this.advisor_name_list);
+        for (var i = 0; i < this.classes.length; i++) {
+          let indexI = i;
+          this.advisor_name_list.push("");
+          console.log(this.classes[i].advisor_id);
+          if (this.classes[i].advisor_id != "") {
+            console.log("advisor", this.classes[i].advisor_id);
+            axios
+              .get(
+                "http://127.0.0.1:8080/profile/id?id=" +
+                  this.classes[indexI].advisor_id +
+                  "&role=teacher"
+              )
+              .then((response) => {
+                this.advisor_name_list[indexI] =
+                  response.data.data.profile.name;
 
-        console.log("this.instructor_name_list", this.instructor_name_list);
+                console.log(response.data.data.profile.name);
+              });
+          }
+          console.log("this.advisor_name_list", this.advisor_name_list);
+        }
       });
   },
   methods: {

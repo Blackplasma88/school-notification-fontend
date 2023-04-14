@@ -204,6 +204,7 @@ export default {
       console.log("this.subjects", this.subjects);
       this.getDataPagination(1);
       console.log("this.dataForPagination", this.dataForPagination);
+      
       for (var i = 0; i < this.subjects.length; i++) {
         let indexI = i;
         this.instructor_name_list.push([null, null, null]);
