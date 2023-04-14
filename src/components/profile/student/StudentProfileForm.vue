@@ -86,7 +86,7 @@
             <button
               type="button"
               class="popup-close btn btn-danger"
-              @click="TogglePopup('buttonPopup')"
+              @click="ToggleClose('buttonPopup')"
             >
               Cancel
             </button>
@@ -147,6 +147,12 @@ export default {
           console.log(this.class_name_list);
         });
     },
+    ToggleClose(trigger) {
+      console.log(trigger);
+      this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
+      console.log(this.popupTriggers.buttonPopup);
+      this.resetForm();
+    },
 
     async submitForm() {
       console.log("Create Profile", this.profile);
@@ -186,10 +192,12 @@ export default {
     resetForm() {
       console.log("reset");
       this.profile.profile_id = "";
-      this.class_name = "";
-      this.class_id = "";
+      this.profile.name = "";
       this.profile.role = "";
-      this.profile.category = "";
+      this.profile.class_id = "";
+      this.class_name = "";
+      this.class_name_list = [];
+      this.class_id_list = [];
     },
   },
 };
