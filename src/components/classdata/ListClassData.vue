@@ -154,7 +154,7 @@ export default {
         this.getDataPagination(1);
         console.log("this.dataForPagination", this.dataForPagination);
         console.log("this.advisor_name_list", this.advisor_name_list);
-        
+
         for (var i = 0; i < this.classes.length; i++) {
           let indexI = i;
           this.advisor_name_list.push("");

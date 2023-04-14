@@ -20,9 +20,7 @@
             <td>{{ teacher.profile_id }}</td>
             <td>{{ teacher.name }}</td>
             <td>{{ teacher.category }}</td>
-
-            <!-- <td>{{ teacher.class_in_counseling }}</td> -->
-            <div>
+            <td>
               <div v-if="teacher.class_in_counseling != ''">
                 <td>
                   {{
@@ -35,15 +33,23 @@
               <div v-else>
                 <td>ไม่มี</td>
               </div>
-            </div>
-
-            <td>{{ teacher.subject_id }}</td>
-            <div v-if="teacher.course_teaches_list.course_id_list != null">
-              <td>{{ teacher.course_id_list.course_id_list.length - 1 }}</td>
-            </div>
-            <div v-else>
-              <td>{{ 0 }}</td>
-            </div>
+            </td>
+            <td>
+              <div v-if="teacher.subject_id != ''">
+                <td>{{ teacher.subject_id }}</td>
+              </div>
+              <div v-else>
+                <td>ไม่มี</td>
+              </div>
+            </td>
+            <td>
+              <div v-if="teacher.course_teaches_list.course_id_list != null">
+                <td>{{ teacher.course_id_list.course_id_list.length - 1 }}</td>
+              </div>
+              <div v-else>
+                <td>{{ 0 }}</td>
+              </div>
+            </td>
             <td>
               <button
                 class="btn btn-primary"
