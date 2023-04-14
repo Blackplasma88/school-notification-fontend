@@ -75,10 +75,9 @@ export default {
     };
   },
   mounted() {
-    //"http://127.0.0.1:8080/location/id?location_id="
     axios
       .get(
-        "http://127.0.0.1:8080/location/id?subject_id=" + this.$route.params.id
+        "http://127.0.0.1:8080/location/id?location_id=" + this.$route.params.id
       )
       .then((response) => {
         console.log("location_id", this.$route.params.id);

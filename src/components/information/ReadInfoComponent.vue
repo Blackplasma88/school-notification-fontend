@@ -30,7 +30,6 @@
       </div>
       <div class="info" v-else>
         <div class="info-head">
-          <h2>Information Details</h2>
           <button type="button" class="btn btn-secondary" @click="editInfo">
             Edit
           </button>

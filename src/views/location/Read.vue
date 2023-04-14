@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main id="location-read-page">
     <ReadLocationComponent />
   </main>
 </template>
