@@ -16,11 +16,27 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="teacher in dataForPagination" :key="teacher.id">
+          <tr v-for="(teacher, i) in dataForPagination" :key="teacher.id">
             <td>{{ teacher.profile_id }}</td>
             <td>{{ teacher.name }}</td>
             <td>{{ teacher.category }}</td>
-            <td>{{ teacher.class_in_counseling }}</td>
+
+            <!-- <td>{{ teacher.class_in_counseling }}</td> -->
+            <div>
+              <div v-if="teacher.class_in_counseling != ''">
+                <td>
+                  {{
+                    this.class_name_list[
+                      (this.currentPage - 1) * this.elementPerpage + i
+                    ]
+                  }}
+                </td>
+              </div>
+              <div v-else>
+                <td>ไม่มี</td>
+              </div>
+            </div>
+
             <td>{{ teacher.subject_id }}</td>
             <div v-if="teacher.course_teaches_list.course_id_list != null">
               <td>{{ teacher.course_id_list.course_id_list.length - 1 }}</td>
@@ -73,6 +89,8 @@ export default {
       dataForPagination: [],
       elementPerpage: 10,
       currentPage: 1,
+      class_name: "",
+      class_name_list: [],
     };
   },
   mounted() {
@@ -81,6 +99,28 @@ export default {
       this.teachers = res.data.data.profile_list;
       console.log("this.teachers", this.teachers);
       this.getDataPagination(1);
+
+      console.log("this.dataForPagination", this.dataForPagination);
+
+      for (var i = 0; i < this.teachers.length; i++) {
+        let indexI = i;
+        this.class_name_list.push("");
+        console.log(this.teachers[i].class_in_counseling);
+        axios
+          .get(
+            "http://127.0.0.1:8080/class/id?class_id=" +
+              this.teachers[indexI].class_in_counseling
+          )
+          .then((res) => {
+            this.class_name =
+              res.data.data.class.class_year +
+              "/" +
+              res.data.data.class.class_room;
+            this.class_name_list[indexI] = this.class_name;
+            console.log("this.class_name", this.class_name);
+          });
+      }
+      console.log("this.class_name_list", this.class_name_list);
     });
   },
   methods: {

@@ -5,13 +5,22 @@
       <h4>รหัสอาจารย์ : {{ teacher_profile.profile_id }}</h4>
       <h4>ชื่อ - นามสกุล : {{ teacher_profile.name }}</h4>
       <h4>ภาควิชา : {{ teacher_profile.category }}</h4>
-      <h4>วิชาที่สอน : {{ teacher_profile.subject_id }}</h4>
+
+      <div>
+        <div v-if="teacher_profile.subject_id != ''">
+          <h4>วิชาที่สอน : {{ teacher_profile.subject_id }}</h4>
+        </div>
+        <div v-else>
+          <h4>วิชาที่สอน : ไม่มี</h4>
+        </div>
+      </div>
+
       <div>
         <div v-if="this.class_name != ''">
           <h4>ชั้นปีที่ดูแล : ม.{{ this.class_name }}</h4>
         </div>
         <div v-else>
-          <h4>ชั้นปีที่ดูแล : "ไม่มี"</h4>
+          <h4>ชั้นปีที่ดูแล : ไม่มี</h4>
         </div>
       </div>
       <div>
@@ -22,7 +31,7 @@
           </h4>
         </div>
         <div v-else>
-          <h4>คอร์สในภาคเรียนนี้ : "ไม่มี"</h4>
+          <h4>คอร์สในภาคเรียนนี้ : ไม่มี</h4>
         </div>
       </div>
 
