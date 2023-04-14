@@ -15,11 +15,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="i in classData.student_id_list" :key="i.student_id_list">
+          <tr v-for="(id, name) in classData.student_id_list" :key="id">
             <td>
-              {{ i }}
+              {{ id }}
             </td>
-            <td>{{}}</td>
+            <td>{{ this.student_name_list[name] }}</td>
           </tr>
         </tbody>
       </table>
@@ -45,90 +45,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">monday</th>
-            <td>In use</td>
-            <td>In use</td>
-            <td>In use</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row">tuesday</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row">wednesday</th>
-            <td>In use</td>
-            <td>In use</td>
-            <td>In use</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row">thursday</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row">friday</th>
-            <td>In use</td>
-            <td>In use</td>
-            <td>In use</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+          <tr v-for="slot in classData.slot" :key="slot.day">
+            <td>
+              <div>
+                {{ slot.day }}
+              </div>
+            </td>
+            <td v-for="time in slot.time_slot" :key="time.time">
+              <div v-if="time.status == true" style="color: green">In Use</div>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -152,6 +77,7 @@ export default {
         term: "",
         number_of_student: "",
         student_id_list: [],
+
         slot: [
           {
             day: "",
@@ -164,6 +90,7 @@ export default {
           },
         ],
       },
+      student_name_list: [],
     };
   },
   mounted() {
@@ -174,6 +101,31 @@ export default {
         console.log("class");
         console.log(response.data.data.class);
         this.classData = response.data.data.class;
+        console.log("classData", this.classData);
+        console.log("student_id_list", this.classData.student_id_list);
+
+        for (var i = 0; i < this.classData.student_id_list.length; i++) {
+          let indexI = i;
+          console.log("indexI", indexI);
+          console.log(
+            "student_id_list",
+            this.classData.student_id_list[indexI]
+          );
+          axios
+            .get(
+              "http://127.0.0.1:8080/profile/id?id=" +
+                this.classData.student_id_list[indexI] +
+                "&role=student"
+            )
+            .then((response) => {
+              console.log("student");
+              console.log("name", response.data.data.profile.name);
+              this.student_name_list.push(response.data.data.profile.name);
+              // this.student_name_list[indexI] =
+              //   response.data.data.profile.name;
+            });
+        }
+        console.log("student_name_list", this.student_name_list);
       })
       .catch((error) => {
         this.$swal({
