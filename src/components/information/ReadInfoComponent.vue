@@ -3,15 +3,15 @@
     <div class="card-info-detail">
       <div class="info-w-i" v-if="information.filepath">
         <div class="info-head">
-          <h2>Information Details</h2>
+          <!-- <h2>Information Details</h2> -->
           <button type="button" class="btn btn-secondary" @click="editInfo">
             Edit
           </button>
         </div>
-        <div class="d-flex">
+        <div class="d-flex justify-content-center">
           <img
             v-bind:src="'http://127.0.0.1:8080' + information.filepath"
-            width="700"
+            width="400"
           />
           <div class="info-cate-i">
             <p>Create at : {{ format_date(information.created_at) }}</p>
@@ -30,7 +30,6 @@
       </div>
       <div class="info" v-else>
         <div class="info-head">
-          <h2>Information Details</h2>
           <button type="button" class="btn btn-secondary" @click="editInfo">
             Edit
           </button>
@@ -55,6 +54,7 @@
 import moment from "moment";
 import axios from "axios";
 export default {
+  name: "ReadInfoComponent",
   data() {
     return {
       information: [],
@@ -88,7 +88,7 @@ export default {
           icon: "error",
           confirmButtonText: "OK",
         });
-        // console.log(error.response.data.message);
+        console.log(error.response.data.message);
       });
   },
 };
@@ -97,7 +97,7 @@ export default {
 .info-head {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: right;
   margin: 2rem;
 }
 .card-info-detail {

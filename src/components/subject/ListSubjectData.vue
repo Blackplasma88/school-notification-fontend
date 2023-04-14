@@ -219,10 +219,10 @@ export default {
                     "&role=teacher"
                 )
                 .then((response) => {
-                  console.log(indexI, "-", indexJ);
+                  // console.log(indexI, "-", indexJ);
                   this.instructor_name_list[indexI][indexJ] =
                     response.data.data.profile.name;
-                  console.log(response.data.data.profile.name);
+                  // console.log(response.data.data.profile.name);
                 });
             }
           }

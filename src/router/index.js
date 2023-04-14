@@ -4,7 +4,7 @@ import Information from "@/views/information/Information.vue";
 import Location from "@/views/location/Location.vue";
 import Subject from "@/views/subject/Subject.vue";
 import Profile from "@/views/profiles/Profile.vue";
-import Class from "@/views/class/Class.vue";
+import Class from "@/views/classData/Class.vue";
 import Course from "@/views/course/Course.vue";
 import Login from "@/views/login/Login.vue";
 import Score from "@/views/score/Score.vue";
@@ -15,6 +15,9 @@ import SchoolManage from "@/views/school-mange/SchoolManage.vue";
 import informationCreate from "@/views/information/Create.vue";
 import informationRead from "@/views/information/Read.vue";
 import informationUpdate from "@/views/information/Update.vue";
+
+import LocationRead from "@/views/location/Read.vue";
+import ClassRead from "@/views/classData/Read.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -50,6 +53,11 @@ const router = createRouter({
       component: Location,
     },
     {
+      path: "/location/:id",
+      name: "LocationRead",
+      component: LocationRead,
+    },
+    {
       path: "/subjects",
       name: "Subjects",
       component: Subject,
@@ -63,6 +71,11 @@ const router = createRouter({
       path: "/classes",
       name: "Classes",
       component: Class,
+    },
+    {
+      path: "/class/:id",
+      name: "ClassRead",
+      component: ClassRead,
     },
     {
       path: "/courses",

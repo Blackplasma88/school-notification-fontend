@@ -24,7 +24,9 @@
             <td>{{ location.floor }}</td>
             <td>{{ location.room }}</td>
             <td>
-              <button class="btn btn-primary">รายละเอียด</button>
+              <button class="btn btn-primary" @click="viewData(location.id)">
+                รายละเอียด
+              </button>
             </td>
           </tr>
         </tbody>
@@ -100,6 +102,11 @@ export default {
     },
     isActive(NumberPage) {
       return NumberPage == this.currentPage ? "active" : "";
+    },
+
+    viewData(location_id) {
+      console.log("Location ID", location_id);
+      this.$router.push("/location/" + location_id);
     },
   },
 };

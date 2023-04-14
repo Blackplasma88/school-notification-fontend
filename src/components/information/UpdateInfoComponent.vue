@@ -4,7 +4,6 @@
       <div class="info-w-i" v-if="information.filepath">
         <form @submit.prevent="submitForm">
           <div class="info-head">
-            <h2>Information Details</h2>
             <div>
               <button type="button" class="btn btn-success" @click="CreateInfo">
                 Confirm
@@ -15,10 +14,10 @@
               </button>
             </div>
           </div>
-          <div class="d-flex">
+          <div class="d-flex justify-content-center">
             <img
               v-bind:src="'http://127.0.0.1:8080' + information.filepath"
-              width="700"
+              width="400"
             />
             <div class="info-cate-i">
               <label for="formFileSm" class="form-label">Image :</label>
@@ -76,18 +75,6 @@
       </div>
       <div class="info" v-else>
         <form @submit.prevent="submitForm">
-          <div class="info-head">
-            <h2>Information Details</h2>
-            <div>
-              <button type="button" class="btn btn-success" @click="CreateInfo">
-                Confirm
-              </button>
-              &nbsp;
-              <button type="button" class="btn btn-danger" @click="cancel">
-                Cancel
-              </button>
-            </div>
-          </div>
           <div class="form-control">
             <label for="name">Name :</label>
             <input
@@ -138,6 +125,21 @@
               placeholder="Type content"
               v-model="information.content"
             ></textarea>
+            <div class="info-head">
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  @click="CreateInfo"
+                >
+                  Confirm
+                </button>
+                &nbsp;
+                <button type="button" class="btn btn-danger" @click="cancel">
+                  Cancel
+                </button>
+              </div>
+            </div>
           </div>
         </form>
       </div>
@@ -231,7 +233,7 @@ export default {
 .info-head {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: right;
   margin: 2rem;
 }
 .card-info-detail {
