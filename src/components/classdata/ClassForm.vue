@@ -75,26 +75,6 @@
       :classes="classes"
       :advisors="advisor_name_list"
     />
-    <!-- <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-center">
-        <li v-on:click="getPreviousPage()" class="page-item">
-          <a class="page-link">Previous</a>
-        </li>
-        <li
-          v-for="indexPage in totalPage()"
-          :key="indexPage"
-          v-on:click="getDataPagination(indexPage)"
-          class="page-item"
-          :class="isActive(indexPage)"
-        >
-          <a class="page-link" href="#">{{ indexPage }}</a>
-        </li>
-
-        <li v-on:click="getNextPage()" class="page-item">
-          <a class="page-link" href="#">Next</a>
-        </li>
-      </ul>
-    </nav> -->
   </section>
 </template>
 
@@ -147,7 +127,7 @@ export default {
         console.log("classes_list");
         console.log(response.data.data.class_list);
         this.classes = response.data.data.class_list;
-        
+
         console.log("this.dataForPagination", this.dataForPagination);
         console.log("this.advisor_name_list", this.advisor_name_list);
         for (var i = 0; i < this.classes.length; i++) {
@@ -177,18 +157,18 @@ export default {
     async submitForm() {
       console.log("create Location", this.location);
 
-      // try {
-      //   await axios
-      //     .post("http://127.0.0.1:8080/class/create", this.class)
-      //     .then((response) => {
-      //       console.log(response);
-      //       this.$swal("Success", "สร้างห้องใหม่สำเร็จ", "success").then(() => {
-      //         window.location.reload();
-      //       });
-      //     });
-      // } catch (error) {
-      //   console.log(error);
-      // }
+      try {
+        await axios
+          .post("http://127.0.0.1:8080/class/create", this.class)
+          .then((response) => {
+            console.log(response);
+            this.$swal("Success", response.data.message, "success").then(() => {
+              window.location.reload();
+            });
+          });
+      } catch (error) {
+        console.log(error.response.data.message);
+      }
     },
     press() {
       console.log("press");

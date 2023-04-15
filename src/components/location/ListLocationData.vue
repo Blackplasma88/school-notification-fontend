@@ -2,6 +2,7 @@
   <div>
     <h2>List of Location</h2>
     <!-- {{ locations }} -->
+    <!-- List {{ filterOptions }} List {{ filterValue }} -->
     <div>
       <table class="table table-bordered table-hover">
         <thead>
@@ -14,7 +15,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="location in dataForPagination" :key="location.id">
+          <tr v-for="location in locations" :key="location.id">
             <td>
               {{ location.building_name }}-{{ location.floor }}-{{
                 location.room
@@ -56,27 +57,22 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: "ListLocationData",
   components: {},
   data() {
     return {
-      locations: [],
       dataForPagination: [],
       elementPerpage: 10,
       currentPage: 1,
     };
   },
-  mounted() {
-    axios.get("http://127.0.0.1:8080/location/all").then((response) => {
-      console.log("location_list");
-      console.log(response.data.data.location_list);
-      this.locations = response.data.data.location_list;
-      console.log("this.locations", this.locations);
-      this.getDataPagination(1);
-    });
+  props: {
+    filterValue: String,
+    filterOptions: String,
+    locations: Array,
   },
+
   methods: {
     totalPage() {
       return Math.ceil(this.locations.length / this.elementPerpage);
