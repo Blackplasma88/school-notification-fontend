@@ -1,12 +1,20 @@
 <template>
   <main id="check-name-page">
     <h1>Check Name</h1>
-    <p>This is Check Name page</p>
+    <CheckNamaManage></CheckNamaManage>
   </main>
 </template>
 
 <script>
-export default {};
+import CheckNamaManage from "@/components/check-name/CheckNamaManage.vue";
+export default {
+  name: "CheckNama",
+  components: {
+    CheckNamaManage,
+  },
+}
 </script>
 
-<style></style>
+<style>
+
+</style>

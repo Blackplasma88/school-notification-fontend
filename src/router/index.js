@@ -19,6 +19,9 @@ import informationUpdate from "@/views/information/Update.vue";
 import LocationRead from "@/views/location/Read.vue";
 import ClassRead from "@/views/classData/Read.vue";
 
+import SchoolData from "@/views/school-data/SchoolData.vue";
+import FaceDetection from "@/views/face-detection/FaceDetection.vue";
+
 import Chat from "@/views/chat/ChatView.vue";
 
 
@@ -86,6 +89,11 @@ const router = createRouter({
       component: Course,
     },
     {
+      path: "/school-data",
+      name: "SchoolData",
+      component: SchoolData,
+    },
+    {
       path: "/scores",
       name: "Scores",
       component: Score,
@@ -114,6 +122,11 @@ const router = createRouter({
       path: "/chat",
       name: "Chat",
       component: Chat,
+    },
+    {
+      path: "/face-detection",
+      name: "FaceDetection",
+      component: FaceDetection,
     },
   ],
 });
