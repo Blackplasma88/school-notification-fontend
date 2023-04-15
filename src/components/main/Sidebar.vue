@@ -69,11 +69,11 @@
         </span>
         <span class="text">Courses</span>
       </router-link>
-      <router-link to="/school-manage" class="button">
+      <router-link to="/school-data" class="button">
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-school-flag" />
         </span>
-        <span class="text">School Mange</span>
+        <span class="text">School Data</span>
       </router-link>
       <router-link to="/scores" class="button">
         <span class="material-icons">

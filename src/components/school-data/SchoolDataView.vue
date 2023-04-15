@@ -1,23 +1,75 @@
 <template>
-  <div>
+  <section>
+    <h2>Manage with</h2>
+    <div class="filter">
+      <div class="search-wrapper d-flex">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search"
+          v-model="filterValue"
+        />
+      </div>
+
+      <div class="filter">
+        <div>
+          <select
+            class="form-select"
+            aria-label="Select"
+            name="class_filter"
+            id="class_filter"
+            v-model="filterOptions"
+          >
+            <option selected disabled value="">Filter</option>
+            <option value="class_year">ชั้นปี</option>
+            <option value="class_room">ห้อง</option>
+          </select>
+        </div>
+        &nbsp;
+        <div>
+          <select
+            class="form-select"
+            aria-label="Select"
+            name="sort_filter"
+            id="sort_filter"
+            v:model:value="sort_filter"
+          >
+            <option selected disabled value="">Sort by</option>
+            <option value="class_year">ชั้นปี</option>
+            <option value="class_room">ห้อง</option>
+          </select>
+        </div>
+      </div>
+    </div>
     <div class="rightContent">
-      <h2>Manage with</h2>
-      <select
-        class="form-select"
-        aria-label="Select"
-        v-model="this.manage_with"
-      >
-        <option selected disabled>manage by</option>
-        <option value="year_term">term year</option>
-        <option value="subject_category">subject category</option>
-      </select>
+      <div>
+        <select
+          class="form-select"
+          aria-label="Select"
+          v-model="this.manage_with"
+        >
+          <option selected disabled>manage by</option>
+          <option value="year_term">term year</option>
+          <option value="subject_category">subject category</option>
+        </select>
+      </div>
+      &nbsp;
       <div class="btnEndTerm">
-        <button type="button" class="btn btn-secondary" @click="togglePopupEndTerm()">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          @click="togglePopupEndTerm()"
+        >
           end term
         </button>
       </div>
+      &nbsp;
       <div class="btnAddSubjectCategory">
-        <button type="button" class="btn btn-secondary" @click="togglePopupAddSubjectCategory()">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          @click="togglePopupAddSubjectCategory()"
+        >
           Add
         </button>
       </div>
@@ -26,11 +78,10 @@
       <form @submit.prevent="submitFormEndTerm">
         <div class="form-control">
           <label for="select"> ปีการศึกษา : 2566</label>
-        
+
           <label for="select"> เทอม : 1</label>
 
           <label for="select"> สถานะ : กำลังดำเนินการ</label>
-          
 
           <div class="button-group">
             <button class="popup-close btn btn-success">Confirm</button>
@@ -56,7 +107,6 @@
             placeholder="category"
             v-model="this.category"
           />
-          
 
           <div class="button-group">
             <button class="popup-close btn btn-success">Confirm</button>
@@ -72,7 +122,7 @@
         </div>
       </form>
     </CreatePopup>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -91,12 +141,13 @@ export default {
         buttonPopupEndTerm: false,
       }),
       manage_with: "",
-      category:"",
+      category: "",
     };
   },
   methods: {
     togglePopupAddSubjectCategory() {
-      this.popupTriggers.buttonPopupAddSubjectCategory = !this.popupTriggers.buttonPopupAddSubjectCategory;
+      this.popupTriggers.buttonPopupAddSubjectCategory =
+        !this.popupTriggers.buttonPopupAddSubjectCategory;
 
       // axios
       //   .get("http://127.0.0.1:8080/school-data/subject-category")
@@ -110,14 +161,15 @@ export default {
       //   });
     },
     togglePopupEndTerm() {
-      this.popupTriggers.buttonPopupEndTerm = !this.popupTriggers.buttonPopupEndTerm;
-
+      this.popupTriggers.buttonPopupEndTerm =
+        !this.popupTriggers.buttonPopupEndTerm;
     },
     endTerm() {
       axios
         .post("http://127.0.0.1:8080/school-data/end-term")
         .then(() => {
-          this.popupTriggers.buttonPopupEndTerm = !this.popupTriggers.buttonPopupEndTerm;
+          this.popupTriggers.buttonPopupEndTerm =
+            !this.popupTriggers.buttonPopupEndTerm;
           // console.log(response.data.data.school_data);
           // this.subject_list = response.data.data.subject_list;
           //   console.log(  this.school_data);
@@ -127,15 +179,16 @@ export default {
         });
     },
     async submitFormEndTerm() {
-      this.endTerm()
+      this.endTerm();
     },
     async submitFormAddSubjectCategory() {
       axios
-        .post("http://127.0.0.1:8080/school-data/add-subject-category",{
-          category:this.category
+        .post("http://127.0.0.1:8080/school-data/add-subject-category", {
+          category: this.category,
         })
         .then(() => {
-          this.popupTriggers.buttonPopupAddSubjectCategory = !this.popupTriggers.buttonPopupAddSubjectCategory;
+          this.popupTriggers.buttonPopupAddSubjectCategory =
+            !this.popupTriggers.buttonPopupAddSubjectCategory;
           // console.log(response.data.data.school_data);
           // this.subject_list = response.data.data.subject_list;
           //   console.log(  this.school_data);

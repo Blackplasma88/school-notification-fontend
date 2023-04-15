@@ -25,6 +25,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faAward } from "@fortawesome/free-solid-svg-icons";
 import { faSchoolFlag } from "@fortawesome/free-solid-svg-icons";
 import { faChartLine } from "@fortawesome/free-solid-svg-icons";
+import { faMessage } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faBars);
 library.add(faChevronLeft);
@@ -43,6 +44,7 @@ library.add(faBell);
 library.add(faAward);
 library.add(faSchoolFlag);
 library.add(faChartLine);
+library.add(faMessage);
 
 createApp(App)
   .use(VueSweetalert2)
@@ -50,4 +52,3 @@ createApp(App)
   .use(moment)
   .component("font-awesome-icon", FontAwesomeIcon)
   .mount("#app");
-
