@@ -38,6 +38,8 @@
             aria-label="Select"
             name="sortyBy"
             id="sortyBy"
+            v-model="sortBy"
+            @change="sortValue()"
           >
             <option selected disabled value="">Sort by</option>
             <option value="subject_id">รหัสวิชา</option>
@@ -47,10 +49,25 @@
             <option value="class_year">ชั้นปี</option>
           </select>
         </div>
+        <div>
+          <select
+            class="form-select"
+            aria-label="Select"
+            name="sortyBy"
+            id="sortyBy"
+            v-model="sortOption"
+            @change="sortValue()"
+          >
+            <option selected disabled value="">{{ sortOption }}</option>
+            <option value="Asc">Asc</option>
+            <option value="Desc">Desc</option>
+            
+          </select>
+        </div>
       </div>
     </div>
     <div class="rightContent">
-      <button
+      <button v-if='role === "admin"'
         type="button"
         class="btn btn-secondary"
         @click="TogglePopup('buttonPopup')"
@@ -173,6 +190,7 @@ import { ref } from "vue";
 import axios from "axios";
 import ListSubjectData from "./ListSubjectData.vue";
 import CreatePopup from "@/components/main/CreatePopup.vue";
+
 export default {
   name: "SubjectForm",
   components: {
@@ -181,6 +199,7 @@ export default {
   },
   data() {
     return {
+      role:"",
       popupTriggers: ref({
         buttonPopup: false,
       }),
@@ -196,6 +215,8 @@ export default {
       subject_category_list: [],
       filterOptions: "",
       filterValue: "",
+      sortBy:"",
+      sortOption:"Asc",
       // dataForPagination: [],
       // elementPerpage: 10,
       // currentPage: 1,
@@ -240,10 +261,13 @@ export default {
         }
       }
       return this.subjects;
+      
+      
     },
   },
   
   created() {
+    this.role = localStorage.getItem("role")
      axios.get("http://127.0.0.1:8080/subject/all").then((response) => {
       this.subjects = response.data.data.subject_list;
       console.log("this.subjects", this.subjects);
@@ -286,6 +310,36 @@ export default {
     });
   },
   methods: {
+    sortValue(){
+      // น้อยไปมาก
+      if (this.sortOption == "Asc"){
+        if (this.sortBy === "subject_id"){
+        this.subjects.sort((a,b) => a.subject_id >b.subject_id ?1:-1);
+      }else if (this.sortBy === "category"){
+        this.subjects.sort((a,b) => a.category >b.category ?1:-1);
+      }else if (this.sortBy === "name"){
+        this.subjects.sort((a,b) => a.name >b.name ?1:-1);
+      }else if (this.sortBy === "credit"){
+        this.subjects.sort((a,b) => a.credit >b.credit ?1:-1);
+      }else if (this.sortBy === "class_year"){
+        this.subjects.sort((a,b) => a.class_year >b.class_year ?1:-1);
+      }
+      }else  if (this.sortOption == "Desc"){
+        if (this.sortBy === "subject_id"){
+        this.subjects.sort((a,b) => a.subject_id <b.subject_id ?1:-1);
+      }else if (this.sortBy === "category"){
+        this.subjects.sort((a,b) => a.category <b.category ?1:-1);
+      }else if (this.sortBy === "name"){
+        this.subjects.sort((a,b) => a.name <b.name ?1:-1);
+      }else if (this.sortBy === "credit"){
+        this.subjects.sort((a,b) => a.credit <b.credit ?1:-1);
+      }else if (this.sortBy === "class_year"){
+        this.subjects.sort((a,b) => a.class_year <b.class_year ?1:-1);
+      }
+      }
+      
+      
+    },
     TogglePopup(trigger) {
       console.log(trigger);
       this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;

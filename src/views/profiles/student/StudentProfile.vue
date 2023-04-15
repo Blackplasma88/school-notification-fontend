@@ -11,6 +11,11 @@ export default {
   components: {
     StudentProfileForm,
   },
+  mounted(){
+    if (localStorage.getItem("token") == null || localStorage.getItem("token") == undefined){
+      this.$router.push("/login");
+    }
+  },
 };
 </script>
 
