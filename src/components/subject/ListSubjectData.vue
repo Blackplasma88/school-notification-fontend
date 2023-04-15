@@ -1,7 +1,12 @@
 <template>
   <div>
     <h2>List of Subject</h2>
+
     <!-- {{ subjects }} -->
+    <!-- {{ filterOptions }} -->
+    <!-- {{ filterValue }} -->
+    <!-- {{ instructors }} -->
+
     <div>
       List {{ filterOptions }} List {{ filterValue }}
       <table class="table table-bordered table-hover">
@@ -18,7 +23,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(subject, i) in dataForPagination" :key="subject.id">
+          <tr v-for="(subject, i) in subjects" :key="subject.id">
             <td>{{ subject.subject_id }}</td>
             <td>{{ subject.category }}</td>
             <td>{{ subject.name }}</td>
@@ -32,7 +37,7 @@
                 "
               >
                 <td>
-                  {{ this.instructor_name_list[i][0] }}
+                  {{ instructors[i][0] }}
                 </td>
               </div>
               <div v-else>
@@ -60,7 +65,7 @@
                 "
               >
                 <td>
-                  {{ this.instructor_name_list[i][1] }}
+                  {{ instructors[i][1] }}
                 </td>
               </div>
               <div v-else>
@@ -88,7 +93,7 @@
                 "
               >
                 <td>
-                  {{ this.instructor_name_list[i][2] }}
+                  {{ instructors[i][2] }}
                 </td>
               </div>
               <div v-else>
@@ -112,26 +117,7 @@
         </tbody>
       </table>
     </div>
-    <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-center">
-        <li v-on:click="getPreviousPage()" class="page-item">
-          <a class="page-link">Previous</a>
-        </li>
-        <li
-          v-for="indexPage in totalPage()"
-          :key="indexPage"
-          v-on:click="getDataPagination(indexPage)"
-          class="page-item"
-          :class="isActive(indexPage)"
-        >
-          <a class="page-link" href="#">{{ indexPage }}</a>
-        </li>
 
-        <li v-on:click="getNextPage()" class="page-item">
-          <a class="page-link" href="#">Next</a>
-        </li>
-      </ul>
-    </nav>
     <EditPopup
       v-if="popupTriggers.buttonPopup"
       @close="TogglePopup('buttonPopup')"
@@ -188,13 +174,25 @@ export default {
       type: String,
       default: "",
     },
+    subjects: {
+      type: Array,
+    },
+    instructors: {
+      type: Array,
+    },
   },
   data() {
     return {
-      subjects: [],
-      dataForPagination: [],
-      elementPerpage: 10,
-      currentPage: 1,
+      popupTriggers: ref({
+        buttonPopup: false,
+      }),
+      subject: {
+        subject_id: "",
+        category: "",
+        name: "",
+        credit: 0,
+        class_year: "",
+      },
       instructor: {
         subject_id: "",
         instructor_id: "",
@@ -202,73 +200,9 @@ export default {
       },
       instructor_list: [],
       instructor_list_id: [],
-      instructor_name_list: [[]],
-      popupTriggers: ref({
-        buttonPopup: false,
-      }),
     };
   },
-  mounted() {
-    axios.get("http://127.0.0.1:8080/subject/all").then((response) => {
-      console.log("subject_list", response.data.data.subject_list);
-      this.subjects = response.data.data.subject_list;
-      console.log("this.subjects", this.subjects);
-      this.getDataPagination(1);
-      console.log("this.dataForPagination", this.dataForPagination);
-
-      for (var i = 0; i < this.subjects.length; i++) {
-        let indexI = i;
-        this.instructor_name_list.push([null, null, null]);
-        if (this.subjects[i].instructor_id != null) {
-          for (var j = 0; j < this.subjects[i].instructor_id.length; j++) {
-            let indexJ = j;
-
-            if (this.subjects[i].instructor_id[j] != null) {
-              axios
-                .get(
-                  "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
-                    this.subjects[i].instructor_id[j] +
-                    "&role=teacher"
-                )
-                .then((response) => {
-                  // console.log(indexI, "-", indexJ);
-                  this.instructor_name_list[indexI][indexJ] =
-                    response.data.data.profile.name;
-                  // console.log(response.data.data.profile.name);
-                });
-            }
-          }
-        }
-      }
-      console.log("this.instructor_name_list", this.instructor_name_list);
-    });
-  },
   methods: {
-    totalPage() {
-      return Math.ceil(this.subjects.length / this.elementPerpage);
-    },
-    getDataPagination(NumberPage) {
-      this.currentPage = NumberPage;
-      this.dataForPagination = [];
-      let start = (NumberPage - 1) * this.elementPerpage;
-      let end = NumberPage * this.elementPerpage;
-      this.dataForPagination = this.subjects.slice(start, end);
-    },
-    getPreviousPage() {
-      if (this.currentPage > 1) {
-        this.currentPage--;
-        this.getDataPagination(this.currentPage);
-      }
-    },
-    getNextPage() {
-      if (this.currentPage < this.totalPage()) {
-        this.currentPage++;
-        this.getDataPagination(this.currentPage);
-      }
-    },
-    isActive(NumberPage) {
-      return NumberPage == this.currentPage ? "active" : "";
-    },
     TogglePopup(trigger, id, subject_id, category) {
       console.log(trigger, id, subject_id, category);
       this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
@@ -291,11 +225,21 @@ export default {
     },
     ToggleClose(trigger) {
       console.log(trigger);
-      this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
+      this.popupTriggers.buttonPopup = false;
       this.resetForm();
     },
     async submitForm() {
       console.log("submit");
+      console.log(this.instructor_list);
+      console.log(this.instructor_list_id);
+      for (let i = 0; i < this.instructor_list.length; i++) {
+        if (this.instructor.instructor_name == this.instructor_list[i]) {
+          this.instructor.instructor_id = this.instructor_list_id[i];
+          break;
+        }
+      }
+      this.instructor.subject_id = this.subject_id;
+      console.log(this.instructor);
       for (let i = 0; i < this.instructor_list.length; i++) {
         if (this.instructor.instructor_name == this.instructor_list[i]) {
           this.instructor.instructor_id = this.instructor_list_id[i];
@@ -322,13 +266,15 @@ export default {
         this.$swal("Error!", error.response.data.message, "error");
       }
     },
+
     resetForm() {
       console.log("reset");
-      this.instructor.subject_id = "";
-      this.instructor.instructor_id = "";
-      this.instructor.instructor_name = "";
-      this.instructor_list = [];
     },
+  },
+  mounted() {
+    // console.log(this.subjects);
+
+    console.log(this.instructors);
   },
 };
 </script>
