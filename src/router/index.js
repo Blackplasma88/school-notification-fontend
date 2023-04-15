@@ -81,7 +81,7 @@ const router = createRouter({
       component: TeacherProfile,
     },
     {
-      path: "/profile/teacher/:profile_id",
+      path: "/profile/teacher/:id",
       name: "TeacherProfileRead",
       component: TeacherProfileRead,
     },

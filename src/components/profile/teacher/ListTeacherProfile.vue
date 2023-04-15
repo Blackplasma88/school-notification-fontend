@@ -132,7 +132,7 @@ export default {
     },
     viewData(profile_id) {
       console.log("teacher profile id ", profile_id);
-      this.$router.push("/profile/teacher/" + profile_id);
+      this.$router.push("/profile/teacher/" + profile_id + "");
     },
   },
 };

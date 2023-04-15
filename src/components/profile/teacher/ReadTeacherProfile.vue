@@ -23,17 +23,6 @@
           <h4>ชั้นปีที่ดูแล : ไม่มี</h4>
         </div>
       </div>
-      <div>
-        <div v-if="teacher_profile.course_teaches_list.course_id_list != null">
-          <h4>
-            คอร์สในภาคเรียนนี้ :
-            {{ teacher_profile.course_teaches_list.course_id_list }}
-          </h4>
-        </div>
-        <div v-else>
-          <h4>คอร์สในภาคเรียนนี้ : ไม่มี</h4>
-        </div>
-      </div>
 
       <div v-if="teacher_profile.slot != null">
         <h4>ตารางสอน</h4>
@@ -109,10 +98,11 @@ export default {
       class_name: "",
     };
   },
-  mounted() {
+  created() {
+    console.log("profile_id", this.$route.params.id);
     axios
       .get(
-        "http://127.0.0.1:8080/profile/id?id=" +
+        "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
           this.$route.params.id +
           "&role=teacher"
       )
