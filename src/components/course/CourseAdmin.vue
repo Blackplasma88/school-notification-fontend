@@ -88,7 +88,7 @@
         </select>
       </div>
       <div class="btnCreateCourse">
-        <button
+        <button v-if='this.role === "admin"'
           type="button"
           class="btn btn-secondary"
           @click="togglePopupCreateCourse()"
@@ -252,9 +252,12 @@ export default {
   },
   data() {
     return {
+      role:"",
       popupTriggers: ref({
         buttonPopup: false,
       }),
+      filterOptions: "",
+      filterValue: "",
       term_year:[],
       year:"",
       term:"",
@@ -271,6 +274,7 @@ export default {
     };
   },
   mounted(){
+    this.role = localStorage.getItem("role")
     axios
         .get("http://127.0.0.1:8080/school-data/term-year-data")
         .then((response) => {

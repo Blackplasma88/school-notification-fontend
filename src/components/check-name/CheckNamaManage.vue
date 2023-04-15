@@ -46,12 +46,12 @@
       </option>
     </select>
     <div class="btnAddDate">
-      <button
+      <button v-if='this.role === "teacher"'
         type="button"
         class="btn btn-secondary"
         @click="togglePopupAddDate()"
       >
-        Create course
+        add date
       </button>
     </div>
     </div>
@@ -103,6 +103,7 @@ export default {
   },
   data() {
     return {
+      role:"",
       popupTriggers: ref({
         buttonPopupAddDate: false,
       }),
@@ -123,6 +124,7 @@ export default {
     };
   },
   mounted(){
+    this.role = localStorage.getItem("role")
     axios
         .get("http://127.0.0.1:8080/school-data/term-year-data")
         .then((response) => {

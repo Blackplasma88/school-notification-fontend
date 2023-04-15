@@ -72,8 +72,8 @@ export default {
   },
 
   mounted() {
-    
-    this.user.id = "6436598bb7a3f5f85e0af7bf";
+    this.user.id = localStorage.getItem("user_id")
+    // this.user.id = "6436598bb7a3f5f85e0af7bf";
     axios
       .get("http://127.0.0.1:8080/conversation/user-id?user_id=" + this.user.id)
       .then((response) => {

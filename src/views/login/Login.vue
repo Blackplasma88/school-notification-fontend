@@ -43,6 +43,7 @@ export default {
           })
           .then((response) => {
             // async ()=> {
+              localStorage.setItem("user_id",response.data.data.user_id)
               localStorage.setItem("profile_id",response.data.data.profile_id)
                 localStorage.setItem("role",response.data.data.role)
                 localStorage.setItem("token",response.data.data.token)
