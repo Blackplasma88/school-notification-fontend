@@ -91,7 +91,7 @@ const router = createRouter({
       component: StudnetProfile,
     },
     {
-      path: "/profile/student/:profile_id",
+      path: "/profile/student/:id",
       name: "StudentProfileRead",
       component: StudentProfileRead,
     },
