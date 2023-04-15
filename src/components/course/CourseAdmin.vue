@@ -8,6 +8,11 @@
           placeholder="Search"
           v-model="filterValue"
         />
+        &nbsp;
+        <button type="button" class="btn btn-secondary">
+          <font-awesome-icon icon="fa-solid fa-search" />
+        </button>
+        {{ filterValue }}
       </div>
 
       <div class="filter">
@@ -75,7 +80,7 @@
           aria-label="Select"
           name="status_filter"
           id="status_filter"
-          v-model="status_filter"
+          v-model="filterOptions"
         >
           <option selected disabled value="">Status</option>
           <option value="true">In Use</option>
@@ -83,7 +88,7 @@
         </select>
       </div>
       <div class="btnCreateCourse">
-        <button
+        <button v-if='this.role === "admin"'
           type="button"
           class="btn btn-secondary"
           @click="togglePopupCreateCourse()"
@@ -247,9 +252,12 @@ export default {
   },
   data() {
     return {
+      role:"",
       popupTriggers: ref({
         buttonPopup: false,
       }),
+      filterOptions: "",
+      filterValue: "",
       term_year:[],
       year:"",
       term:"",
@@ -266,6 +274,7 @@ export default {
     };
   },
   mounted(){
+    this.role = localStorage.getItem("role")
     axios
         .get("http://127.0.0.1:8080/school-data/term-year-data")
         .then((response) => {
