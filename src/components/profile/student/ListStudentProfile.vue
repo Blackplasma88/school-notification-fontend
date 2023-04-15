@@ -118,9 +118,10 @@ export default {
       return NumberPage == this.currentPage ? "active" : "";
     },
     viewData(profile_id) {
-      console.log("teacher profile id ", profile_id);
-      this.$router.push("/profile/profile_id?profile_id=" + profile_id);
-      // http://127.0.0.1:8080/profile/profile_id
+      console.log("student profile id ", profile_id);
+      this.$router.push(
+        "/profile/student/profile_id?profile_id=" + profile_id + ""
+      );
     },
   },
 };

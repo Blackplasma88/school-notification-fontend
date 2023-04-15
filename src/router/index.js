@@ -21,6 +21,7 @@ import StudnetProfile from "@/views/profiles/student/StudentProfile.vue";
 import StudentProfileRead from "@/views/profiles/student/Read.vue";
 
 import ParentProfile from "@/views/profiles/parent/ParentProfile.vue";
+import ParentProfileRead from "@/views/profiles/parent/Read.vue";
 
 import Course from "@/views/course/Course.vue";
 import Login from "@/views/login/Login.vue";
@@ -98,6 +99,11 @@ const router = createRouter({
       path: "/profile/parent",
       name: "ParentProfile",
       component: ParentProfile,
+    },
+    {
+      path: "/profile/teacher/:profile_id",
+      name: "ParentProfileRead",
+      component: ParentProfileRead,
     },
     {
       path: "/classes",

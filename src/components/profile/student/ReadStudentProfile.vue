@@ -17,7 +17,7 @@
 </template>
 
 <script>
-// import axios from "axios";
+import axios from "axios";
 export default {
   name: "ReadStudentProfile",
   components: {},
@@ -46,39 +46,38 @@ export default {
     };
   },
   created() {
-    console.log("profile_id", this.$route.params.id);
-    // axios
-    //   .get(
-    //     "http://127.0.0.1:8080/profile/id?id=" +
-    //       this.$route.params.id +
-    //       "&role=student"
-    //   )
-    //   .then((response) => {
-    //     console.log("profile_id", this.$route.params.id);
-    //     console.log("profile");
-    //     console.log(response.data.data.profile);
-    //     this.student_profile = response.data.data.profile;
+    axios
+      .get(
+        "http://127.0.0.1:8080/profile_id=" +
+          this.$route.params.profile_id +
+          "&role=student"
+      )
+      .then((response) => {
+        console.log("profile_id", this.$route.params.id);
+        console.log("profile");
+        console.log(response.data.data.profile);
+        this.student_profile = response.data.data.profile;
 
-    //     axios
-    //       .get(
-    //         "http://127.0.0.1:8080/class/id?class_id=" +
-    //           this.student_profile.class_id
-    //       )
-    //       .then((response) => {
-    //         console.log("class");
-    //         console.log(
-    //           "M." +
-    //             response.data.data.class.class_year +
-    //             "/" +
-    //             response.data.data.class.class_room
-    //         );
-    //         this.class_name =
-    //           response.data.data.class.class_year +
-    //           "/" +
-    //           response.data.data.class.class_room;
-    //         console.log("class name :", this.class_name);
-    //       });
-    //   });
+        // axios
+        //   .get(
+        //     "http://127.0.0.1:8080/class/id?class_id=" +
+        //       this.student_profile.class_id
+        //   )
+        //   .then((response) => {
+        //     console.log("class");
+        //     console.log(
+        //       "M." +
+        //         response.data.data.class.class_year +
+        //         "/" +
+        //         response.data.data.class.class_room
+        //     );
+        //     this.class_name =
+        //       response.data.data.class.class_year +
+        //       "/" +
+        //       response.data.data.class.class_room;
+        //     console.log("class name :", this.class_name);
+        //   });
+      });
   },
 };
 </script>

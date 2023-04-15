@@ -246,14 +246,7 @@ export default {
       return NumberPage == this.currentPage ? "active" : "";
     },
   },
-  // computed: {
-  //   setClass_year() {
-  //     if (this.class_filter == "class_year") {
-  //       return this.searchValue;
-  //     }
-  //     return this.class_value;
-  //   },
-  // },
+
 };
 </script>
 
