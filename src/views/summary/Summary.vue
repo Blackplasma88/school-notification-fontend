@@ -1,12 +1,20 @@
 <template>
   <main>
     <h1>Summary</h1>
-    <p>this is summary page</p>
+    <SummaryView></SummaryView>
   </main>
 </template>
+
 <script>
+import SummaryView from "@/components/summary/SummaryView.vue";
 export default {
-  name: "Summary",
-};
+  name: "CheckNama",
+  components: {
+    SummaryView,
+  },
+}
 </script>
-<style></style>
+
+<style>
+
+</style>

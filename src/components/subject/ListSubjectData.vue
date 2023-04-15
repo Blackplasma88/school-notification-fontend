@@ -23,7 +23,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(subject, i) in subjects" :key="subject.id">
+          <tr v-for="subject in subjects" :key="subject.id">
             <td>{{ subject.subject_id }}</td>
             <td>{{ subject.category }}</td>
             <td>{{ subject.name }}</td>
@@ -37,7 +37,11 @@
                 "
               >
                 <td>
-                  {{ instructors[i][0] }}
+                  <!-- {{
+                    this.instructors.filter((t) => t.id.includes(subject.id))[0]
+                      .instructor_name_list
+                  }} -->
+                    {{ instructors[subject.index][0] }}
                 </td>
               </div>
               <div v-else>
@@ -65,7 +69,11 @@
                 "
               >
                 <td>
-                  {{ instructors[i][1] }}
+                  <!-- {{
+                    instructors.filter((t) => t.id.includes(subject.id))[0]
+                      .instructor_name_list[0]
+                  }} -->
+                  {{ instructors[subject.index][1] }}
                 </td>
               </div>
               <div v-else>
@@ -93,7 +101,11 @@
                 "
               >
                 <td>
-                  {{ instructors[i][2] }}
+                  <!-- {{
+                    this.instructors.filter((t) => t.id.includes(subject.id))[0]
+                      .instructor_name_list[0]
+                  }} -->
+                  {{ instructors[subject.index][1] }}
                 </td>
               </div>
               <div v-else>
@@ -194,10 +206,10 @@ export default {
       type: String,
       default: "",
     },
-    subjects: {
+    instructors: {
       type: Array,
     },
-    instructors: {
+    subjects: {
       type: Array,
     },
   },
@@ -224,6 +236,7 @@ export default {
       dataForPagination: [],
       elementPerpage: 10,
       currentPage: 1,
+      isHidden: true,
     };
   },
   methods: {
@@ -322,7 +335,7 @@ export default {
     },
   },
   mounted() {
-    console.log(this.instructors);
+   console.log(this.instructors)
   },
 };
 </script>
