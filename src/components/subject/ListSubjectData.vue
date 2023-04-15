@@ -3,8 +3,8 @@
     <h2>List of Subject</h2>
 
     <!-- {{ subjects }} -->
+    <!-- {{ subjects }} -->
     <!-- {{ filterOptions }} -->
-    <!-- {{ filterValue }} -->
     <!-- {{ instructors }} -->
 
     <div>

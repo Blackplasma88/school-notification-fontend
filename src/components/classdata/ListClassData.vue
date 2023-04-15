@@ -2,8 +2,10 @@
   <div>
     <h2>List of Class</h2>
     <div>
-      <!-- list {{ class_filter }} value {{ searchValue }} -->
+      <!-- List {{ filterOptions }} List {{ filterValue }} -->
       <!-- {{ classes }} -->
+      <!-- {{ filterOptions }} -->
+      <!-- {{ advisors }} -->
 
       <table class="table table-bordered table-hover">
         <thead>
@@ -16,24 +18,16 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(c, i) in dataForPagination" :key="c.id">
+          <tr v-for="(c, i) in classes" :key="c.id">
             <!-- {{
               (this.currentPage - 1) * this.elementPerpage + i
             }} -->
             <td>ม.{{ c.class_year }}</td>
             <td>{{ c.class_room }}</td>
-            <td>
-              {{ c.number_of_student }}
-            </td>
+            <td>{{ c.number_of_student }}</td>
             <td>
               <div v-if="c.advisor_id != ''">
-                <td>
-                  {{
-                    this.advisor_name_list[
-                      (this.currentPage - 1) * this.elementPerpage + i
-                    ]
-                  }}
-                </td>
+                {{ advisors[i] }}
               </div>
               <div v-else>
                 <button
@@ -56,26 +50,7 @@
         </tbody>
       </table>
     </div>
-    <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-center">
-        <li v-on:click="getPreviousPage()" class="page-item">
-          <a class="page-link">Previous</a>
-        </li>
-        <li
-          v-for="indexPage in totalPage()"
-          :key="indexPage"
-          v-on:click="getDataPagination(indexPage)"
-          class="page-item"
-          :class="isActive(indexPage)"
-        >
-          <a class="page-link" href="#">{{ indexPage }}</a>
-        </li>
 
-        <li v-on:click="getNextPage()" class="page-item">
-          <a class="page-link" href="#">Next</a>
-        </li>
-      </ul>
-    </nav>
     <EditPopup
       v-if="popupTriggers.buttonPopup"
       @close="TogglePopup('buttonPopup')"
@@ -113,6 +88,27 @@
         </div>
       </form>
     </EditPopup>
+
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        <li v-on:click="getPreviousPage()" class="page-item">
+          <a class="page-link">Previous</a>
+        </li>
+        <li
+          v-for="indexPage in totalPage()"
+          :key="indexPage"
+          v-on:click="getDataPagination(indexPage)"
+          class="page-item"
+          :class="isActive(indexPage)"
+        >
+          <a class="page-link" href="#">{{ indexPage }}</a>
+        </li>
+
+        <li v-on:click="getNextPage()" class="page-item">
+          <a class="page-link" href="#">Next</a>
+        </li>
+      </ul>
+    </nav>
   </div>
 </template>
 
@@ -127,10 +123,6 @@ export default {
   },
   data() {
     return {
-      classes: [],
-      dataForPagination: [],
-      elementPerpage: 10,
-      currentPage: 1,
       advisor: {
         class_id: "",
         year: "",
@@ -144,72 +136,18 @@ export default {
       popupTriggers: ref({
         buttonPopup: false,
       }),
+      dataForPagination: [],
+      elementPerpage: 10,
+      currentPage: 1,
     };
   },
   props: {
-    class_year: {
-      type: String,
-      default: "",
-    },
-  },
-  mounted() {
-    axios
-      .get("http://127.0.0.1:8080/class/all?class_year=" + this.class_year)
-      .then((response) => {
-        console.log("classes_list");
-        console.log(response.data.data.class_list);
-        this.classes = response.data.data.class_list;
-        this.getDataPagination(1);
-        console.log("this.dataForPagination", this.dataForPagination);
-        console.log("this.advisor_name_list", this.advisor_name_list);
-        for (var i = 0; i < this.classes.length; i++) {
-          let indexI = i;
-          this.advisor_name_list.push("");
-          console.log(this.classes[i].advisor_id);
-          if (this.classes[i].advisor_id != "") {
-            console.log("advisor", this.classes[i].advisor_id);
-            axios
-              .get(
-                "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
-                  this.classes[indexI].advisor_id +
-                  "&role=teacher"
-              )
-              .then((response) => {
-                this.advisor_name_list[indexI] =
-                  response.data.data.profile.name;
-                console.log(response.data.data.profile.name);
-              });
-          }
-          console.log("this.advisor_name_list", this.advisor_name_list);
-        }
-      });
+    filterValue: String,
+    filterOptions: String,
+    classes: Array,
+    advisors: Array,
   },
   methods: {
-    totalPage() {
-      return Math.ceil(this.classes.length / this.elementPerpage);
-    },
-    getDataPagination(NumberPage) {
-      this.currentPage = NumberPage;
-      this.dataForPagination = [];
-      let start = (NumberPage - 1) * this.elementPerpage;
-      let end = NumberPage * this.elementPerpage;
-      this.dataForPagination = this.classes.slice(start, end);
-    },
-    getPreviousPage() {
-      if (this.currentPage > 1) {
-        this.currentPage--;
-        this.getDataPagination(this.currentPage);
-      }
-    },
-    getNextPage() {
-      if (this.currentPage < this.totalPage()) {
-        this.currentPage++;
-        this.getDataPagination(this.currentPage);
-      }
-    },
-    isActive(NumberPage) {
-      return NumberPage == this.currentPage ? "active" : "";
-    },
     viewData(class_id) {
       console.log("Class ID", class_id);
       this.$router.push("/class/" + class_id + "");
@@ -280,6 +218,33 @@ export default {
       this.advisor.advisor_id = "";
       this.advisor.advisor_name = "";
       this.advisor_list = [];
+      this.advisor_list_id = [];
+      this.advisor_name_list = [];
+    },
+    totalPage() {
+      return Math.ceil(this.classes.length / this.elementPerpage);
+    },
+    getDataPagination(NumberPage) {
+      this.currentPage = NumberPage;
+      this.dataForPagination = [];
+      let start = (NumberPage - 1) * this.elementPerpage;
+      let end = NumberPage * this.elementPerpage;
+      this.dataForPagination = this.classes.slice(start, end);
+    },
+    getPreviousPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+        this.getDataPagination(this.currentPage);
+      }
+    },
+    getNextPage() {
+      if (this.currentPage < this.totalPage()) {
+        this.currentPage++;
+        this.getDataPagination(this.currentPage);
+      }
+    },
+    isActive(NumberPage) {
+      return NumberPage == this.currentPage ? "active" : "";
     },
   },
   // computed: {
