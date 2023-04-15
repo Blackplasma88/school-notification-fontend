@@ -1,8 +1,8 @@
 <template>
   <div class="app">
-    <Sidebar />
+    <Sidebar v-if="sid_check" />
     <div class="head">
-      <Navbar />
+      <Navbar v-if="nav_check" />
       <div class="main">
         <router-view />
       </div>
@@ -21,10 +21,19 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+      nav_check:true,
+      sid_check:true,
+    };
   },
 
   methods: {},
+  mounted(){
+    if (localStorage.getItem("token") != null && localStorage.getItem("token") != undefined){
+      this.nav_check = true
+      this.sid_check = true
+    }
+  },
 };
 </script>
 

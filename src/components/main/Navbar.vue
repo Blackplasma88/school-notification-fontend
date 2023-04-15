@@ -20,7 +20,7 @@
                 />
               </span>
             </router-link>
-            <router-link to="/login" class="button">
+            <router-link to="/logout" class="button">
               <span class="material-icons">
                 <font-awesome-icon
                   icon="fa-solid fa-right-from-bracket"

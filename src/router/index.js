@@ -25,6 +25,7 @@ import ParentProfileRead from "@/views/profiles/parent/Read.vue";
 
 import Course from "@/views/course/Course.vue";
 import Login from "@/views/login/Login.vue";
+import Logout from "@/views/logout/Logout.vue";
 import Score from "@/views/score/Score.vue";
 import CheckName from "@/views/check-name/CheckName.vue";
 import Summary from "@/views/summary/Summary.vue";
@@ -152,6 +153,11 @@ const router = createRouter({
       path: "/login",
       name: "Login",
       component: Login,
+    },
+    {
+      path: "/logout",
+      name: "Logout",
+      component: Logout,
     },
     {
       path: "/chat",
