@@ -1,8 +1,7 @@
 <template>
   <div>
-     {{ classData }}
-    <!-- <div>
-     
+    <!-- {{ classData }} -->
+    <div>
       <h4>ชั้นปี : ม.{{ classData.class_year }}/ {{ classData.class_room }}</h4>
       <h4>อาจารย์ที่ปรึกษา : {{ this.advisor_name }}</h4>
       <h4>ปีการศึกษา : {{ classData.year }}</h4>
@@ -64,7 +63,7 @@
           </tbody>
         </table>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -109,51 +108,51 @@ export default {
         console.log("class");
         console.log(response.data.data.class);
         this.classData = response.data.data.class;
-        // console.log("classData", this.classData);
-        // console.log("student_id_list", this.classData.student_id_list);
+        console.log("classData", this.classData);
+        console.log("student_id_list", this.classData.student_id_list);
 
-      //   axios
-      //     .get(
-      //       "http://127.0.0.1:8080/profile/id?id=" +
-      //         this.classData.advisor_id +
-      //         "&role=teacher"
-      //     )
-      //     .then((response) => {
-      //       console.log("advisor");
-      //       console.log("name", response.data.data.profile.name);
-      //       this.advisor_name = response.data.data.profile.name;
-      //     });
+        axios
+          .get(
+            "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
+              this.classData.advisor_id +
+              "&role=teacher"
+          )
+          .then((response) => {
+            console.log("advisor");
+            console.log("name", response.data.data.profile.name);
+            this.advisor_name = response.data.data.profile.name;
+          });
 
-      //   for (var i = 0; i < this.classData.student_id_list.length; i++) {
-      //     let indexI = i;
-      //     console.log("indexI", indexI);
-      //     console.log(
-      //       "student_id_list",
-      //       this.classData.student_id_list[indexI]
-      //     );
-      //     axios
-      //       .get(
-      //         "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
-      //           this.classData.student_id_list[indexI] +
-      //           "&role=student"
-      //       )
-      //       .then((response) => {
-      //         console.log("student");
-      //         console.log("name", response.data.data.profile.name);
-      //         this.student_name_list.push(response.data.data.profile.name);
-      //         this.student_name_list[indexI] = response.data.data.profile.name;
-      //       });
-      //   }
-      //   console.log("student_name_list", this.student_name_list);
-      // })
-      // .catch((error) => {
-      //   this.$swal({
-      //     title: "Error!",
-      //     text: error.response.data.message,
-      //     icon: "error",
-      //     confirmButtonText: "OK",
-      //   });
-      //   console.log(error.response.data.message);
+        for (var i = 0; i < this.classData.student_id_list.length; i++) {
+          let indexI = i;
+          console.log("indexI", indexI);
+          console.log(
+            "student_id_list",
+            this.classData.student_id_list[indexI]
+          );
+          axios
+            .get(
+              "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
+                this.classData.student_id_list[indexI] +
+                "&role=student"
+            )
+            .then((response) => {
+              console.log("student");
+              console.log("name", response.data.data.profile.name);
+              this.student_name_list.push(response.data.data.profile.name);
+              this.student_name_list[indexI] = response.data.data.profile.name;
+            });
+        }
+        console.log("student_name_list", this.student_name_list);
+      })
+      .catch((error) => {
+        this.$swal({
+          title: "Error!",
+          text: error.response.data.message,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+        console.log(error.response.data.message);
       });
   },
 };
