@@ -27,7 +27,7 @@
             <option value="subject_id">รหัสวิชา</option>
             <option value="category">หมวดหมู่</option>
             <option value="name">ชื่อวิชา</option>
-            <option value="credit">หน่วยกิต</option>
+            <!-- <option value="credit">หน่วยกิต</option> -->
             <option value="class_year">ชั้นปี</option>
           </select>
         </div>
@@ -142,7 +142,7 @@
     <ListSubjectData
       :filterOptions="filterOptions"
       :filterValue="filterValue"
-      :subjects="subjects"
+      :subjects="subjectList"
       :instructors="instructor_name_list"
     />
     <!-- <nav aria-label="Page navigation example">
@@ -171,7 +171,7 @@
 <script>
 import { ref } from "vue";
 import axios from "axios";
-import ListSubjectData from "@/components/subject/ListSubjectData.vue";
+import ListSubjectData from "./ListSubjectData.vue";
 import CreatePopup from "@/components/main/CreatePopup.vue";
 export default {
   name: "SubjectForm",
@@ -206,11 +206,45 @@ export default {
       },
       instructor_list: [],
       instructor_list_id: [],
-      instructor_name_list: [[]],
+      instructor_name_list: [],
+      // tmp: [],
     };
   },
+  computed: {
+    subjectList() {
+      if (this.filterValue.trim().length > 0) {
+        if (this.filterOptions == "" || this.filterOptions == "subject_id") {
+          return this.subjects.filter((subject) =>
+            subject.subject_id
+              .toLowerCase()
+              .includes(this.filterValue.trim().toLowerCase())
+          );
+        } else if (this.filterOptions == "category") {
+          return this.subjects.filter((subject) =>
+            subject.category
+              .toLowerCase()
+              .includes(this.filterValue.trim().toLowerCase())
+          );
+        } else if (this.filterOptions == "name") {
+          return this.subjects.filter((subject) =>
+            subject.name
+              .toLowerCase()
+              .includes(this.filterValue.trim().toLowerCase())
+          );
+        } else if (this.filterOptions == "class_year") {
+          return this.subjects.filter((subject) =>
+            subject.class_year
+              .toLowerCase()
+              .includes(this.filterValue.trim().toLowerCase())
+          );
+        }
+      }
+      return this.subjects;
+    },
+  },
+  
   created() {
-    axios.get("http://127.0.0.1:8080/subject/all").then((response) => {
+     axios.get("http://127.0.0.1:8080/subject/all").then((response) => {
       this.subjects = response.data.data.subject_list;
       console.log("this.subjects", this.subjects);
       this.getDataPagination(1);
@@ -219,6 +253,10 @@ export default {
         let indexI = i;
 
         this.instructor_name_list.push([null, null, null]);
+
+        this.subjects[i].index = indexI
+        // let id = this.subjects[i].id;
+        // let data = [null, null, null];
 
         if (this.subjects[i].instructor_id != null) {
           for (var j = 0; j < this.subjects[i].instructor_id.length; j++) {
@@ -233,14 +271,18 @@ export default {
                 .then((response) => {
                   this.instructor_name_list[indexI][indexJ] =
                     response.data.data.profile.name;
-                  console.log(this.instructor_name_list);
+                  // data[indexJ] = response.data.data.profile.name;
+                  // console.log(this.instructor_name_list);
                 });
             }
           }
         }
+        // this.tmp.push({
+        //   id: id,
+        //   instructor_name_list: data,
+        // });
       }
-      console.log(this.subjects);
-      // console.log("this.instructor_name_list", this.instructor_name_list);
+      // console.log("this.tmp", this.tmp);
     });
   },
   methods: {
