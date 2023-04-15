@@ -8,11 +8,6 @@
           placeholder="Search"
           v-model="filterValue"
         />
-        &nbsp;
-        <button type="button" class="btn btn-secondary">
-          <font-awesome-icon icon="fa-solid fa-search" />
-        </button>
-        {{ filterValue }}
       </div>
 
       <div class="filter">
@@ -52,7 +47,7 @@
           aria-label="Select"
           name="year_filter"
           id="year_filter"
-          v-model="filterOptions"
+          v-model="year_filter"
         >
           <option selected disabled value="">Year</option>
           <option value="1">1</option>
@@ -70,7 +65,7 @@
           aria-label="Select"
           name="term_filter"
           id="term_filter"
-          v-model="filterOptions"
+          v-model="term_filter"
         >
           <option selected disabled value="">Term</option>
           <option value="1">1</option>
@@ -84,7 +79,7 @@
           aria-label="Select"
           name="status_filter"
           id="status_filter"
-          v-model="filterOptions"
+          v-model="status_filter"
         >
           <option selected disabled value="">Status</option>
           <option value="true">In Use</option>

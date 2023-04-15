@@ -49,7 +49,7 @@
           v-model="this.manage_with"
           @change="selectManageWith()"
         >
-          <option selected disabled>manage by</option>
+          <option selected disabled value="">manage by</option>
           <option value="year_term">term year</option>
           <option value="subject_category">subject category</option>
         </select>
