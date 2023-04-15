@@ -1,13 +1,17 @@
 <template>
   <main id="course-page">
     <h1>Course</h1>
-    <p>This is course page</p>
+    <CourseAdmin></CourseAdmin>
   </main>
 </template>
 
 <script>
+import CourseAdmin from "@/components/course/CourseAdmin.vue";
 export default {
-
+  name: "Course",
+  components: {
+    CourseAdmin,
+  },
 }
 </script>
 

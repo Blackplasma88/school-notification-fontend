@@ -1,5 +1,6 @@
 <template>
-  <aside :class="`${is_expanded ? 'is-expanded' : ''}`">
+  <!-- <aside hidden :class="`${is_expanded ? 'is-expanded' : ''}`"> -->
+    <aside :class="`${is_expanded ? 'is-expanded' : ''}`">
     <div>
       <button @click="ToggleMenu">
         <img

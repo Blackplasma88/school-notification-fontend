@@ -19,6 +19,9 @@ import informationUpdate from "@/views/information/Update.vue";
 import LocationRead from "@/views/location/Read.vue";
 import ClassRead from "@/views/classData/Read.vue";
 
+import Chat from "@/views/chat/ChatView.vue";
+
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -106,6 +109,11 @@ const router = createRouter({
       path: "/login",
       name: "Login",
       component: Login,
+    },
+    {
+      path: "/chat",
+      name: "Chat",
+      component: Chat,
     },
   ],
 });
