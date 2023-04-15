@@ -5,9 +5,10 @@
       <!-- List {{ filterOptions }} List {{ filterValue }} -->
       <!-- {{ courses }} -->
       <!-- {{ categories }} -->
-      <!-- {{ instructors }} -->
-      <!-- {{ locations }} -->
-      <!-- {{ classes }} -->
+      <!-- {{ instructors }}
+      {{ locations }}
+      {{ classes }}
+      {{ subjects }} -->
       <!-- {{ days }} -->
       <!-- {{ times }} -->
 
@@ -26,22 +27,20 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="course in courses" :key="course.id">
+          <tr v-for="(course, i) in courses" :key="course.id">
             <td>
               {{ course.name }}
             </td>
             <td>
-              {{ course.subject_id }}
+              {{ subjects[i] }}
             </td>
             <td>
               {{ course.credit }}
             </td>
             <td>
-              {{ course.instructor_id }}
+              {{ instructors[i] }}
             </td>
-            <td>
-              {{ course.class_id }}
-            </td>
+            <td>ม.{{ classes[i] }}</td>
             <td>
               {{ course.number_of_student }}
             </td>
@@ -49,7 +48,7 @@
               {{ course.date_time[0].day }} / {{ course.date_time[0].time[0] }}
             </td>
             <td>
-              {{ course.location_id }}
+              {{ locations[i] }}
             </td>
             <td>
               <div v-if="course.status == 'create'">
@@ -78,6 +77,7 @@ export default {
     instructors: Array,
     locations: Array,
     classes: Array,
+    subjects: Array,
     days: Array,
     times: Array,
   },

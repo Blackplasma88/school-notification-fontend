@@ -310,13 +310,59 @@ export default {
         console.log(this.courses);
 
         for (var i = 0; i < this.courses.length; i++) {
-          // let IndexI = i;
-          this.subject_name_list.push("");
+          let indexI = i;
+          this.class_name_list.push("");
+          console.log(this.courses[i].class_id);
           console.log(this.courses[i].subject_id);
-          if (this.courses[i].subject_id != null) {
-            axios.get("");
-          }
+          axios
+            .get(
+              "http://127.0.0.1:8080/class/id?class_id=" +
+                this.courses[indexI].class_id
+            )
+            .then((res) => {
+              this.class_name =
+                res.data.data.class.class_year +
+                "/" +
+                res.data.data.class.class_room;
+              this.class_name_list[indexI] = this.class_name;
+              console.log("this.class_name", this.class_name);
+            });
+
+          axios
+            .get(
+              "http://127.0.0.1:8080/subject/id?subject_id=" +
+                this.courses[indexI].subject_id
+            )
+            .then((res) => {
+              console.log(res.data.data.subject.name);
+              this.subject_name_list[indexI] = res.data.data.subject.name;
+              console.log("this.subject_name_list", this.subject_name_list);
+            });
+
+          axios
+            .get(
+              "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
+                this.courses[indexI].instructor_id +
+                "&role=teacher"
+            )
+            .then((response) => {
+              this.instructor_name_list[indexI] =
+                response.data.data.profile.name;
+              console.log(response.data.data.profile.name);
+            });
+
+          axios
+            .get(
+              "http://127.0.0.1:8080/location/id?location_id=" +
+                this.courses[indexI].location_id
+            )
+            .then((response) => {
+              this.location_name_list[indexI] =
+                response.data.data.location.location_id;
+              console.log(response.data.data.location.location_id);
+            });
         }
+        console.log(this.subject_name_list);
       });
   },
   methods: {
