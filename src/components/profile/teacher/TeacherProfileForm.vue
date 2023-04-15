@@ -35,7 +35,7 @@
       </div>
     </div>
     <div class="rightContent">
-      <button
+      <button v-if='role === "admin"'
         type="button"
         class="btn btn-secondary"
         @click="TogglePopup('buttonPopup')"
@@ -111,6 +111,7 @@ export default {
   },
   data() {
     return {
+      role:"",
       popupTriggers: ref({
         buttonPopup: false,
       }),
@@ -122,6 +123,9 @@ export default {
       },
       subject_category_list: [],
     };
+  },
+  mounted(){
+    this.role = localStorage.getItem("role")
   },
   methods: {
     TogglePopup(trigger) {
