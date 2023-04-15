@@ -50,3 +50,4 @@ createApp(App)
   .use(moment)
   .component("font-awesome-icon", FontAwesomeIcon)
   .mount("#app");
+

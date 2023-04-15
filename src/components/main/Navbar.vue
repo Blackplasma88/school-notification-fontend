@@ -11,6 +11,15 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
         <div class="menu">
           <div class="d-flex">
+            <router-link to="/chat" class="button">
+              <span class="material-icons">
+                <font-awesome-icon
+                  icon="fa-solid fa-right-from-bracket"
+                  size="2x"
+                  style="color: #ffffff"
+                />
+              </span>
+            </router-link>
             <router-link to="/login" class="button">
               <span class="material-icons">
                 <font-awesome-icon

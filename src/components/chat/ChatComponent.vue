@@ -1,0 +1,276 @@
+<template>
+  <div class="messanger">
+    <div class="chatMenu">
+      <div class="chatMenuWrapper">
+        <input placeholder="Search for friends" className="chatMenuInput" />
+        <Conversations
+          v-for="item in this.conversation_list"
+          :key="item.id"
+          :conversation="item"
+          :id="item.id"
+          :currentUser="user"
+          @click="setCurrentChat(item)"
+        />
+      </div>
+    </div>
+    <div class="chatBox">
+      <div class="chatBoxWrapper" v-if="current_chat.id != undefined">
+        <div className="chatBoxTop" v-if="this.messaeges.length != 0">
+          <div>
+            <Message
+              v-for="item in this.messaeges"
+              :key="item.id"
+              :message="item"
+              :own="item.sender === user.id"
+            />
+          </div>
+        </div>
+        <div v-else>
+          <span class="noConverationText" />Oprn a converation to start chat<span />
+        </div>
+        <div className="chatBoxBottom">
+          <textarea
+            className="chatMessageInput"
+            placeholder="write something..."
+            v-model="new_message"
+          ></textarea>
+          <button className="chatSubmitButton" @click="handleSubmit">
+            Send
+          </button>
+        </div>
+      </div>
+      <div v-else>
+        <span class="noConverationText" />Oprn a converation to start chat<span />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script >
+import axios from "axios";
+import Conversations from "./Conversations.vue";
+import Message from "./Message.vue";
+// import {io} from "socket.io-client";
+
+export default {
+  name: "ChatComponent",
+  components: {
+    Conversations,
+    Message,
+  },
+  data() {
+    return {
+      conversation_list: [],
+      current_chat: {},
+      messaeges: [],
+      new_message: "",
+      user: {
+        id: "",
+      },
+      socket:{},
+    };
+  },
+
+  mounted() {
+    
+    this.user.id = "6436598bb7a3f5f85e0af7bf";
+    axios
+      .get("http://127.0.0.1:8080/conversation/user-id?user_id=" + this.user.id)
+      .then((response) => {
+        // console.log(response.data.data.conversation_list);
+        this.conversation_list = response.data.data.conversation_list;
+        // console.log(this.conversation_list[0]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+      // console.log(io); 
+      // this.socket = io("ws://localhost:8900")
+      // // io("ws://localhost:8900")
+      // this.socket.on("welcome",message =>{
+      //   console.log(message)
+      // })
+      // this.socket.emit("addUser",this.user.id)
+      // this.socket.on("getUsers",users =>{
+      //   console.log(users)
+      // })
+
+      // this.socket.on("getMessage", data =>{
+      //     let msg = {
+      //       sender:data.senderId,
+      //       text:data.text,
+      //       created_at:Date.now()
+      //     }
+
+      //     // arrival_message = msg
+      //     console.log(msg)
+
+      //     if (this.current_chat.members.includes(msg.sender)){
+      //       this.messaeges.push(msg)
+      //     }
+      //   })
+
+  },
+  methods: {
+    scrollToEnd(){
+      var con = document.querySelector(".scroll");
+      console.log(con)
+      var scrollHeight = con.scrollHeight;
+      con.scrollTop = scrollHeight;
+    },
+    setCurrentChat(chat) {
+      // console.log(chat);
+      // console.log(this.current_chat.id)
+      this.messaeges = []
+      this.current_chat = chat;
+      // console.log(this.current_chat.id)
+
+      axios
+        .get(
+          "http://127.0.0.1:8080/message/conversation-id?conversation_id=" +
+            this.current_chat.id
+        )
+        .then((response) => {
+          // console.log(response.data.data.message_list);
+          this.messaeges = response.data.data.message_list;
+          // this.conversation_list = response.data.data.conversation_list;
+          console.log(this.messaeges);
+          this.messaeges.scrollIntoView({ behavior: "smooth" });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+   
+      // this.$refs..scrollIntoView({ behavior: "smooth" });
+    },
+    handleSubmit() {
+      console.log(this.new_message);
+      const msg = {
+        sender_id: this.user.id,
+        Text: this.new_message,
+        conversation_id: this.current_chat.id,
+      };
+
+      // const receiverId = this.current_chat.members.find(member => member !== this.user.id)
+
+      // this.socket.emit("sendMessage",{
+      //   senderId: this.user.id,
+      //   Text: this.new_message,
+      //   receiverId: this.user.id,
+      // })
+
+      axios
+        .post("http://127.0.0.1:8080/message/create", msg)
+        .then(() => {
+          // console.log(response.data.data);
+          this.new_message = "";
+          axios
+            .get(
+              "http://127.0.0.1:8080/message/conversation-id?conversation_id=" +
+                this.current_chat.id
+            )
+            .then((response) => {
+              // console.log(response.data.data.message_list);
+              this.messaeges = response.data.data.message_list;
+              // this.conversation_list = response.data.data.conversation_list;
+              // console.log(this.messaeges);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+          // this.conversation_list = response.data.data.conversation_list;
+        })
+        .catch((error) => {
+          console.log(error);
+        });   
+    },
+
+  },
+};
+</script>
+
+<style>
+.messanger {
+  height: calc(100vh - 70px);
+  display: flex;
+}
+
+.chatMenu {
+  flex: 3;
+}
+
+.chatBox {
+  flex: 7;
+}
+
+.chatBoxWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.chatBoxTop {
+  height: 100%;
+  overflow-y: scroll;
+  padding-right: 10px;
+}
+
+.chatMenuWrapper,
+.chatBoxWrapper {
+  padding: 10px;
+  height: 100%;
+}
+
+.chatMenuInput {
+  width: 90%;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 1px solid gray;
+}
+
+.chatBoxBottom {
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chatMessageInput {
+  width: 80%;
+  height: 90px;
+  padding: 10px;
+}
+
+.chatSubmitButton {
+  width: 70px;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: teal;
+  color: white;
+}
+
+.noConversationText {
+  position: absolute;
+  top: 10%;
+  font-size: 50px;
+  color: rgb(224, 220, 220);
+  cursor: default;
+}
+
+@media screen and (max-width: 768px) {
+  .chatMenu {
+    flex: 1;
+  }
+
+  .chatMenuInput {
+    display: none;
+  }
+
+  .chatBox {
+    flex: 10;
+  }
+}
+</style>

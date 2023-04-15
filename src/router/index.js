@@ -29,6 +29,19 @@ import CheckName from "@/views/check-name/CheckName.vue";
 import Summary from "@/views/summary/Summary.vue";
 import SchoolManage from "@/views/school-mange/SchoolManage.vue";
 
+<<<<<<< HEAD
+=======
+import informationCreate from "@/views/information/Create.vue";
+import informationRead from "@/views/information/Read.vue";
+import informationUpdate from "@/views/information/Update.vue";
+
+import LocationRead from "@/views/location/Read.vue";
+import ClassRead from "@/views/classData/Read.vue";
+
+import Chat from "@/views/chat/ChatView.vue";
+
+
+>>>>>>> ed85618126ccc43a911cc696149f8cdbe72efff2
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -136,6 +149,11 @@ const router = createRouter({
       path: "/login",
       name: "Login",
       component: Login,
+    },
+    {
+      path: "/chat",
+      name: "Chat",
+      component: Chat,
     },
   ],
 });
