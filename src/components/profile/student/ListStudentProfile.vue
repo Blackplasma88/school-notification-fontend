@@ -1,31 +1,47 @@
 <template>
   <div>
-    <h2>List of Location</h2>
-    <!-- {{ locations }} -->
-    <!-- List {{ filterOptions }} List {{ filterValue }} -->
+    <h2>List of students</h2>
+    <!-- {{ students }} -->
+    List {{ filterOptions }} List {{ filterValue }}
+    <!-- {{ classes }} -->
     <div>
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
-            <th scope="col">เลขสถานที่</th>
-            <th scope="col">ชื่ออาคาร</th>
-            <th scope="col">ชั้น</th>
-            <th scope="col">ห้อง</th>
+            <th scope="col">รหัสนักเรียน</th>
+            <th scope="col">ชื่อ - สกุล</th>
+            <th scope="col">ชั้นปี</th>
+            <th scope="col">ผู้ปกครอง</th>
             <th scope="col">รายละเอียด</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="location in locations" :key="location.id">
+          <tr v-for="(student, i) in students" :key="student.id">
+            <td>{{ student.profile_id }}</td>
+            <td>{{ student.name }}</td>
             <td>
-              {{ location.building_name }}-{{ location.floor }}-{{
-                location.room
-              }}
+              <div v-if="student.class_id != ''">
+                <td>ม.{{ classes[i] }}</td>
+              </div>
+              <div v-else>
+                <td>ไม่มี</td>
+              </div>
             </td>
-            <td>{{ location.building_name }}</td>
-            <td>{{ location.floor }}</td>
-            <td>{{ location.room }}</td>
             <td>
-              <button class="btn btn-primary" @click="viewData(location.id)">
+              <div v-if="student.parent_id != ''">
+                <td>
+                  {{ student.parent_id }}
+                </td>
+              </div>
+              <div v-else>
+                <td>ไม่มี</td>
+              </div>
+            </td>
+            <td>
+              <button
+                class="btn btn-primary"
+                @click="viewData(student.profile_id)"
+              >
                 รายละเอียด
               </button>
             </td>
@@ -58,31 +74,33 @@
 
 <script>
 export default {
-  name: "ListLocationData",
-  components: {},
+  name: "ListStudentProfile",
   data() {
     return {
       dataForPagination: [],
       elementPerpage: 10,
       currentPage: 1,
+      class_name: "",
+      class_name_list: [],
     };
   },
   props: {
+    students: Array,
     filterValue: String,
     filterOptions: String,
-    locations: Array,
+    classes: Array,
   },
-
+  mounted() {},
   methods: {
     totalPage() {
-      return Math.ceil(this.locations.length / this.elementPerpage);
+      return Math.ceil(this.students.length / this.elementPerpage);
     },
     getDataPagination(NumberPage) {
       this.currentPage = NumberPage;
       this.dataForPagination = [];
       let start = (NumberPage - 1) * this.elementPerpage;
       let end = NumberPage * this.elementPerpage;
-      this.dataForPagination = this.locations.slice(start, end);
+      this.dataForPagination = this.students.slice(start, end);
     },
     getPreviousPage() {
       if (this.currentPage > 1) {
@@ -99,10 +117,11 @@ export default {
     isActive(NumberPage) {
       return NumberPage == this.currentPage ? "active" : "";
     },
-
-    viewData(location_id) {
-      console.log("Location ID", location_id);
-      this.$router.push("/location/" + location_id);
+    viewData(profile_id) {
+      console.log("student profile id ", profile_id);
+      this.$router.push(
+        "/profile/student/profile_id?profile_id=" + profile_id + ""
+      );
     },
   },
 };

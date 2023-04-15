@@ -1,8 +1,18 @@
 <template>
   <section>
     <div class="filter">
-      <div class="search-wrapper">
-        <input type="text" class="form-control" placeholder="Search" />
+      <div class="search-wrapper d-flex">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search"
+          v-model="filterValue"
+        />
+        &nbsp;
+        <button type="button" class="btn btn-secondary">
+          <font-awesome-icon icon="fa-solid fa-search" />
+        </button>
+        {{ filterValue }}
       </div>
       <div class="filter">
         <div>
@@ -11,12 +21,14 @@
             aria-label="Select"
             name="filter"
             id="filter"
+            v-model="filterOptions"
           >
-            <option selected disabled>Filter</option>
-            <option value="subject_code">รหัสวิชา</option>
+            <option selected disabled value="">Filter</option>
+            <option value="subject_id">รหัสวิชา</option>
             <option value="category">หมวดหมู่</option>
-            <option value="subject_name">ชื่อวิชา</option>
-            <option value="news">ชั้นปี</option>
+            <option value="name">ชื่อวิชา</option>
+            <option value="credit">หน่วยกิต</option>
+            <option value="class_year">ชั้นปี</option>
           </select>
         </div>
         &nbsp;
@@ -27,11 +39,12 @@
             name="sortyBy"
             id="sortyBy"
           >
-            <option selected disabled>Sort by</option>
-            <option value="subject_code">รหัสวิชา</option>
+            <option selected disabled value="">Sort by</option>
+            <option value="subject_id">รหัสวิชา</option>
             <option value="category">หมวดหมู่</option>
-            <option value="subject_name">ชื่อวิชา</option>
-            <option value="news">ชั้นปี</option>
+            <option value="name">ชื่อวิชา</option>
+            <option value="credit">หน่วยกิต</option>
+            <option value="class_year">ชั้นปี</option>
           </select>
         </div>
       </div>
@@ -68,6 +81,7 @@
             id="category"
             v-model="subject.category"
           >
+            <option selected disabled value="">Select</option>
             <option v-for="index in subject_category_list" :key="index">
               {{ index }}
             </option>
@@ -89,7 +103,7 @@
             id="class_year"
             v-model="subject.class_year"
           >
-            <option selected disabled>Select</option>
+            <option selected disabled value="">Select</option>
             <option value="1">ม.1</option>
             <option value="2">ม.2</option>
             <option value="3">ม.3</option>
@@ -105,7 +119,7 @@
             id="credit"
             v-model="credit"
           >
-            <option selected disabled>Select</option>
+            <option selected disabled value="">Select</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -117,7 +131,7 @@
             <button
               type="button"
               class="popup-close btn btn-danger"
-              @click="TogglePopup('buttonPopup')"
+              @click="ToggleClose('buttonPopup')"
             >
               Cancel
             </button>
@@ -125,7 +139,32 @@
         </div>
       </form>
     </CreatePopup>
-    <ListSubjectData />
+    <ListSubjectData
+      :filterOptions="filterOptions"
+      :filterValue="filterValue"
+      :subjects="subjects"
+      :instructors="instructor_name_list"
+    />
+    <!-- <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        <li v-on:click="getPreviousPage()" class="page-item">
+          <a class="page-link">Previous</a>
+        </li>
+        <li
+          v-for="indexPage in totalPage()"
+          :key="indexPage"
+          v-on:click="getDataPagination(indexPage)"
+          class="page-item"
+          :class="isActive(indexPage)"
+        >
+          <a class="page-link" href="#">{{ indexPage }}</a>
+        </li>
+
+        <li v-on:click="getNextPage()" class="page-item">
+          <a class="page-link" href="#">Next</a>
+        </li>
+      </ul>
+    </nav> -->
   </section>
 </template>
 
@@ -145,6 +184,7 @@ export default {
       popupTriggers: ref({
         buttonPopup: false,
       }),
+      subjects: [],
       subject: {
         subject_id: "",
         category: "",
@@ -154,7 +194,54 @@ export default {
       },
       credit: 0,
       subject_category_list: [],
+      filterOptions: "",
+      filterValue: "",
+      // dataForPagination: [],
+      // elementPerpage: 10,
+      // currentPage: 1,
+      instructor: {
+        subject_id: "",
+        instructor_id: "",
+        instructor_name: "",
+      },
+      instructor_list: [],
+      instructor_list_id: [],
+      instructor_name_list: [[]],
     };
+  },
+  created() {
+    axios.get("http://127.0.0.1:8080/subject/all").then((response) => {
+      this.subjects = response.data.data.subject_list;
+      console.log("this.subjects", this.subjects);
+      this.getDataPagination(1);
+      console.log("this.dataForPagination", this.dataForPagination);
+      for (var i = 0; i < this.subjects.length; i++) {
+        let indexI = i;
+
+        this.instructor_name_list.push([null, null, null]);
+
+        if (this.subjects[i].instructor_id != null) {
+          for (var j = 0; j < this.subjects[i].instructor_id.length; j++) {
+            let indexJ = j;
+            if (this.subjects[i].instructor_id[j] != null) {
+              axios
+                .get(
+                  "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
+                    this.subjects[i].instructor_id[j] +
+                    "&role=teacher"
+                )
+                .then((response) => {
+                  this.instructor_name_list[indexI][indexJ] =
+                    response.data.data.profile.name;
+                  console.log(this.instructor_name_list);
+                });
+            }
+          }
+        }
+      }
+      console.log(this.subjects);
+      // console.log("this.instructor_name_list", this.instructor_name_list);
+    });
   },
   methods: {
     TogglePopup(trigger) {
@@ -172,6 +259,11 @@ export default {
             );
           }
         });
+    },
+    ToggleClose(trigger) {
+      console.log(trigger);
+      this.popupTriggers.buttonPopup = false;
+      this.resetForm();
     },
     async submitForm() {
       try {
@@ -197,10 +289,42 @@ export default {
     },
     resetForm() {
       console.log("reset");
-      this.subject.subject_id = "";
-      this.subject.subject_name = "";
-      this.subject.credit = "";
-      this.subject.category = "";
+      this.subject_category_list = [];
+      this.subject = {
+        subject_id: "",
+        category: "",
+        name: "",
+        credit: 0,
+        class_year: "",
+      };
+      this.credit = 0;
+    },
+    totalPage() {
+      return Math.ceil(this.subjects.length / this.elementPerpage);
+    },
+    getDataPagination(NumberPage) {
+      this.currentPage = NumberPage;
+      this.dataForPagination = [];
+      let start = (NumberPage - 1) * this.elementPerpage;
+      let end = NumberPage * this.elementPerpage;
+      this.dataForPagination = this.subjects.slice(start, end);
+      // console.log(this.subjects)
+      console.log(this.dataForPagination);
+    },
+    getPreviousPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+        this.getDataPagination(this.currentPage);
+      }
+    },
+    getNextPage() {
+      if (this.currentPage < this.totalPage()) {
+        this.currentPage++;
+        this.getDataPagination(this.currentPage);
+      }
+    },
+    isActive(NumberPage) {
+      return NumberPage == this.currentPage ? "active" : "";
     },
   },
 };

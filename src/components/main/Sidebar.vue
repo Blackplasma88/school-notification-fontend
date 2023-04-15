@@ -39,11 +39,23 @@
         </span>
         <span class="text">Subject</span>
       </router-link>
-      <router-link to="/profiles" class="button">
+      <router-link to="/profile/teacher" class="button">
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-users" />
         </span>
-        <span class="text"> Profile </span>
+        <span class="text"> Teacher Profile </span>
+      </router-link>
+      <router-link to="/profile/student" class="button">
+        <span class="material-icons">
+          <font-awesome-icon icon="fa-solid fa-users" />
+        </span>
+        <span class="text"> Student Profile </span>
+      </router-link>
+      <router-link to="/profile/parent" class="button">
+        <span class="material-icons">
+          <font-awesome-icon icon="fa-solid fa-users" />
+        </span>
+        <span class="text"> Parent Profile </span>
       </router-link>
       <router-link to="/classes" class="button">
         <span class="material-icons">

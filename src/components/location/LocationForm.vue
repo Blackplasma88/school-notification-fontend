@@ -1,16 +1,27 @@
 <template>
   <section>
     <div class="filter">
-      <div class="search-wrapper">
-        <input type="text" class="form-control" placeholder="Search" />
+      <div class="search-wrapper d-flex">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search"
+          v-model="filterValue"
+        />
+        &nbsp;
+        <button type="button" class="btn btn-secondary">
+          <font-awesome-icon icon="fa-solid fa-search" />
+        </button>
+        {{ filterValue }}
       </div>
       <div class="filter">
         <div>
           <select
             class="form-select"
             aria-label="Select"
-            name="category"
-            id="category"
+            name="location_filter"
+            id="location_filter"
+            v-model="location_filter"
           >
             <option selected disabled>Filter</option>
             <option value="building_name">ตึก</option>
@@ -104,7 +115,11 @@
         </div>
       </form>
     </CreatePopup>
-    <ListLocationData />
+    <ListLocationData
+      :filterOptions="filterOptions"
+      :filterValue="filterValue"
+      :locations="locations"
+    />
   </section>
 </template>
 
@@ -124,12 +139,24 @@ export default {
       popupTriggers: ref({
         buttonPopup: false,
       }),
+      locations: [],
       location: {
         building_name: "",
         floor: "",
         room: "",
       },
+      filterOptions: "",
+      filterValue: "",
+      location_filter: "",
     };
+  },
+  created() {
+    axios.get("http://127.0.0.1:8080/location/all").then((response) => {
+      console.log("location_list");
+      console.log(response.data.data.location_list);
+      this.locations = response.data.data.location_list;
+      console.log("this.locations", this.locations);
+    });
   },
   methods: {
     TogglePopup(trigger) {
