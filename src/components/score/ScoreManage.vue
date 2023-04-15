@@ -151,7 +151,11 @@
         </div>
       </form>
     </CreatePopup>
-    <ListScoreManage />
+    <ListScoreManage
+      :filterValue="filterValue"
+      :filterOptions="filterOptions"
+      :scores="score_information"
+    />
   </section>
 </template>
 
