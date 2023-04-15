@@ -5,10 +5,10 @@
       <!-- List {{ filterOptions }} List {{ filterValue }} -->
       <!-- {{ courses }} -->
       <!-- {{ categories }} -->
-      <!-- {{ instructors }}
+      {{ instructors }}
       {{ locations }}
       {{ classes }}
-      {{ subjects }} -->
+      {{ subjects }}
       <!-- {{ days }} -->
       <!-- {{ times }} -->
 
