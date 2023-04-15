@@ -114,21 +114,21 @@ export default {
         advisor_id: "",
         advisor_name: "",
       },
-      advisor_list: [],
-      advisor_list_id: [],
+      // advisor_list: [],
+      // advisor_list_id: [],
       advisor_name_list: [],
     };
   },
   created() {
     axios
       // .get("http://127.0.0.1:8080/class/all?class_year=" + this.class_year)
-      .get("http://127.0.0.1:8080/class/all?class_year=1")
+      .get("http://127.0.0.1:8080/class/all?class_year=" + 1)
       .then((response) => {
         console.log("classes_list");
         console.log(response.data.data.class_list);
         this.classes = response.data.data.class_list;
 
-        console.log("this.dataForPagination", this.dataForPagination);
+        // console.log("this.dataForPagination", this.dataForPagination);
         console.log("this.advisor_name_list", this.advisor_name_list);
         for (var i = 0; i < this.classes.length; i++) {
           let indexI = i;
