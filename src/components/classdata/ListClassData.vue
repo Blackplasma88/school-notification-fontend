@@ -2,7 +2,9 @@
   <div>
     <h2>List of Class</h2>
     <div>
+      <!-- list {{ class_filter }} value {{ searchValue }} -->
       <!-- {{ classes }} -->
+
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
@@ -144,9 +146,15 @@ export default {
       }),
     };
   },
+  props: {
+    class_year: {
+      type: String,
+      default: "",
+    },
+  },
   mounted() {
     axios
-      .get("http://127.0.0.1:8080/class/all?class_year=1")
+      .get("http://127.0.0.1:8080/class/all?class_year=" + this.class_year)
       .then((response) => {
         console.log("classes_list");
         console.log(response.data.data.class_list);
@@ -154,7 +162,6 @@ export default {
         this.getDataPagination(1);
         console.log("this.dataForPagination", this.dataForPagination);
         console.log("this.advisor_name_list", this.advisor_name_list);
-
         for (var i = 0; i < this.classes.length; i++) {
           let indexI = i;
           this.advisor_name_list.push("");
@@ -163,14 +170,13 @@ export default {
             console.log("advisor", this.classes[i].advisor_id);
             axios
               .get(
-                "http://127.0.0.1:8080/profile/id?id=" +
+                "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
                   this.classes[indexI].advisor_id +
                   "&role=teacher"
               )
               .then((response) => {
                 this.advisor_name_list[indexI] =
                   response.data.data.profile.name;
-
                 console.log(response.data.data.profile.name);
               });
           }
@@ -276,6 +282,14 @@ export default {
       this.advisor_list = [];
     },
   },
+  // computed: {
+  //   setClass_year() {
+  //     if (this.class_filter == "class_year") {
+  //       return this.searchValue;
+  //     }
+  //     return this.class_value;
+  //   },
+  // },
 };
 </script>
 

@@ -3,6 +3,7 @@
     <h2>List of Subject</h2>
     <!-- {{ subjects }} -->
     <div>
+      List {{ filterOptions }} List {{ filterValue }}
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
@@ -178,6 +179,16 @@ import EditPopup from "@/components/main/EditPopup.vue";
 export default {
   name: "ListSubjectData",
   components: { EditPopup },
+  props: {
+    filterValue: {
+      type: String,
+      default: "",
+    },
+    filterOptions: {
+      type: String,
+      default: "",
+    },
+  },
   data() {
     return {
       subjects: [],
@@ -204,7 +215,7 @@ export default {
       console.log("this.subjects", this.subjects);
       this.getDataPagination(1);
       console.log("this.dataForPagination", this.dataForPagination);
-      
+
       for (var i = 0; i < this.subjects.length; i++) {
         let indexI = i;
         this.instructor_name_list.push([null, null, null]);
@@ -215,7 +226,7 @@ export default {
             if (this.subjects[i].instructor_id[j] != null) {
               axios
                 .get(
-                  "http://127.0.0.1:8080/profile/id?id=" +
+                  "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
                     this.subjects[i].instructor_id[j] +
                     "&role=teacher"
                 )

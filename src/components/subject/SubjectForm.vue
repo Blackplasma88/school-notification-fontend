@@ -2,7 +2,13 @@
   <section>
     <div class="filter">
       <div class="search-wrapper">
-        <input type="text" class="form-control" placeholder="Search" />
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search"
+          v-model="filterValue"
+        />
+        {{ filterValue }}
       </div>
       <div class="filter">
         <div>
@@ -11,12 +17,14 @@
             aria-label="Select"
             name="filter"
             id="filter"
+            v-model="filterOptions"
           >
             <option selected disabled>Filter</option>
-            <option value="subject_code">รหัสวิชา</option>
+            <option value="subject_id">รหัสวิชา</option>
             <option value="category">หมวดหมู่</option>
-            <option value="subject_name">ชื่อวิชา</option>
-            <option value="news">ชั้นปี</option>
+            <option value="name">ชื่อวิชา</option>
+            <option value="credit">หน่วยกิต</option>
+            <option value="class_year">ชั้นปี</option>
           </select>
         </div>
         &nbsp;
@@ -28,10 +36,11 @@
             id="sortyBy"
           >
             <option selected disabled>Sort by</option>
-            <option value="subject_code">รหัสวิชา</option>
+            <option value="subject_id">รหัสวิชา</option>
             <option value="category">หมวดหมู่</option>
-            <option value="subject_name">ชื่อวิชา</option>
-            <option value="news">ชั้นปี</option>
+            <option value="name">ชื่อวิชา</option>
+            <option value="credit">หน่วยกิต</option>
+            <option value="class_year">ชั้นปี</option>
           </select>
         </div>
       </div>
@@ -125,7 +134,7 @@
         </div>
       </form>
     </CreatePopup>
-    <ListSubjectData />
+    <ListSubjectData :filterOptions="filterOptions" :filterValue="filterValue"/>
   </section>
 </template>
 
@@ -154,6 +163,8 @@ export default {
       },
       credit: 0,
       subject_category_list: [],
+      filterOptions: "",
+      filterValue: "",
     };
   },
   methods: {

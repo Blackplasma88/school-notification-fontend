@@ -132,7 +132,7 @@ export default {
           );
           axios
             .get(
-              "http://127.0.0.1:8080/profile/id?id=" +
+              "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
                 this.classData.student_id_list[indexI] +
                 "&role=student"
             )
@@ -140,8 +140,7 @@ export default {
               console.log("student");
               console.log("name", response.data.data.profile.name);
               this.student_name_list.push(response.data.data.profile.name);
-              // this.student_name_list[indexI] =
-              //   response.data.data.profile.name;
+              this.student_name_list[indexI] = response.data.data.profile.name;
             });
         }
         console.log("student_name_list", this.student_name_list);
