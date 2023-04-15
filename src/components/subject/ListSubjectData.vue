@@ -45,7 +45,7 @@
                 </td>
               </div>
               <div v-else>
-                <button
+                <button v-if='role === "admin"'
                   type="button"
                   class="btn btn-outline-secondary"
                   @click="
@@ -77,7 +77,7 @@
                 </td>
               </div>
               <div v-else>
-                <button
+                <button  v-if='role === "admin"'
                   type="button"
                   class="btn btn-outline-secondary"
                   @click="
@@ -109,7 +109,7 @@
                 </td>
               </div>
               <div v-else>
-                <button
+                <button  v-if='role === "admin"'
                   type="button"
                   class="btn btn-outline-secondary"
                   @click="
@@ -215,6 +215,7 @@ export default {
   },
   data() {
     return {
+      role:"",
       popupTriggers: ref({
         buttonPopup: false,
       }),
@@ -335,7 +336,7 @@ export default {
     },
   },
   mounted() {
-   console.log(this.instructors)
+    this.role = localStorage.getItem("role")
   },
 };
 </script>

@@ -65,7 +65,7 @@
         </select>
       </div>
       &nbsp;
-      <button type="button" class="btn btn-secondary" @click="submitForm">
+      <button v-if='role === "admin"' type="button" class="btn btn-secondary" @click="submitForm">
         Create Class
       </button>
     </div>
@@ -89,6 +89,7 @@ export default {
   },
   data() {
     return {
+      role:"",
       popupTriggers: ref({
         buttonPopup: false,
       }),
@@ -120,9 +121,9 @@ export default {
     };
   },
   created() {
+    this.role = localStorage.getItem("role")
     axios
-      // .get("http://127.0.0.1:8080/class/all?class_year=" + this.class_year)
-      .get("http://127.0.0.1:8080/class/all?class_year=" + 1)
+      .get("http://127.0.0.1:8080/class/all?class_year=" + this.class_year)
       .then((response) => {
         console.log("classes_list");
         console.log(response.data.data.class_list);
@@ -170,9 +171,34 @@ export default {
       }
     },
     press() {
-      console.log("press");
-      console.log(this.class_year === "1");
-      console.log(this.class_year);
+      axios
+      .get("http://127.0.0.1:8080/class/all?class_year=" + this.class_year)
+      .then((response) => {
+        this.classes = response.data.data.class_list;
+
+        // console.log("this.dataForPagination", this.dataForPagination);
+        console.log("this.advisor_name_list", this.advisor_name_list);
+        for (var i = 0; i < this.classes.length; i++) {
+          let indexI = i;
+          this.advisor_name_list.push("");
+          console.log(this.classes[i].advisor_id);
+          if (this.classes[i].advisor_id != "") {
+            console.log("advisor", this.classes[i].advisor_id);
+            axios
+              .get(
+                "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
+                  this.classes[indexI].advisor_id +
+                  "&role=teacher"
+              )
+              .then((response) => {
+                this.advisor_name_list[indexI] =
+                  response.data.data.profile.name;
+                console.log(response.data.data.profile.name);
+              });
+          }
+          console.log("this.advisor_name_list", this.advisor_name_list);
+        }
+      });
     },
   },
   computed: {},

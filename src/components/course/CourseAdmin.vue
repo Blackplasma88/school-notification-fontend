@@ -43,34 +43,30 @@
     <div class="rightContent">
       <div>
         <select
-          class="form-select"
-          aria-label="Select"
-          name="year_filter"
-          id="year_filter"
-          v-model="year_filter"
-        >
-          <option selected disabled value="">Year</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-        </select>
+      class="form-select"
+      aria-label="Select"
+      v-model="this.year"
+      @change="getCourseList()"
+    >
+      <option selected disabled>select</option>
+      <option v-for="item in this.term_year" :key="item.id">
+        {{ item.year }}
+      </option> 
+    </select>
+    
       </div>
       &nbsp;
       <div>
         <select
-          class="form-select"
-          aria-label="Select"
-          name="term_filter"
-          id="term_filter"
-          v-model="term_filter"
-        >
-          <option selected disabled value="">Term</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-        </select>
+      class="form-select"
+      aria-label="Select"
+      v-model="this.term"
+      @change="getCourseList()"
+    >
+      <option selected disabled>select</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+    </select>
       </div>
       &nbsp;
       <div>
@@ -254,41 +250,22 @@ export default {
       popupTriggers: ref({
         buttonPopup: false,
       }),
-      subject_id: "",
-      subject_name: "",
-      instructor_id: "",
-      class_id: "",
-      location_id: "",
-      location_name: "",
-      location_list: [],
-      date_time: [],
+      term_year:[],
+      year:"",
+      term:"",
+      course_list:[],
       class_year: "",
       class_room: "",
-      category: "",
-      subject_list: [],
-      school_data: [],
-      instructor_list: [],
-      instructor_name: "",
-      class_list: [],
-      day_1: "",
-      time_1: "",
-      day_2: "",
-      time_2: "",
-      class_filter: "",
-      sort_filter: "",
-      year_filter: "",
-      term_filter: "",
-      status_filter: "",
-      filterValue: "",
-      filterOptions: "",
-      courses: [],
-      subject_name_list: [],
-      instructor_name_list: [],
-      class_name_list: [],
-      location_name_list: [],
+      class_list:[],
+      school_data:[],
+      instructor_list:[],
+      category:"",
+      subject_list:[],
+      instructor_name:"",
+      subject_name:"",
     };
   },
-  created() {
+  mounted(){
     axios
       .get(
         "http://127.0.0.1:8080/course/year-term?profile_id=" +
@@ -359,9 +336,34 @@ export default {
         }
         console.log(this.subject_name_list);
       });
+
+      axios
+        .get("http://127.0.0.1:8080/school-data/term-year-data")
+        .then((response) => {
+          // console.log(response.data.data.school_data);
+          this.term_year = response.data.data.school_data;
+            // console.log(  this.term_year);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
   },
   methods: {
-    resetVar() {},
+    async getCourseList() {
+      if (this.year === "" || this.term=== ""){
+        return
+      }
+      axios
+        .get("http://127.0.0.1:8080/course/year-term?profile_id=t1&role=teacher&year="+this.year+"&term="+this.term)
+        .then((response) => {
+          // console.log(response.data.data.course_list);
+          this.course_list = response.data.data.course_list;
+          //   console.log(  this.school_data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     togglePopupCreateCourse() {
       this.instructor_list = [];
       this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
@@ -462,6 +464,9 @@ export default {
       for (let i = 0; i < this.subject_list.length; i++) {
         if (this.subject_list[i].name === this.subject_name) {
           this.subject_id = this.subject_list[i].subject_id;
+          if (this.subject_list[i].instructor_id===null){
+            return
+          }
           for (let j = 0; j < this.subject_list[i].instructor_id.length; j++) {
             axios
               .get(

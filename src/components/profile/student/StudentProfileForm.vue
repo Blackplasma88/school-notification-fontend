@@ -45,7 +45,7 @@
       </div>
     </div>
     <div class="rightContent">
-      <button
+      <button v-if='role === "admin"'
         type="button"
         class="btn btn-secondary"
         @click="TogglePopup('buttonPopup')"
@@ -127,6 +127,7 @@ export default {
   },
   data() {
     return {
+      role:"",
       popupTriggers: ref({
         buttonPopup: false,
       }),
@@ -146,6 +147,7 @@ export default {
     };
   },
   created() {
+    this.role = localStorage.getItem("role")
     axios.get("http://127.0.0.1:8080/profile/all?role=student").then((res) => {
       console.log("student_list", res.data.data.profile_list);
       this.students = res.data.data.profile_list;
