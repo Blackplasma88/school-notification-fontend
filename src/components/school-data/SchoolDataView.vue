@@ -47,6 +47,7 @@
           class="form-select"
           aria-label="Select"
           v-model="this.manage_with"
+          @change="selectManageWith()"
         >
           <option selected disabled>manage by</option>
           <option value="year_term">term year</option>
@@ -122,6 +123,8 @@
         </div>
       </form>
     </CreatePopup>
+
+    <ListSchoolData :school_datas="school_datas" :isShow="isShow" />
   </section>
 </template>
 
@@ -129,10 +132,12 @@
 import { ref } from "vue";
 import axios from "axios";
 import CreatePopup from "@/components/main/CreatePopup.vue";
+import ListSchoolData from "@/components/school-data/ListSchoolData.vue";
 export default {
   name: "SchoolDataView",
   components: {
     CreatePopup,
+    ListSchoolData,
   },
   data() {
     return {
@@ -142,8 +147,16 @@ export default {
       }),
       manage_with: "",
       category: "",
+      filterValue: "",
+      filterOptions: "",
+      sort_filter: "",
+      school_datas: [],
+      school_datas_year_term: [],
+      school_datas_subject_category: [],
+      isShow: Boolean,
     };
   },
+
   methods: {
     togglePopupAddSubjectCategory() {
       this.popupTriggers.buttonPopupAddSubjectCategory =
@@ -196,6 +209,29 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+
+    async selectManageWith() {
+      console.log("this.manage_with", this.manage_with);
+      if (this.manage_with == "year_term") {
+        this.isShow = true;
+        axios
+          .get("http://127.0.0.1:8080/school-data/term-year-data")
+          .then((res) => {
+            console.log("school_data", res.data.data.school_data);
+            this.school_datas = res.data.data.school_data;
+            console.log("this.school_data", this.school_datas);
+          });
+      } else if (this.manage_with == "subject_category") {
+        this.isShow = false;
+        axios
+          .get("http://127.0.0.1:8080/school-data/subject-category")
+          .then((res) => {
+            console.log("school_data", res.data.data.school_data);
+            this.school_datas = res.data.data.school_data;
+            console.log("this.school_data", this.school_datas);
+          });
+      }
     },
   },
 };

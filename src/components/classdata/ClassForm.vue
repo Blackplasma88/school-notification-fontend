@@ -20,9 +20,9 @@
           <select
             class="form-select"
             aria-label="Select"
-            name="class_filter"
-            id="class_filter"
-            v-model="class_filter"
+            name="filter"
+            id="filter"
+            v-model="filterOptions"
           >
             <option selected disabled value="">Filter</option>
             <option value="class_year">ชั้นปี</option>
@@ -34,9 +34,9 @@
           <select
             class="form-select"
             aria-label="Select"
-            name="class_sort"
-            id="class_sort"
-            v:model:value="class_sort"
+            name="sortyBy"
+            id="sortyBy"
+            v:model:value="sortyBy"
           >
             <option selected disabled value="">Sort by</option>
             <option value="class_year">ชั้นปี</option>
