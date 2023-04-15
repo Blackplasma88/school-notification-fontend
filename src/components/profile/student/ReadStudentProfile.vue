@@ -11,7 +11,9 @@
       <h4>
         หน่วยกิตภาคเรียน : {{ student_profile.term_score[0].term_credit }}
       </h4>
-      <h4>ผู้ปกครอง : {{ student_profile.parent_id }}</h4>
+      <div v-if="student_profile.parent_id != ''">
+        <h4>ผู้ปกครอง : {{ student_profile.parent_id }}</h4>
+      </div>
     </div>
   </div>
 </template>
