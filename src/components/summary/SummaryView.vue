@@ -46,6 +46,8 @@ export default {
   name: "CheckNamaManage",
   data() {
     return {
+      role:"",
+      profile_id:"",
       year:"",
       term:"",
       term_year:[],
@@ -56,6 +58,8 @@ export default {
     };
   },
   mounted(){
+    this.role = localStorage.getItem("role")
+    this.profile_id = localStorage.getItem("profile_id")
     axios
         .get("http://127.0.0.1:8080/school-data/term-year-data")
         .then((response) => {
@@ -73,7 +77,7 @@ export default {
         return
       }
       axios
-        .get("http://127.0.0.1:8080/course/year-term?profile_id=t1&role=teacher&year="+this.year+"&term="+this.term)
+        .get("http://127.0.0.1:8080/course/year-term?profile_id="+this.profile_id+"&role="+this.role+"&year="+this.year+"&term="+this.term)
         .then((response) => {
           console.log(response.data.data.course_list);
           this.course_list = response.data.data.course_list;
@@ -93,7 +97,7 @@ export default {
         }
 
       axios
-        .get("http://127.0.0.1:8080/course-summary?course_id="+this.course_id+"&role=teacher")
+        .get("http://127.0.0.1:8080/course-summary?course_id="+this.course_id+"&role="+this.role)
         .then((response) => {
           console.log(response.data.data.course_summary);
           this.course_summary = response.data.data.course_summary;

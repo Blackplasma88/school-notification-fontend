@@ -86,6 +86,7 @@ export default {
   },
   data() {
     return {
+      role:"",
       popupTriggers: ref({
         buttonPopupAddSubjectCategory: false,
         buttonPopupEndTerm: false,
@@ -93,6 +94,9 @@ export default {
       manage_with: "",
       category:"",
     };
+  },
+  mounted(){
+    this.role = localStorage.getItem("role")
   },
   methods: {
     togglePopupAddSubjectCategory() {

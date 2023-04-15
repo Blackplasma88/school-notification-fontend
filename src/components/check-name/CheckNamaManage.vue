@@ -104,6 +104,7 @@ export default {
   data() {
     return {
       role:"",
+      profile_id:"",
       popupTriggers: ref({
         buttonPopupAddDate: false,
       }),
@@ -124,6 +125,7 @@ export default {
     };
   },
   mounted(){
+    this.profile_id = localStorage.getItem("profile_id")
     this.role = localStorage.getItem("role")
     axios
         .get("http://127.0.0.1:8080/school-data/term-year-data")
@@ -145,7 +147,7 @@ export default {
         return
       }
       axios
-        .get("http://127.0.0.1:8080/course/year-term?profile_id=t1&role=teacher&year="+this.year+"&term="+this.term)
+        .get("http://127.0.0.1:8080/course/year-term?profile_id="+this.profile_id+"&role="+this.role+"&year="+this.year+"&term="+this.term)
         .then((response) => {
           console.log(response.data.data.course_list);
           this.course_list = response.data.data.course_list;
@@ -165,7 +167,7 @@ export default {
         }
 
       axios
-        .get("http://127.0.0.1:8080/check-name/check-name-in-course?course_id="+this.course_id+"&role=teacher&id=t1")
+        .get("http://127.0.0.1:8080/check-name/check-name-in-course?course_id="+this.course_id+"&role="+this.role+"&id="+this.profile_id)
         .then((response) => {
           // console.log(response.data.data.score.name);
           this.date_list = response.data.data.check_name.date;
@@ -177,7 +179,7 @@ export default {
     },
     async getCheckNameDateData() {
       axios
-        .get("http://127.0.0.1:8080/check-name/check-name-data?course_id="+this.course_id+"&date="+this.date+"&role=teacher&id=t1")
+        .get("http://127.0.0.1:8080/check-name/check-name-data?course_id="+this.course_id+"&date="+this.date+"&role="+this.role+"&id="+this.profile_id)
         .then((response) => {
           // console.log(response.data.data.date_data);
           this.date_data = response.data.data.date_data;

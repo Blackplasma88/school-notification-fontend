@@ -116,6 +116,7 @@ export default {
   data() {
     return {
       role:"",
+      profile_id:"",
       popupTriggers: ref({
         buttonPopupAddScore: false,
       }),
@@ -138,6 +139,7 @@ export default {
   },
   mounted(){
     this.role = localStorage.getItem("role")
+    this.profile_id = localStorage.getItem("profile_id")
     axios
         .get("http://127.0.0.1:8080/school-data/term-year-data")
         .then((response) => {
@@ -169,7 +171,7 @@ export default {
         return
       }
       axios
-        .get("http://127.0.0.1:8080/course/year-term?profile_id=t1&role=teacher&year="+this.year+"&term="+this.term)
+        .get("http://127.0.0.1:8080/course/year-term?profile_id="+this.profile_id+"&role="+this.role+"&year="+this.year+"&term="+this.term)
         .then((response) => {
           console.log(response.data.data.course_list);
           this.course_list = response.data.data.course_list;
@@ -189,7 +191,7 @@ export default {
         }
 
       axios
-        .get("http://127.0.0.1:8080/score/score-in-course?course_id="+this.course_id+"&role=teacher&id=t1")
+        .get("http://127.0.0.1:8080/score/score-in-course?course_id="+this.course_id+"&role="+this.role+"&id="+this.profile_id)
         .then((response) => {
           // console.log(response.data.data.score.name);
           this.score_name_list = response.data.data.score.name;
@@ -201,7 +203,7 @@ export default {
     },
     async getScoreData() {
       axios
-        .get("http://127.0.0.1:8080/score/score-data?course_id="+this.course_id+"&name="+this.score_name+"&role=teacher&id=t1")
+        .get("http://127.0.0.1:8080/score/score-data?course_id="+this.course_id+"&name="+this.score_name+"&role="+this.role+"&id="+this.profile_id)
         .then((response) => {
           // console.log(response.data.data.score_data);
           this.score = response.data.data.score_data;
