@@ -142,10 +142,10 @@
     <ListSubjectData
       :filterOptions="filterOptions"
       :filterValue="filterValue"
-      :subjects="dataForPagination"
+      :subjects="subjects"
       :instructors="instructor_name_list"
     />
-    <nav aria-label="Page navigation example">
+    <!-- <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-center">
         <li v-on:click="getPreviousPage()" class="page-item">
           <a class="page-link">Previous</a>
@@ -164,7 +164,7 @@
           <a class="page-link" href="#">Next</a>
         </li>
       </ul>
-    </nav>
+    </nav> -->
   </section>
 </template>
 
@@ -196,9 +196,9 @@ export default {
       subject_category_list: [],
       filterOptions: "",
       filterValue: "",
-      dataForPagination: [],
-      elementPerpage: 10,
-      currentPage: 1,
+      // dataForPagination: [],
+      // elementPerpage: 10,
+      // currentPage: 1,
       instructor: {
         subject_id: "",
         instructor_id: "",

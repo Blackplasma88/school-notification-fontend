@@ -4,7 +4,6 @@
     <div>
       <!-- List {{ filterOptions }} List {{ filterValue }} -->
       <!-- {{ classes }} -->
-      <!-- {{ filterOptions }} -->
       <!-- {{ advisors }} -->
 
       <table class="table table-bordered table-hover">

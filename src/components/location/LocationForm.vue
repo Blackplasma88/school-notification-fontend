@@ -19,8 +19,9 @@
           <select
             class="form-select"
             aria-label="Select"
-            name="category"
-            id="category"
+            name="location_filter"
+            id="location_filter"
+            v-model="location_filter"
           >
             <option selected disabled>Filter</option>
             <option value="building_name">ตึก</option>
@@ -144,6 +145,9 @@ export default {
         floor: "",
         room: "",
       },
+      filterOptions: "",
+      filterValue: "",
+      location_filter: "",
     };
   },
   created() {

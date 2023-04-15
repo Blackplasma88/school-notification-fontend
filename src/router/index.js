@@ -80,7 +80,7 @@ const router = createRouter({
       component: TeacherProfile,
     },
     {
-      path: "/profile/teacher/:id",
+      path: "/profile/teacher/:profile_id",
       name: "TeacherProfileRead",
       component: TeacherProfileRead,
     },
@@ -90,7 +90,7 @@ const router = createRouter({
       component: StudnetProfile,
     },
     {
-      path: "/profile/student/:id",
+      path: "/profile/student/:profile_id",
       name: "StudentProfileRead",
       component: StudentProfileRead,
     },

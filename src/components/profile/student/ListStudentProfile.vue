@@ -2,6 +2,8 @@
   <div>
     <h2>List of students</h2>
     <!-- {{ students }} -->
+    List {{ filterOptions }} List {{ filterValue }}
+    <!-- {{ classes }} -->
     <div>
       <table class="table table-bordered table-hover">
         <thead>
@@ -14,18 +16,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(student, i) in dataForPagination" :key="student.id">
+          <tr v-for="(student, i) in students" :key="student.id">
             <td>{{ student.profile_id }}</td>
             <td>{{ student.name }}</td>
             <td>
               <div v-if="student.class_id != ''">
-                <td>
-                  ม.{{
-                    this.class_name_list[
-                      (this.currentPage - 1) * this.elementPerpage + i
-                    ]
-                  }}
-                </td>
+                <td>ม.{{ classes[i] }}</td>
               </div>
               <div v-else>
                 <td>ไม่มี</td>
@@ -77,12 +73,10 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: "ListStudentProfile",
   data() {
     return {
-      students: [],
       dataForPagination: [],
       elementPerpage: 10,
       currentPage: 1,
@@ -90,35 +84,13 @@ export default {
       class_name_list: [],
     };
   },
-  mounted() {
-    axios.get("http://127.0.0.1:8080/profile/all?role=student").then((res) => {
-      console.log("student_list", res.data.data.profile_list);
-      this.students = res.data.data.profile_list;
-      console.log("student_list", this.students);
-      this.getDataPagination(1);
-      console.log("this.dataForPagination", this.dataForPagination);
-
-      for (var i = 0; i < this.students.length; i++) {
-        let indexI = i;
-        this.class_name_list.push("");
-        console.log(this.students[i].class_id);
-        axios
-          .get(
-            "http://127.0.0.1:8080/class/id?class_id=" +
-              this.students[indexI].class_id
-          )
-          .then((res) => {
-            this.class_name =
-              res.data.data.class.class_year +
-              "/" +
-              res.data.data.class.class_room;
-            this.class_name_list[indexI] = this.class_name;
-            console.log("this.class_name", this.class_name);
-          });
-      }
-      console.log("this.class_name_list", this.class_name_list);
-    });
+  props: {
+    students: Array,
+    filterValue: String,
+    filterOptions: String,
+    classes: Array,
   },
+  mounted() {},
   methods: {
     totalPage() {
       return Math.ceil(this.students.length / this.elementPerpage);
@@ -147,7 +119,8 @@ export default {
     },
     viewData(profile_id) {
       console.log("teacher profile id ", profile_id);
-      this.$router.push("/profile/student/" + profile_id);
+      this.$router.push("/profile/profile_id?profile_id=" + profile_id);
+      // http://127.0.0.1:8080/profile/profile_id
     },
   },
 };
