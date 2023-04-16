@@ -157,13 +157,6 @@ export default {
       isShow: Boolean,
     };
   },
-<<<<<<< HEAD
-  mounted(){
-    this.role = localStorage.getItem("role")
-  },
-=======
-
->>>>>>> origin/arm
   methods: {
     togglePopupAddSubjectCategory() {
       this.popupTriggers.buttonPopupAddSubjectCategory =

@@ -1,60 +1,5 @@
 <template>
   <div>
-<<<<<<< HEAD
-    <h2>test</h2>
-    <div class="rightContent">
-      <select
-        class="form-select"
-        aria-label="Select"
-        v-model="this.year"
-        @change="getCourseList()"
-      >
-        <option selected disabled>select</option>
-        <option v-for="item in this.term_year" :key="item.id">
-          {{ item.year }}
-        </option> 
-      </select>
-      <select
-        class="form-select"
-        aria-label="Select"
-        v-model="this.term"
-        @change="getCourseList()"
-      >
-        <option selected disabled>select</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-      </select>
-      <select
-      class="form-select"
-      aria-label="Select"
-      v-model="this.course_name"
-      @change="getScoreNameList()"
-    >
-      <option selected disabled>select</option>
-      <option v-for="item in this.course_list" :key="item.id">
-        {{ item.name}}
-      </option>
-    </select>
-    <select
-      class="form-select"
-      aria-label="Select"
-      v-model="this.score_name"
-      @change="getScoreData()"
-    >
-      <option selected disabled>select</option>
-      <option v-for="item in this.score_name_list" :key="item.id">
-        {{ item }}
-      </option>
-    </select>
-    <div class="btnAddScore">
-      <button v-if='this.role === "teacher"'
-        type="button"
-        class="btn btn-secondary"
-        @click="togglePopupAddScore()"
-      >
-        add score
-      </button>
-=======
     <div class="filter">
       <div class="search-wrapper d-flex">
         <input
@@ -94,7 +39,6 @@
           </select>
         </div>
       </div>
->>>>>>> origin/arm
     </div>
     <div class="rightContent">
       <div>
@@ -222,13 +166,8 @@ export default {
   },
   data() {
     return {
-<<<<<<< HEAD
-      role:"",
-      profile_id:"",
-=======
       role: "",
       profile_id: "",
->>>>>>> origin/arm
       popupTriggers: ref({
         buttonPopupAddScore: false,
       }),
@@ -249,15 +188,9 @@ export default {
       },
     };
   },
-<<<<<<< HEAD
-  mounted(){
-    this.role = localStorage.getItem("role")
-    this.profile_id = localStorage.getItem("profile_id")
-=======
   mounted() {
     this.role = localStorage.getItem("role");
     this.profile_id = localStorage.getItem("profile_id");
->>>>>>> origin/arm
     axios
       .get("http://127.0.0.1:8080/school-data/term-year-data")
       .then((response) => {

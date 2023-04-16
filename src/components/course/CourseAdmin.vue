@@ -87,12 +87,8 @@
         </select>
       </div>
       <div class="btnCreateCourse">
-<<<<<<< HEAD
-        <button v-if='this.role === "admin"'
-=======
         <button
           v-if="this.role === 'admin'"
->>>>>>> origin/arm
           type="button"
           class="btn btn-secondary"
           @click="togglePopupCreateCourse()"
@@ -256,29 +252,17 @@ export default {
   },
   data() {
     return {
-<<<<<<< HEAD
-      role:"",
-      profile_id:"",
-=======
       role: "",
       profile_id: "",
->>>>>>> origin/arm
       popupTriggers: ref({
         buttonPopup: false,
       }),
       filterOptions: "",
       filterValue: "",
-<<<<<<< HEAD
-      term_year:[],
-      year:"",
-      term:"",
-      course_list:[],
-=======
       term_year: [],
       year: "",
       term: "",
       course_list: [],
->>>>>>> origin/arm
       class_year: "",
       class_room: "",
       class_list: [],
@@ -294,15 +278,9 @@ export default {
       location_name_list: [],
     };
   },
-<<<<<<< HEAD
-  mounted(){
-    this.role = localStorage.getItem("role")
-    this.profile_id = localStorage.getItem("profile_id")
-=======
   mounted() {
     this.role = localStorage.getItem("role");
     this.profile_id = localStorage.getItem("profile_id");
->>>>>>> origin/arm
     axios
       .get("http://127.0.0.1:8080/school-data/term-year-data")
       .then((response) => {
@@ -320,9 +298,6 @@ export default {
         return;
       }
       axios
-<<<<<<< HEAD
-        .get("http://127.0.0.1:8080/course/year-term?profile_id="+this.profile_id+"&role="+this.role+"&year="+this.year+"&term="+this.term)
-=======
         .get(
           "http://127.0.0.1:8080/course/year-term?profile_id=" +
             this.profile_id +
@@ -333,7 +308,6 @@ export default {
             "&term=" +
             this.term
         )
->>>>>>> origin/arm
         .then((response) => {
           console.log(response.data.data.course_list);
           this.course_list = response.data.data.course_list;
