@@ -106,6 +106,9 @@ export default {
         localStorage.getItem("is_expanded") === "true" ? true : false,
     };
   },
+  created() {
+    
+  },
   methods: {
     ToggleMenu() {
       this.is_expanded = !this.is_expanded;

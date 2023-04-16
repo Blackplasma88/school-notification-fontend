@@ -82,14 +82,21 @@
         </select>
       </div>
     </div>
+    <ListSummary
+      :course_summary="course_summary"
+      :student_names="student_names"
+    />
   </section>
 </template>
 
 <script>
 import axios from "axios";
-
+import ListSummary from "./ListSummary.vue";
 export default {
   name: "CheckNamaManage",
+  components: {
+    ListSummary,
+  },
   data() {
     return {
       role: "",
@@ -101,6 +108,7 @@ export default {
       course_id: "",
       course_name: "",
       course_summary: [],
+      student_names: [],
     };
   },
   mounted() {
@@ -136,7 +144,8 @@ export default {
         .then((response) => {
           console.log(response.data.data.course_list);
           this.course_list = response.data.data.course_list;
-          //   console.log(  this.school_data);
+
+          console.log(this.course_list);
         })
         .catch((error) => {
           console.log(error);
@@ -161,7 +170,22 @@ export default {
         .then((response) => {
           console.log(response.data.data.course_summary);
           this.course_summary = response.data.data.course_summary;
-          //   console.log(  this.school_data);
+
+          console.log(this.course_summary);
+          for (var i = 0; i < this.course_summary.length; i++) {
+            let indexI = i;
+            axios
+              .get(
+                "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
+                  this.course_summary[indexI].student_id +
+                  "&role=student"
+              )
+              .then((response) => {
+                console.log(response.data.data.profile.name);
+                this.student_names[indexI] = response.data.data.profile.name;
+                console.log(this.student_names);
+              });
+          }
         })
         .catch((error) => {
           console.log(error);

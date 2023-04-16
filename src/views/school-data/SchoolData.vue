@@ -20,8 +20,8 @@ export default {
       this.$router.push("/login");
     }
     axios.defaults.headers = {
-        Authorization:localStorage.getItem("token"),
-    }
+      Authorization: localStorage.getItem("token"),
+    };
   },
 };
 </script>

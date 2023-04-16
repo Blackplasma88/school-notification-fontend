@@ -151,39 +151,11 @@
         </div>
       </form>
     </CreatePopup>
-    <!-- <CreatePopup v-if="popupTriggers.buttonPopupOpenCamera">
-      <form @submit.prevent="submitFormOpenCamera">
-        <div class="form-control">
-          <label for="select"> date :</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="date"
-            v-model="this.check_name_data_new.date"
-          />
-
-          <label for="select"> time late :</label>
-          <input
-            type="number"
-            class="form-control"
-            placeholder="time late"
-            v-model="this.check_name_data_new.time_late"
-          />
-
-          <div class="button-group">
-            <button class="popup-close btn btn-success">Confirm</button>
-            &nbsp;
-            <button
-              type="button"
-              class="popup-close btn btn-danger"
-              @click="togglePopupOpenCamera()"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      </form>
-    </CreatePopup> -->
+    <ListCheckNameManage
+      :check_names="this.check_name_data_list"
+      :student_names="this.student_name_list"
+      :course_list="this.course_list"
+    />
   </div>
 </template>
 
@@ -191,10 +163,12 @@
 import { ref } from "vue";
 import axios from "axios";
 import CreatePopup from "@/components/main/CreatePopup.vue";
+import ListCheckNameManage from "@/components/check-name/ListCheckNameManage.vue";
 export default {
   name: "CheckNamaManage",
   components: {
     CreatePopup,
+    ListCheckNameManage,
   },
   data() {
     return {
@@ -219,6 +193,7 @@ export default {
         time_late: 0,
       },
       model_ready:false,
+      student_name_list: [],
     };
   },
   mounted() {
@@ -233,6 +208,7 @@ export default {
       })
       .catch((error) => {
         console.log(error);
+        this.$swal("Error!", error.response.data.message, "error");
       });
   },
   methods: {
@@ -276,7 +252,9 @@ export default {
           break;
         }
       }
-
+      console.log(this.course_id);
+      console.log(this.role);
+      console.log(this.profile_id);
       axios
         .get(
           "http://127.0.0.1:8080/check-name/check-name-in-course?course_id=" +
@@ -287,7 +265,7 @@ export default {
             this.profile_id
         )
         .then((response) => {
-          // console.log(response.data.data.score.name);
+          console.log(response.data.data);
           this.date_list = response.data.data.check_name.date;
           //   console.log(  this.school_data);
         })
@@ -308,11 +286,31 @@ export default {
             this.profile_id
         )
         .then((response) => {
-          // console.log(response.data.data.date_data);
+          console.log(response.data.data.date_data);
           this.date_data = response.data.data.date_data;
+          console.log(response.data.data.date_data.check_name_data);
+          console.log(this.date_data);
           this.check_name_data_list =
             response.data.data.date_data.check_name_data;
-          //   console.log(  this.school_data);
+
+          console.log(this.check_name_data_list);
+          for (var i = 0; i < this.check_name_data_list.length; i++) {
+            let indexI = i;
+            axios
+              .get(
+                "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
+                  this.check_name_data_list[indexI].student_id +
+                  "&role=student"
+              )
+              .then((response) => {
+                console.log(response.data.data.profile.name);
+                this.student_name_list[indexI] =
+                  response.data.data.profile.name;
+                console.log(this.student_name_list);
+              });
+          }
+
+          axios.get("");
         })
         .catch((error) => {
           console.log(error);
@@ -320,6 +318,8 @@ export default {
     },
     async submitForm() {
       this.check_name_data_new.course_id = this.course_id;
+      console.log(this.course_id);
+      console.log(this.check_name_data_new.course_id);
       console.log(this.check_name_data_new);
       axios
         .post(
@@ -329,6 +329,8 @@ export default {
         .then(() => {
           this.popupTriggers.buttonPopupAddDate =
             !this.popupTriggers.buttonPopupAddDate;
+          window.location.reload();
+
           // console.log(response.data.data.school_data);
           // this.subject_list = response.data.data.subject_list;
           //   console.log(  this.school_data);

@@ -73,7 +73,7 @@
           v-model="this.year"
           @change="getCourseList()"
         >
-          <option selected disabled>select</option>
+          <option selected disabled value="">select year</option>
           <option v-for="item in this.term_year" :key="item.id">
             {{ item.year }}
           </option>
@@ -87,12 +87,12 @@
           v-model="this.term"
           @change="getCourseList()"
         >
-          <option selected disabled>select</option>
+          <option selected disabled value="">select term</option>
           <option value="1">1</option>
           <option value="2">2</option>
         </select>
       </div>
-      &nbsp;
+      <!-- &nbsp;
       <div>
         <select
           class="form-select"
@@ -105,7 +105,7 @@
           <option value="true">In Use</option>
           <option value="false">FREE</option>
         </select>
-      </div>
+      </div> -->
       <div class="btnCreateCourse">
         <button
           v-if="this.role === 'admin'"
@@ -279,8 +279,8 @@ export default {
       }),
       filterOptions: "",
       filterValue: "",
-      sortOption:"Asc",
-      sortBy:"",
+      sortOption: "Asc",
+      sortBy: "",
       term_year: [],
       year: "",
       term: "",
@@ -319,64 +319,95 @@ export default {
       if (this.filterValue.trim().length > 0) {
         if (this.filterOptions == "" || this.filterOptions == "name") {
           return this.course_list.filter((course) =>
-          course.name
+            course.name
               .toLowerCase()
               .includes(this.filterValue.trim().toLowerCase())
           );
-         
-        } else if (this.filterOptions == "" || this.filterOptions == "class_id") {
-          let tmp = []
+        } else if (
+          this.filterOptions == "" ||
+          this.filterOptions == "class_id"
+        ) {
+          let tmp = [];
           for (var i = 0; i < this.class_name_list.length; i++) {
-            if (this.class_name_list[i].class_name.trim().toLowerCase().includes(this.filterValue.trim().toLowerCase())){
-              tmp.push( this.course_list[this.class_name_list[i].index])
+            if (
+              this.class_name_list[i].class_name
+                .trim()
+                .toLowerCase()
+                .includes(this.filterValue.trim().toLowerCase())
+            ) {
+              tmp.push(this.course_list[this.class_name_list[i].index]);
             }
           }
-          return tmp
-        } 
-        else if (this.filterOptions == "" || this.filterOptions == "instructor_id") {
-          let tmp = []
-          for ( i = 0; i < this.instructor_name_list.length; i++) {
-            if (this.instructor_name_list[i].name.trim().toLowerCase().includes(this.filterValue.trim().toLowerCase())){
-              tmp.push( this.course_list[this.instructor_name_list[i].index])
+          return tmp;
+        } else if (
+          this.filterOptions == "" ||
+          this.filterOptions == "instructor_id"
+        ) {
+          let tmp = [];
+          for (i = 0; i < this.instructor_name_list.length; i++) {
+            if (
+              this.instructor_name_list[i].name
+                .trim()
+                .toLowerCase()
+                .includes(this.filterValue.trim().toLowerCase())
+            ) {
+              tmp.push(this.course_list[this.instructor_name_list[i].index]);
             }
           }
-          return tmp
-        } 
-        else if (this.filterOptions == "" || this.filterOptions == "subject_id") {
-          let tmp = []
-          for ( i = 0; i < this.subject_name_list.length; i++) {
-            if (this.subject_name_list[i].name.trim().toLowerCase().includes(this.filterValue.trim().toLowerCase())){
-              tmp.push( this.course_list[this.subject_name_list[i].index])
+          return tmp;
+        } else if (
+          this.filterOptions == "" ||
+          this.filterOptions == "subject_id"
+        ) {
+          let tmp = [];
+          for (i = 0; i < this.subject_name_list.length; i++) {
+            if (
+              this.subject_name_list[i].name
+                .trim()
+                .toLowerCase()
+                .includes(this.filterValue.trim().toLowerCase())
+            ) {
+              tmp.push(this.course_list[this.subject_name_list[i].index]);
             }
           }
-          return tmp
-        } 
-        else if (this.filterOptions == "" || this.filterOptions == "location_id") {
-          let tmp = []
-          for ( i = 0; i < this.location_name_list.length; i++) {
-            if (this.location_name_list[i].location_id.trim().toLowerCase().includes(this.filterValue.trim().toLowerCase())){
-              tmp.push( this.course_list[this.location_name_list[i].index])
+          return tmp;
+        } else if (
+          this.filterOptions == "" ||
+          this.filterOptions == "location_id"
+        ) {
+          let tmp = [];
+          for (i = 0; i < this.location_name_list.length; i++) {
+            if (
+              this.location_name_list[i].location_id
+                .trim()
+                .toLowerCase()
+                .includes(this.filterValue.trim().toLowerCase())
+            ) {
+              tmp.push(this.course_list[this.location_name_list[i].index]);
             }
           }
-          console.log(tmp)
-          return tmp
+          console.log(tmp);
+          return tmp;
         } else if (this.filterValue.trim().length > 0) {
-        if (this.filterOptions == "" || this.filterOptions == "credit") {
-          return this.course_list.filter((course) =>
-          course.credit
-              .includes(this.filterValue.trim().toLowerCase())
-          );
-         
-        } else if (this.filterValue.trim().length > 0) {
-        if (this.filterOptions == "" || this.filterOptions == "number_of_student") {
-          return this.course_list.filter((course) =>
-          String(course.number_of_student) === this.filterValue.trim().toLowerCase()
-          );
-         
-        } 
-      }}}
-     
-    
+          if (this.filterOptions == "" || this.filterOptions == "credit") {
+            return this.course_list.filter((course) =>
+              course.credit.includes(this.filterValue.trim().toLowerCase())
+            );
+          } else if (this.filterValue.trim().length > 0) {
+            if (
+              this.filterOptions == "" ||
+              this.filterOptions == "number_of_student"
+            ) {
+              return this.course_list.filter(
+                (course) =>
+                  String(course.number_of_student) ===
+                  this.filterValue.trim().toLowerCase()
+              );
+            }
+          }
+        }
+      }
+
       return this.course_list;
     },
   },
@@ -388,19 +419,23 @@ export default {
         } else if (this.sortBy === "credit") {
           this.course_list.sort((a, b) => (a.credit > b.credit ? 1 : -1));
         } else if (this.sortBy === "number_of_student") {
-          this.course_list.sort((a, b) => (a.number_of_student > b.number_of_student ? 1 : -1));
-        } 
+          this.course_list.sort((a, b) =>
+            a.number_of_student > b.number_of_student ? 1 : -1
+          );
+        }
       } else if (this.sortOption == "Desc") {
         if (this.sortBy === "name") {
           this.course_list.sort((a, b) => (a.name < b.name ? 1 : -1));
         } else if (this.sortBy === "credit") {
           this.course_list.sort((a, b) => (a.credit < b.credit ? 1 : -1));
         } else if (this.sortBy === "number_of_student") {
-          this.course_list.sort((a, b) => (a.number_of_student < b.number_of_student ? 1 : -1));
-        } 
+          this.course_list.sort((a, b) =>
+            a.number_of_student < b.number_of_student ? 1 : -1
+          );
+        }
       }
     },
-    
+
     async getCourseList() {
       if (this.year === "" || this.term === "") {
         return;
@@ -424,9 +459,9 @@ export default {
           for (var i = 0; i < this.course_list.length; i++) {
             let indexI = i;
             this.class_name_list.push({
-              index :i
+              index: i,
             });
-            this.course_list[i].class_id_index = indexI
+            this.course_list[i].class_id_index = indexI;
             axios
               .get(
                 "http://127.0.0.1:8080/class/id?class_id=" +
@@ -441,9 +476,9 @@ export default {
                 this.class_name_list[indexI].class_name = this.class_name;
                 console.log("this.class_name", this.class_name);
               });
-              this.course_list[i].subject_id_index = indexI
-              this.subject_name_list.push({
-              index :i
+            this.course_list[i].subject_id_index = indexI;
+            this.subject_name_list.push({
+              index: i,
             });
             axios
               .get(
@@ -453,12 +488,13 @@ export default {
               .then((res) => {
                 console.log(res.data.data.subject.name);
                 // this.subject_name_list[indexI] = res.data.data.subject.name;
-                this.subject_name_list[indexI].name = res.data.data.subject.name;
+                this.subject_name_list[indexI].name =
+                  res.data.data.subject.name;
                 console.log("this.subject_name_list", this.subject_name_list);
               });
-              this.course_list[i].instructor_id_index = indexI
-              this.instructor_name_list.push({
-              index :i
+            this.course_list[i].instructor_id_index = indexI;
+            this.instructor_name_list.push({
+              index: i,
             });
             axios
               .get(
@@ -468,12 +504,13 @@ export default {
               )
               .then((response) => {
                 // this.instructor_name_list[indexI] =response.data.data.profile.name;
-                this.instructor_name_list[indexI].name =response.data.data.profile.name;
+                this.instructor_name_list[indexI].name =
+                  response.data.data.profile.name;
                 console.log(response.data.data.profile.name);
               });
-              this.course_list[i].location_id_index = indexI
-              this.location_name_list.push({
-              index :i
+            this.course_list[i].location_id_index = indexI;
+            this.location_name_list.push({
+              index: i,
             });
             axios
               .get(
@@ -482,7 +519,8 @@ export default {
               )
               .then((response) => {
                 // this.location_name_list[indexI] =response.data.data.location.location_id;
-                this.location_name_list[indexI].location_id =response.data.data.location.location_id;
+                this.location_name_list[indexI].location_id =
+                  response.data.data.location.location_id;
                 console.log(response.data.data.location.location_id);
               });
           }
