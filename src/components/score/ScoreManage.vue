@@ -9,19 +9,19 @@
           v-model="filterValue"
         />
       </div>
-
       <div class="filter">
         <div>
           <select
             class="form-select"
             aria-label="Select"
-            name="filterOptions"
-            id="filterOptions"
+            name="class_filter"
+            id="class_filter"
             v-model="filterOptions"
           >
             <option selected disabled value="">Filter</option>
-            <option value="class_year">ชั้นปี</option>
-            <option value="class_room">ห้อง</option>
+            <option value="student_id">ชื่อนักเรียน</option>
+            <option value="status">สถานะ</option>
+            <option value="score_get">คะแนนที่ได้</option>
           </select>
         </div>
         &nbsp;
@@ -29,13 +29,29 @@
           <select
             class="form-select"
             aria-label="Select"
-            name="sort_filter"
-            id="sort_filter"
-            v:model:value="sort_filter"
+            name="class_sort"
+            id="class_sort"
+            v-model="sortBy"
+            @change="sortValue()"
           >
             <option selected disabled value="">Sort by</option>
-            <option value="class_year">ชั้นปี</option>
-            <option value="class_room">ห้อง</option>
+            <option value="status">สถานะ</option>
+            <option value="score_get">คะแนนที่ได้</option>
+          </select>
+        </div>
+        &nbsp;
+        <div>
+          <select
+            class="form-select"
+            aria-label="Select"
+            name="sortyBy"
+            id="sortyBy"
+            v-model="sortOption"
+            @change="sortValue()"
+          >
+            <option selected disabled value="">{{ sortOption }}</option>
+            <option value="Asc">Asc</option>
+            <option value="Desc">Desc</option>
           </select>
         </div>
       </div>
@@ -153,7 +169,7 @@
       </form>
     </CreatePopup>
     <ListScoreManage
-      :scores="this.score_information"
+      :scores="filterList"
       :scores_name="this.score_name_list"
       :courses="this.course_list"
       :students="this.student_name_list"
@@ -179,7 +195,10 @@ export default {
       popupTriggers: ref({
         buttonPopupAddScore: false,
       }),
+      filterValue:"",
       filterOptions: "",
+      sortOption:"Asc",
+      sortBy:"",
       year: "",
       term: "",
       term_year: [],
@@ -198,6 +217,38 @@ export default {
       student_name_list: [],
     };
   },
+  computed: {
+    filterList() {
+      if (this.filterValue.trim().length > 0) {
+        if (this.filterOptions == "" || this.filterOptions == "status") {
+          return this.score_information.filter((score) =>
+          score.status
+              .toLowerCase()
+              .includes(this.filterValue.trim().toLowerCase())
+          );
+         
+        }  else if (this.filterValue.trim().length > 0) {
+        if (this.filterOptions == "" || this.filterOptions == "score_get") {
+          return this.score_information.filter((score) =>
+          String(score.score_get) === this.filterValue.trim().toLowerCase()
+          );
+         
+        }
+        else if (this.filterOptions == "" || this.filterOptions == "student_id") {
+          let tmp = []
+          for (var  i = 0; i < this.score_name_list.length; i++) {
+            if (this.score_name_list[i].student_id.trim().toLowerCase().includes(this.filterValue.trim().toLowerCase())){
+              tmp.push( this.score_information[i])
+            }
+          }
+          return tmp
+        } 
+        }}
+     
+    
+      return this.score_information;
+    },
+  },
   mounted() {
     this.role = localStorage.getItem("role");
     this.profile_id = localStorage.getItem("profile_id");
@@ -214,6 +265,21 @@ export default {
       });
   },
   methods: {
+    sortValue() {
+      if (this.sortOption == "Asc") {
+        if (this.sortBy === "status") {
+          this.score_information.sort((a, b) => (a.status > b.status ? 1 : -1));
+        } else if (this.sortBy === "score_get") {
+          this.score_information.sort((a, b) => (a.score_get > b.score_get ? 1 : -1));
+        } 
+      } else if (this.sortOption == "Desc") {
+        if (this.sortBy === "status") {
+          this.score_information.sort((a, b) => (a.status < b.status ? 1 : -1));
+        } else if (this.sortBy === "score_get") {
+          this.score_information.sort((a, b) => (a.score_get < b.score_get ? 1 : -1));
+        } 
+      }
+    },
     togglePopupAddScore() {
       this.popupTriggers.buttonPopupAddScore =
         !this.popupTriggers.buttonPopupAddScore;
@@ -304,6 +370,7 @@ export default {
           console.log(this.score_information[0].student_id);
           for (var i = 0; i < this.score_information.length; i++) {
             let indexI = i;
+            this.score_information[i].index = i
             axios
               .get(
                 "http://127.0.0.1:8080/profile/profile_id?profile_id=" +

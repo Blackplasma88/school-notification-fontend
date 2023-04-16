@@ -27,67 +27,76 @@
         </span>
         <span class="text">Information</span>
       </router-link>
+
       <router-link to="/locations" class="button">
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-location-dot" />
         </span>
         <span class="text">Location</span>
       </router-link>
+
       <router-link to="/subjects" class="button">
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-book" />
         </span>
         <span class="text">Subject</span>
       </router-link>
-      <router-link to="/profile/teacher" class="button">
+
+      <router-link v-if='role === "admin"' to="/profile/teacher" class="button">
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-users" />
         </span>
         <span class="text"> Teacher Profile </span>
       </router-link>
-      <router-link to="/profile/student" class="button">
+
+      <router-link v-if='role === "admin"' to="/profile/student" class="button">
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-users" />
         </span>
         <span class="text"> Student Profile </span>
       </router-link>
-      <router-link to="/profile/parent" class="button">
+      <!-- <router-link v-if='role === "admin"' to="/profile/parent" class="button">
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-users" />
         </span>
         <span class="text"> Parent Profile </span>
-      </router-link>
+      </router-link> -->
       <router-link to="/classes" class="button">
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-comments" />
         </span>
         <span class="text">Class</span>
       </router-link>
+
       <router-link to="/courses" class="button">
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-list" />
         </span>
         <span class="text">Courses</span>
       </router-link>
-      <router-link to="/school-data" class="button">
+
+      <router-link v-if='role === "admin"' to="/school-data" class="button">
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-school-flag" />
         </span>
         <span class="text">School Data</span>
       </router-link>
-      <router-link to="/scores" class="button">
+
+      <router-link v-if='role === "teacher" || role === "student"' to="/scores" class="button">
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-table-list" />
         </span>
         <span class="text">Score</span>
       </router-link>
-      <router-link to="/check-names" class="button">
+
+      <router-link v-if='role === "teacher" || role === "student"' to="/check-names" class="button">
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-check" />
         </span>
         <span class="text">Check Names</span>
       </router-link>
-      <router-link to="/summary" class="button">
+
+      <router-link v-if='role === "teacher" || role === "student"' to="/summary" class="button">
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-chart-line" />
         </span>
@@ -102,12 +111,13 @@ export default {
   name: "Sidebar",
   data() {
     return {
+      role:"",
       is_expanded:
         localStorage.getItem("is_expanded") === "true" ? true : false,
     };
   },
   created() {
-    
+    this.role = localStorage.getItem("role");
   },
   methods: {
     ToggleMenu() {

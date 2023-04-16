@@ -106,6 +106,17 @@
           add date
         </button>
       </div>
+      &nbsp;
+      <div class="btnAddDate">
+        <button
+          v-if="this.role === 'teacher'"
+          type="button"
+          class="btn btn-secondary"
+          @click="openCamera()"
+        >
+          open camera
+        </button>
+      </div>
     </div>
     <CreatePopup v-if="popupTriggers.buttonPopupAddDate">
       <form @submit.prevent="submitForm">
@@ -165,6 +176,7 @@ export default {
       profile_id: "",
       popupTriggers: ref({
         buttonPopupAddDate: false,
+        buttonPopupOpenCamera: false,
       }),
       year: "",
       term: "",
@@ -180,6 +192,7 @@ export default {
         date: "",
         time_late: 0,
       },
+      model_ready:false,
       student_name_list: [],
     };
   },
@@ -199,6 +212,10 @@ export default {
       });
   },
   methods: {
+    togglePopupOpenCamera() {
+      this.popupTriggers.buttonPopupOpenCamera =
+        !this.popupTriggers.buttonPopupOpenCamera;
+    },
     togglePopupAddDate() {
       this.popupTriggers.buttonPopupAddDate =
         !this.popupTriggers.buttonPopupAddDate;
@@ -317,6 +334,42 @@ export default {
           // console.log(response.data.data.school_data);
           // this.subject_list = response.data.data.subject_list;
           //   console.log(  this.school_data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    async openCamera() {
+      axios
+        .get("http://127.0.0.1:8080/course/id?course_id=" + this.course_id)
+        .then((res) => {
+           let class_id = res.data.data.course.class_id
+          axios
+            .get(
+              "http://127.0.0.1:8080/face-detection/class_id?class_id=" +
+                res.data.data.course.class_id
+            )
+            .then((res) => {
+              
+              if (res.data.data.data.status === "yes") {
+                axios
+                  .get(
+                    "http://127.0.0.1:8080/face-detection/open-camera?class_id=" +
+                    class_id +
+                      "&course_id=" +
+                      this.course_id
+                  )
+                  .then((res) => {
+                    console.log(res.data.data);
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         })
         .catch((error) => {
           console.log(error);

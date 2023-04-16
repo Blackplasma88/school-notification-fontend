@@ -17,8 +17,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(score, i) in scores" :key="score.id">
-            <td>{{ students[i] }}</td>
+          <tr v-for="(score) in scores" :key="score.id">
+            <td>{{ students[score.index] }}</td>
             <td>{{ score.status }}</td>
 
             <td>
@@ -37,8 +37,8 @@
                 @click="
                   TogglePopup(
                     'buttonPopup',
-                    courses[i].id,
-                    scores_name[i],
+                    courses[score.index].id,
+                    scores_name[score.index],
                     score.score_get,
                     score.student_id,
                     score.status
