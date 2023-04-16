@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import SchoolDataView from "@/components/school-data/SchoolDataView.vue";
 export default {
   name: "SchoolData",

@@ -106,6 +106,17 @@
           add date
         </button>
       </div>
+      &nbsp;
+      <div class="btnAddDate">
+        <button
+          v-if="this.role === 'teacher'"
+          type="button"
+          class="btn btn-secondary"
+          @click="openCamera()"
+        >
+          open camera
+        </button>
+      </div>
     </div>
     <CreatePopup v-if="popupTriggers.buttonPopupAddDate">
       <form @submit.prevent="submitForm">
@@ -140,6 +151,39 @@
         </div>
       </form>
     </CreatePopup>
+    <!-- <CreatePopup v-if="popupTriggers.buttonPopupOpenCamera">
+      <form @submit.prevent="submitFormOpenCamera">
+        <div class="form-control">
+          <label for="select"> date :</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="date"
+            v-model="this.check_name_data_new.date"
+          />
+
+          <label for="select"> time late :</label>
+          <input
+            type="number"
+            class="form-control"
+            placeholder="time late"
+            v-model="this.check_name_data_new.time_late"
+          />
+
+          <div class="button-group">
+            <button class="popup-close btn btn-success">Confirm</button>
+            &nbsp;
+            <button
+              type="button"
+              class="popup-close btn btn-danger"
+              @click="togglePopupOpenCamera()"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </CreatePopup> -->
   </div>
 </template>
 
@@ -158,6 +202,7 @@ export default {
       profile_id: "",
       popupTriggers: ref({
         buttonPopupAddDate: false,
+        buttonPopupOpenCamera: false,
       }),
       year: "",
       term: "",
@@ -173,6 +218,7 @@ export default {
         date: "",
         time_late: 0,
       },
+      model_ready:false,
     };
   },
   mounted() {
@@ -190,6 +236,10 @@ export default {
       });
   },
   methods: {
+    togglePopupOpenCamera() {
+      this.popupTriggers.buttonPopupOpenCamera =
+        !this.popupTriggers.buttonPopupOpenCamera;
+    },
     togglePopupAddDate() {
       this.popupTriggers.buttonPopupAddDate =
         !this.popupTriggers.buttonPopupAddDate;
@@ -282,6 +332,42 @@ export default {
           // console.log(response.data.data.school_data);
           // this.subject_list = response.data.data.subject_list;
           //   console.log(  this.school_data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    async openCamera() {
+      axios
+        .get("http://127.0.0.1:8080/course/id?course_id=" + this.course_id)
+        .then((res) => {
+           let class_id = res.data.data.course.class_id
+          axios
+            .get(
+              "http://127.0.0.1:8080/face-detection/class_id?class_id=" +
+                res.data.data.course.class_id
+            )
+            .then((res) => {
+              
+              if (res.data.data.data.status === "yes") {
+                axios
+                  .get(
+                    "http://127.0.0.1:8080/face-detection/open-camera?class_id=" +
+                    class_id +
+                      "&course_id=" +
+                      this.course_id
+                  )
+                  .then((res) => {
+                    console.log(res.data.data);
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         })
         .catch((error) => {
           console.log(error);
