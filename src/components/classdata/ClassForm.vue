@@ -8,11 +8,6 @@
           placeholder="Search"
           v-model="filterValue"
         />
-        &nbsp;
-        <button type="button" class="btn btn-secondary">
-          <font-awesome-icon icon="fa-solid fa-search" />
-        </button>
-        {{ filterValue }}
       </div>
 
       <div class="filter">
@@ -27,6 +22,7 @@
             <option selected disabled value="">Filter</option>
             <option value="class_year">ชั้นปี</option>
             <option value="class_room">ห้อง</option>
+            <option value="advisor_id">อาจารย์</option>
           </select>
         </div>
         &nbsp;
@@ -72,7 +68,7 @@
     <ListClassData
       :filterOptions="filterOptions"
       :filterValue="filterValue"
-      :classes="classes"
+      :classes="ClassList"
       :advisors="advisor_name_list"
     />
   </section>
@@ -120,37 +116,64 @@ export default {
       advisor_name_list: [],
     };
   },
+  computed: {
+    ClassList() {
+      if (this.filterValue.trim().length > 0) {
+        if (this.filterOptions == "" || this.filterOptions == "class_year") {
+          return this.classes.filter((classe) =>
+          classe.class_year
+              .toLowerCase()
+              .includes(this.filterValue.trim().toLowerCase())
+          );
+        } else if (this.filterOptions == "class_room") {
+          return this.classes.filter((classe) =>
+          classe.class_room
+              .toLowerCase()
+              .includes(this.filterValue.trim().toLowerCase())
+          );
+        } else if (this.filterOptions == "advisor_id") {
+          return this.classes.filter((classe) =>
+          classe.advisor_id
+              .toLowerCase()
+              .includes(this.filterValue.trim().toLowerCase())
+          );
+        } 
+      }
+      return this.classes;
+    },
+  },
   created() {
     this.role = localStorage.getItem("role")
-    axios
-      .get("http://127.0.0.1:8080/class/all?class_year=" + this.class_year)
-      .then((response) => {
-        console.log("classes_list");
-        console.log(response.data.data.class_list);
-        this.classes = response.data.data.class_list;
+    // axios
+    //   .get("http://127.0.0.1:8080/class/all?class_year=" + this.class_year)
+    //   .then((response) => {
+    //     console.log("classes_list");
+    //     console.log(response.data.data.class_list);
+    //     this.classes = response.data.data.class_list;
 
-        console.log("this.advisor_name_list", this.advisor_name_list);
-        for (var i = 0; i < this.classes.length; i++) {
-          let indexI = i;
-          this.advisor_name_list.push("");
-          console.log(this.classes[i].advisor_id);
-          if (this.classes[i].advisor_id != "") {
-            console.log("advisor", this.classes[i].advisor_id);
-            axios
-              .get(
-                "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
-                  this.classes[indexI].advisor_id +
-                  "&role=teacher"
-              )
-              .then((response) => {
-                this.advisor_name_list[indexI] =
-                  response.data.data.profile.name;
-                console.log(response.data.data.profile.name);
-              });
-          }
-          console.log("this.advisor_name_list", this.advisor_name_list);
-        }
-      });
+    //     console.log("this.advisor_name_list", this.advisor_name_list);
+    //     for (var i = 0; i < this.classes.length; i++) {
+    //       let indexI = i;
+    //       this.advisor_name_list.push("");
+    //       this.classes[i].index = indexI
+    //       console.log(this.classes[i].advisor_id);
+    //       if (this.classes[i].advisor_id != "") {
+    //         console.log("advisor", this.classes[i].advisor_id);
+    //         axios
+    //           .get(
+    //             "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
+    //               this.classes[indexI].advisor_id +
+    //               "&role=teacher"
+    //           )
+    //           .then((response) => {
+    //             this.advisor_name_list[indexI] =
+    //               response.data.data.profile.name;
+    //             console.log(response.data.data.profile.name);
+    //           });
+    //       }
+    //       console.log("this.advisor_name_list", this.advisor_name_list);
+    //     }
+    //   });
   },
 
   methods: {
@@ -171,6 +194,7 @@ export default {
       }
     },
     press() {
+      this.classes = []
       axios
       .get("http://127.0.0.1:8080/class/all?class_year=" + this.class_year)
       .then((response) => {
@@ -180,6 +204,7 @@ export default {
         console.log("this.advisor_name_list", this.advisor_name_list);
         for (var i = 0; i < this.classes.length; i++) {
           let indexI = i;
+          this.classes[i].index = indexI
           this.advisor_name_list.push("");
           console.log(this.classes[i].advisor_id);
           if (this.classes[i].advisor_id != "") {
@@ -201,7 +226,6 @@ export default {
       });
     },
   },
-  computed: {},
 };
 </script>
 

@@ -27,20 +27,20 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(course, i) in courses" :key="course.id">
+          <tr v-for="(course) in courses" :key="course.id">
             <td>
               {{ course.name }}
             </td>
             <td>
-              {{ subjects[i] }}
+              {{ subjects[course.subject_id_index].name }}
             </td>
             <td>
               {{ course.credit }}
             </td>
             <td>
-              {{ instructors[i] }}
+              {{ instructors[course.instructor_id_index].name }}
             </td>
-            <td>ม.{{ classes[i] }}</td>
+            <td>ม.{{ classes[course.class_id_index].class_name }}</td>
             <td>
               {{ course.number_of_student }}
             </td>
@@ -48,7 +48,7 @@
               {{ course.date_time[0].day }} / {{ course.date_time[0].time[0] }}
             </td>
             <td>
-              {{ locations[i] }}
+              {{ locations[course.location_id_index].location_id }}
             </td>
             <td>
               <div v-if="course.status == 'create'">

@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import ReadTeacherProfile from "@/components/profile/teacher/ReadTeacherProfile.vue";
 export default {
   name: "Read",
@@ -14,6 +15,9 @@ export default {
   mounted(){
     if (localStorage.getItem("token") == null || localStorage.getItem("token") == undefined){
       this.$router.push("/login");
+    }
+    axios.defaults.headers = {
+        Authorization:localStorage.getItem("token"),
     }
   },
 };

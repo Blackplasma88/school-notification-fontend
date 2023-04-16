@@ -8,23 +8,17 @@
           placeholder="Search"
           v-model="filterValue"
         />
-        &nbsp;
-        <button type="button" class="btn btn-secondary">
-          <font-awesome-icon icon="fa-solid fa-search" />
-        </button>
-        {{ filterValue }}
       </div>
       <div class="filter">
         <div>
           <select
             class="form-select"
             aria-label="Select"
-            name="location_filter"
-            id="location_filter"
-            v-model="location_filter"
+            v-model="filterOptions"
           >
-            <option selected disabled>Filter</option>
-            <option value="building_name">ตึก</option>
+            <option selected disabled value="">Filter</option>
+            <option value="location_id">เลขสถานที่</option>
+            <option value="building_name">ชื่ออาคาร</option>
             <option value="floor">ชั้น</option>
             <option value="room">ห้อง</option>
           </select>
@@ -36,34 +30,35 @@
             aria-label="Select"
             name="category"
             id="category"
+            v-model="sortBy"
+            @change="sortValue()"
           >
-            <option selected disabled>Sort by</option>
-            <option value="building_name">ตึก</option>
+            <option selected disabled value="">Sort by</option>
+            <option value="location_id">เลขสถานที่</option>
+            <option value="building_name">ชื่ออาคาร</option>
             <option value="floor">ชั้น</option>
             <option value="room">ห้อง</option>
+          </select>
+        </div>
+        &nbsp;
+        <div>
+          <select
+            class="form-select"
+            aria-label="Select"
+            name="sortyBy"
+            id="sortyBy"
+            v-model="sortOption"
+            @change="sortValue()"
+          >
+            <option selected disabled value="">{{ sortOption }}</option>
+            <option value="Asc">Asc</option>
+            <option value="Desc">Desc</option>
+            
           </select>
         </div>
       </div>
     </div>
     <div class="rightContent">
-      <div>
-        <select
-          class="form-select"
-          aria-label="Select"
-          name="category"
-          id="category"
-        >
-          <option selected disabled>วัน</option>
-          <option value="monday">จันทร์</option>
-          <option value="tuesday">อังคาร</option>
-          <option value="wednesday">พุธ</option>
-          <option value="thursday">พฤหัส</option>
-          <option value="friday">ศุกร์</option>
-          <option value="saturday">เสาร์</option>
-          <option value="sunday">อาทิตย์</option>
-        </select>
-      </div>
-      &nbsp;
       <button v-if='role === "admin"'
         type="button"
         class="btn btn-secondary"
@@ -118,7 +113,7 @@
     <ListLocationData
       :filterOptions="filterOptions"
       :filterValue="filterValue"
-      :locations="locations"
+      :locations="filterList"
     />
   </section>
 </template>
@@ -148,8 +143,43 @@ export default {
       },
       filterOptions: "",
       filterValue: "",
-      location_filter: "",
+      sortBy:"",
+      sortOption:"Asc",
     };
+  },
+  computed: {
+    filterList() {
+      if (this.filterValue.trim().length > 0) {
+        if (this.filterOptions == "" || this.filterOptions == "location_id") {
+          return this.locations.filter((location) =>
+          location.location_id
+              .toLowerCase()
+              .includes(this.filterValue.trim().toLowerCase())
+          );
+        } else if (this.filterOptions == "building_name") {
+          return this.locations.filter((location) =>
+          location.building_name
+              .toLowerCase()
+              .includes(this.filterValue.trim().toLowerCase())
+          );
+        } else if (this.filterOptions == "floor") {
+          return this.locations.filter((location) =>
+          location.floor
+              .toLowerCase()
+              .includes(this.filterValue.trim().toLowerCase())
+          );
+        } else if (this.filterOptions == "room") {
+          return this.locations.filter((location) =>
+          location.room
+              .toLowerCase()
+              .includes(this.filterValue.trim().toLowerCase())
+          );
+        }
+      }
+      return this.locations;
+      
+      
+    },
   },
   created() {
     this.role = localStorage.getItem("role")
@@ -161,7 +191,15 @@ export default {
     });
   },
   methods: {
+    clearData(){
+      this.location= {
+        building_name: "",
+        floor: "",
+        room: "",
+      }
+    },
     TogglePopup(trigger) {
+      this.clearData()
       console.log(trigger);
       this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
       console.log(this.popupTriggers.buttonPopup);
@@ -170,11 +208,12 @@ export default {
       console.log("create Location", this.location);
 
       try {
+        
         await axios
           .post("http://127.0.0.1:8080/location/create", this.location)
           .then((response) => {
             console.log(response);
-            this.resetForm();
+            this.clearData()
             this.popupTriggers.buttonPopup = false;
             this.$swal("Success", response.data.message, "success").then(() => {
               window.location.reload();
@@ -185,10 +224,31 @@ export default {
         this.$swal("Error", error.response.data.message, "error");
       }
     },
-    resetForm() {
-      this.location.building_name = "";
-      this.location.floor = "";
-      this.location.room = "";
+    sortValue(){
+      // น้อยไปมาก
+      if (this.sortOption == "Asc"){
+        if (this.sortBy === "location_id"){
+        this.locations.sort((a,b) => a.location_id >b.location_id ?1:-1);
+      }else if (this.sortBy === "building_name"){
+        this.locations.sort((a,b) => a.building_name >b.building_name ?1:-1);
+      }else if (this.sortBy === "floor"){
+        this.locations.sort((a,b) => a.floor >b.floor ?1:-1);
+      }else if (this.sortBy === "room"){
+        this.locations.sort((a,b) => a.room >b.room ?1:-1);
+      }
+      }else  if (this.sortOption == "Desc"){
+        if (this.sortBy === "location_id"){
+        this.locations.sort((a,b) => a.location_id <b.location_id ?1:-1);
+      }else if (this.sortBy === "building_name"){
+        this.locations.sort((a,b) => a.building_name <b.building_name ?1:-1);
+      }else if (this.sortBy === "floor"){
+        this.locations.sort((a,b) => a.floor <b.floor ?1:-1);
+      }else if (this.sortBy === "room"){
+        this.locations.sort((a,b) => a.room <b.room ?1:-1);
+      }
+      }
+      
+      
     },
   },
 };

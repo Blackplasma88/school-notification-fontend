@@ -6,6 +6,7 @@
   </template>
   
   <script>
+  import axios from "axios";
   import SchoolDataView from "@/components/school-data/SchoolDataView.vue";
   export default {
     name: "SchoolData",
@@ -15,6 +16,9 @@
     mounted(){
     if (localStorage.getItem("token") == null || localStorage.getItem("token") == undefined){
       this.$router.push("/login");
+    }
+    axios.defaults.headers = {
+        Authorization:localStorage.getItem("token"),
     }
   },
   }

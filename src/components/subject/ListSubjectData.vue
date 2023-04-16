@@ -8,7 +8,6 @@
     <!-- {{ instructors }} -->
 
     <div>
-      List {{ filterOptions }} List {{ filterValue }}
       <table class="table table-bordered table-hover">
         <thead>
           <tr>

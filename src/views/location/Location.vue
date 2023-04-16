@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import LocationForm from "@/components/location/LocationForm.vue";
 export default {
   components: {
@@ -15,6 +16,9 @@ export default {
     if (localStorage.getItem("token") == null || localStorage.getItem("token") == undefined){
       this.$router.push("/login");
     }
+    axios.defaults.headers = {
+            Authorization:localStorage.getItem("token"),
+        }
   },
 };
 </script>

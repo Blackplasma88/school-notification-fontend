@@ -191,6 +191,7 @@ export default {
   mounted() {
     this.role = localStorage.getItem("role");
     this.profile_id = localStorage.getItem("profile_id");
+    console.log(localStorage.getItem("profile_id"));
     axios
       .get("http://127.0.0.1:8080/school-data/term-year-data")
       .then((response) => {

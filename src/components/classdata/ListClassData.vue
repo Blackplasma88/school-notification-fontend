@@ -3,7 +3,7 @@
     <h2>List of Class</h2>
     <div>
       <!-- List {{ filterOptions }} List {{ filterValue }} -->
-      <!-- {{ classes }} -->
+      
       <!-- {{ advisors }} -->
 
       <table class="table table-bordered table-hover">
@@ -17,7 +17,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(c, i) in classes" :key="c.id">
+          <tr v-for="(c) in classes" :key="c.id">
             <!-- {{
               (this.currentPage - 1) * this.elementPerpage + i
             }} -->
@@ -26,7 +26,7 @@
             <td>{{ c.number_of_student }}</td>
             <td>
               <div v-if="c.advisor_id != ''">
-                {{ advisors[i] }}
+                {{ advisors[c.index] }}
               </div>
               <div v-else>
                 <button

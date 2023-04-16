@@ -8,11 +8,6 @@
           placeholder="Search"
           v-model="filterValue"
         />
-        &nbsp;
-        <button type="button" class="btn btn-secondary">
-          <font-awesome-icon icon="fa-solid fa-search" />
-        </button>
-        {{ filterValue }}
       </div>
       <div class="filter">
         <div>
@@ -21,11 +16,11 @@
             aria-label="Select"
             name="class_filter"
             id="class_filter"
-            v-model="class_filter"
+            v-model="filterOptions"
           >
             <option selected disabled value="">Filter</option>
-            <option value="class_year">ชั้นปี</option>
-            <option value="class_room">ห้อง</option>
+            <option value="profile_id">รหัสนักเรียน</option>
+            <option value="name">ชื่อ - สกุล</option>
           </select>
         </div>
         &nbsp;
@@ -35,17 +30,34 @@
             aria-label="Select"
             name="class_sort"
             id="class_sort"
-            v:model:value="class_sort"
+            v-model="sortBy"
+            @change="sortValue()"
           >
             <option selected disabled value="">Sort by</option>
-            <option value="class_year">ชั้นปี</option>
-            <option value="class_room">ห้อง</option>
+            <option value="profile_id">รหัสอาจารย์</option>
+            <option value="name">ชื่อ - สกุล</option>
+          </select>
+        </div>
+        &nbsp;
+        <div>
+          <select
+            class="form-select"
+            aria-label="Select"
+            name="sortyBy"
+            id="sortyBy"
+            v-model="sortOption"
+            @change="sortValue()"
+          >
+            <option selected disabled value="">{{ sortOption }}</option>
+            <option value="Asc">Asc</option>
+            <option value="Desc">Desc</option>
           </select>
         </div>
       </div>
     </div>
     <div class="rightContent">
-      <button v-if='role === "admin"'
+      <button
+        v-if="role === 'admin'"
         type="button"
         class="btn btn-secondary"
         @click="TogglePopup('buttonPopup')"
@@ -77,16 +89,31 @@
             v-model="profile.name"
           />
 
+          <label for="select"> ชั้น :</label>
+          <select
+            class="form-select"
+            aria-label="Select"
+            v-model="this.class_year"
+            @change="getClassByClassYear()"
+          >
+            <option selected disabled>Select</option>
+            <option value="1">ม.1</option>
+            <option value="2">ม.2</option>
+            <option value="3">ม.3</option>
+            <option value="4">ม.4</option>
+            <option value="5">ม.5</option>
+            <option value="6">ม.6</option>
+          </select>
+
           <label for="select"> ห้อง :</label>
           <select
             class="form-select"
             aria-label="Select"
-            name="class_name"
-            id="class_name"
-            v-model="class_name"
+            v-model="this.class_room"
           >
-            <option v-for="index in class_name_list" :key="index">
-              {{ index }}
+            <option selected disabled>Select</option>
+            <option v-for="item in this.class_list" :key="item.id">
+              {{ item.class_room }}
             </option>
           </select>
 
@@ -108,7 +135,7 @@
     <ListStudentProfile
       :filterOptions="filterOptions"
       :filterValue="filterValue"
-      :students="students"
+      :students="filterList"
       :classes="class_name_list"
     />
   </section>
@@ -127,12 +154,14 @@ export default {
   },
   data() {
     return {
-      role:"",
+      role: "",
       popupTriggers: ref({
         buttonPopup: false,
       }),
       filterOptions: "",
       filterValue: "",
+      sortOption:"Asc",
+      sortBy:"",
       class_filter: "",
       students: [],
       profile: {
@@ -144,10 +173,11 @@ export default {
       class_name: "",
       class_name_list: [],
       class_id_list: [],
+      class_list: [],
     };
   },
   created() {
-    this.role = localStorage.getItem("role")
+    this.role = localStorage.getItem("role");
     axios.get("http://127.0.0.1:8080/profile/all?role=student").then((res) => {
       console.log("student_list", res.data.data.profile_list);
       this.students = res.data.data.profile_list;
@@ -157,6 +187,7 @@ export default {
       for (var i = 0; i < this.students.length; i++) {
         let indexI = i;
         this.class_name_list.push("");
+        this.students[i].class_name_index = indexI
         console.log(this.students[i].class_id);
         axios
           .get(
@@ -175,26 +206,61 @@ export default {
       console.log("this.class_name_list", this.class_name_list);
     });
   },
+  computed: {
+    filterList() {
+      if (this.filterValue.trim().length > 0) {
+        if (this.filterOptions == "" || this.filterOptions == "profile_id") {
+          return this.students.filter((student) =>
+            student.profile_id
+              .toLowerCase()
+              .includes(this.filterValue.trim().toLowerCase())
+          );
+        } else if (this.filterOptions == "name") {
+          return this.students.filter((student) =>
+            student.name
+              .toLowerCase()
+              .includes(this.filterValue.trim().toLowerCase())
+          );
+        }
+      }
+      return this.students;
+    },
+  },
   methods: {
+    sortValue() {
+      if (this.sortOption == "Asc") {
+        if (this.sortBy === "profile_id") {
+          this.students.sort((a, b) => (a.profile_id > b.profile_id ? 1 : -1));
+        } else if (this.sortBy === "name") {
+          this.students.sort((a, b) => (a.name > b.name ? 1 : -1));
+        } 
+      } else if (this.sortOption == "Desc") {
+        if (this.sortBy === "profile_id") {
+          this.students.sort((a, b) => (a.profile_id < b.profile_id ? 1 : -1));
+        } else if (this.sortBy === "name") {
+          this.students.sort((a, b) => (a.name < b.name ? 1 : -1));
+        } 
+      }
+    },
     TogglePopup(trigger) {
       console.log(trigger);
       this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
       console.log(this.popupTriggers.buttonPopup);
 
-      axios
-        .get("http://127.0.0.1:8080/class/all?class_year=1")
-        .then((response) => {
-          console.log(response.data.data.class_list);
-          for (let i = 0; i < response.data.data.class_list.length; i++) {
-            this.class_name =
-              response.data.data.class_list[i].class_year +
-              "/" +
-              response.data.data.class_list[i].class_room;
-            this.class_name_list.push(this.class_name);
-            this.class_id_list.push(response.data.data.class_list[i].id);
-          }
-          console.log(this.class_name_list);
-        });
+      // axios
+      //   .get("http://127.0.0.1:8080/class/all?class_year=1")
+      //   .then((response) => {
+      //     console.log(response.data.data.class_list);
+      //     for (let i = 0; i < response.data.data.class_list.length; i++) {
+      //       this.class_name =
+      //         response.data.data.class_list[i].class_year +
+      //         "/" +
+      //         response.data.data.class_list[i].class_room;
+      //       this.class_name_list.push(this.class_name);
+      //       this.class_id_list.push(response.data.data.class_list[i].id);
+      //     }
+      //     console.log(this.class_name_list);
+      //   });
     },
     ToggleClose(trigger) {
       console.log(trigger);
@@ -209,9 +275,9 @@ export default {
       console.log(this.class_id_list);
       console.log(this.class_name);
       let class_id = "";
-      for (let i = 0; i < this.class_name_list.length; i++) {
-        if (this.class_name == this.class_name_list[i]) {
-          class_id = this.class_id_list[i];
+      for (let i = 0; i < this.class_list.length; i++) {
+        if (this.class_room == this.class_list[i].class_room) {
+          class_id = this.class_list[i].id;
           break;
         }
       }
@@ -247,6 +313,20 @@ export default {
       this.class_name = "";
       this.class_name_list = [];
       this.class_id_list = [];
+      this.class_list = [];
+    },
+    getClassByClassYear() {
+      axios
+        .get("http://127.0.0.1:8080/class/all?class_year=" + this.class_year)
+        .then((response) => {
+          // console.log(response.data.data.school_data);
+          this.class_list = response.data.data.class_list;
+          //   console.log(  this.school_data);
+        })
+        .catch((error) => {
+          this.class_list = [];
+          console.log(error);
+        });
     },
   },
 };

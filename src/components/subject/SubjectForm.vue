@@ -8,11 +8,6 @@
           placeholder="Search"
           v-model="filterValue"
         />
-        &nbsp;
-        <button type="button" class="btn btn-secondary">
-          <font-awesome-icon icon="fa-solid fa-search" />
-        </button>
-        <!-- {{ filterValue }} -->
       </div>
       <div class="filter">
         <div>

@@ -24,6 +24,7 @@
 
 <script>
 import axios from "axios";
+// import setAuthHeader from "@/util/setAuthheader";
 export default {
   name: "Login",
   data() {
@@ -48,9 +49,10 @@ export default {
                 localStorage.setItem("role",response.data.data.role)
                 localStorage.setItem("token",response.data.data.token)
             //     };
-                
+                // setAuthHeader(localStorage.getItem("token"))
                 console.log(localStorage)
                 this.$router.push("/");
+
           });
       } catch (error) {
         console.log(error);

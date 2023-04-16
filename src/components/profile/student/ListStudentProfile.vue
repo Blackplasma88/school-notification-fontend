@@ -2,7 +2,7 @@
   <div>
     <h2>List of students</h2>
     <!-- {{ students }} -->
-    List {{ filterOptions }} List {{ filterValue }}
+    <!-- List {{ filterOptions }} List {{ filterValue }} -->
     <!-- {{ classes }} -->
     <div>
       <table class="table table-bordered table-hover">
@@ -16,12 +16,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(student, i) in students" :key="student.id">
+          <tr v-for="(student) in students" :key="student.id">
             <td>{{ student.profile_id }}</td>
             <td>{{ student.name }}</td>
             <td>
               <div v-if="student.class_id != ''">
-                <td>ม.{{ classes[i] }}</td>
+                <td>ม.{{ classes[student.class_name_index] }}</td>
               </div>
               <div v-else>
                 <td>ไม่มี</td>
