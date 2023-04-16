@@ -290,9 +290,6 @@ export default {
         return;
       }
       axios
-<<<<<<< HEAD
-        .get("http://127.0.0.1:8080/course/year-term?profile_id="+this.profile_id+"&role="+this.role+"&year="+this.year+"&term="+this.term)
-=======
         .get(
           "http://127.0.0.1:8080/course/year-term?profile_id=" +
             this.profile_id +
@@ -303,7 +300,6 @@ export default {
             "&term=" +
             this.term
         )
->>>>>>> origin/arm
         .then((response) => {
           console.log(response.data.data.course_list);
           this.course_list = response.data.data.course_list;
@@ -323,9 +319,6 @@ export default {
       }
 
       axios
-<<<<<<< HEAD
-        .get("http://127.0.0.1:8080/score/score-in-course?course_id="+this.course_id+"&role="+this.role+"&id="+this.profile_id)
-=======
         .get(
           "http://127.0.0.1:8080/score/score-in-course?course_id=" +
             this.course_id +
@@ -334,7 +327,6 @@ export default {
             "&id=" +
             this.profile_id
         )
->>>>>>> origin/arm
         .then((response) => {
           // console.log(response.data.data.score.name);
           this.score_name_list = response.data.data.score.name;
@@ -346,9 +338,6 @@ export default {
     },
     async getScoreData() {
       axios
-<<<<<<< HEAD
-        .get("http://127.0.0.1:8080/score/score-data?course_id="+this.course_id+"&name="+this.score_name+"&role="+this.role+"&id="+this.profile_id)
-=======
         .get(
           "http://127.0.0.1:8080/score/score-data?course_id=" +
             this.course_id +
@@ -359,7 +348,6 @@ export default {
             "&id=" +
             this.profile_id
         )
->>>>>>> origin/arm
         .then((response) => {
           console.log(response.data.data.score_data);
           this.score = response.data.data.score_data;

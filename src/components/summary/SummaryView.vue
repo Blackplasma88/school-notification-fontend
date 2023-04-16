@@ -45,22 +45,6 @@ export default {
   name: "CheckNamaManage",
   data() {
     return {
-<<<<<<< HEAD
-      role:"",
-      profile_id:"",
-      year:"",
-      term:"",
-      term_year:[],
-      course_list:[],
-      course_id:"",
-      course_name:"",
-      course_summary:[],
-    };
-  },
-  mounted(){
-    this.role = localStorage.getItem("role")
-    this.profile_id = localStorage.getItem("profile_id")
-=======
       role: "",
       profile_id: "",
       year: "",
@@ -75,7 +59,6 @@ export default {
   mounted() {
     this.role = localStorage.getItem("role");
     this.profile_id = localStorage.getItem("profile_id");
->>>>>>> origin/arm
     axios
       .get("http://127.0.0.1:8080/school-data/term-year-data")
       .then((response) => {
@@ -93,9 +76,6 @@ export default {
         return;
       }
       axios
-<<<<<<< HEAD
-        .get("http://127.0.0.1:8080/course/year-term?profile_id="+this.profile_id+"&role="+this.role+"&year="+this.year+"&term="+this.term)
-=======
         .get(
           "http://127.0.0.1:8080/course/year-term?profile_id=" +
             this.profile_id +
@@ -106,7 +86,6 @@ export default {
             "&term=" +
             this.term
         )
->>>>>>> origin/arm
         .then((response) => {
           console.log(response.data.data.course_list);
           this.course_list = response.data.data.course_list;
@@ -126,16 +105,12 @@ export default {
       }
 
       axios
-<<<<<<< HEAD
-        .get("http://127.0.0.1:8080/course-summary?course_id="+this.course_id+"&role="+this.role)
-=======
         .get(
           "http://127.0.0.1:8080/course-summary?course_id=" +
             this.course_id +
             "&role=" +
             this.role
         )
->>>>>>> origin/arm
         .then((response) => {
           console.log(response.data.data.course_summary);
           this.course_summary = response.data.data.course_summary;
