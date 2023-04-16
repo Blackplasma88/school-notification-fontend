@@ -1,6 +1,8 @@
 <template>
   <div>
     <h2>List of Summary</h2>
+    <!-- {{ course_summary }}
+    {{ student_names }} -->
 
     <div>
       <table class="table table-bordered table-hover">
@@ -8,28 +10,32 @@
           <tr>
             <th scope="col">รหัสนักเรียน</th>
             <th scope="col">ชื่อ - นามสกุล</th>
+
             <th scope="col">คะแนนเก็บ</th>
             <th scope="col">คะแนนสอบกลางภาค</th>
             <th scope="col">คะแนนสอบปลายภาค</th>
             <th scope="col">คะแนนรวม</th>
+
             <th scope="col">จำนวนครั้งที่เข้าเรียน</th>
             <th scope="col">จำนวนที่ขาดเรียน</th>
-            <th scope="col">จำนวนครั้งที่ลา</th>
+            <th scope="col">จำนวนครั้งที่เข้าเรียนสาย</th>
             <th scope="col">เกรด</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+          <tr v-for="(course, i) in course_summary" :key="course.id">
+            <td>{{ course.student_id }}</td>
+            <td>{{ student_names[i] }}</td>
+
+            <td>{{ course.score_work_get }}</td>
+            <td>{{ course.score_mid_get }}</td>
+            <td>{{ course.score_final_get }}</td>
+            <td>{{ course.score_work_get }}</td>
+
+            <td>{{ course.check_name_attend_count }}</td>
+            <td>{{ course.check_name_absent_count }}</td>
+            <td>{{ course.check_name_late_count }}</td>
+            <td>{{ course.grade }}</td>
           </tr>
         </tbody>
       </table>
@@ -44,7 +50,7 @@ export default {
     filterOptions: String,
     filterValue: String,
     student_names: Array,
-    
+    course_summary: Array,
   },
 };
 </script>
