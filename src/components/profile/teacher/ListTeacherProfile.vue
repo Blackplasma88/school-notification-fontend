@@ -18,7 +18,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(teacher) in teachers" :key="teacher.id">
+          <tr v-for="teacher in teachers" :key="teacher.id">
             <td>{{ teacher.profile_id }}</td>
             <td>{{ teacher.name }}</td>
             <td>{{ teacher.category }}</td>
@@ -41,8 +41,18 @@
               </div>
             </td>
             <td>
-              <div v-if="teacher.course_teaches_list[teacher.course_teaches_list.length-1].course_id_list != null">
-                {{ teacher.course_teaches_list[teacher.course_teaches_list.length-1].course_id_list.length}}
+              <div
+                v-if="
+                  teacher.course_teaches_list[
+                    teacher.course_teaches_list.length - 1
+                  ].course_id_list != null
+                "
+              >
+                {{
+                  teacher.course_teaches_list[
+                    teacher.course_teaches_list.length - 1
+                  ].course_id_list.length
+                }}
               </div>
               <div v-else>
                 <td>ไม่มี</td>
@@ -60,38 +70,14 @@
         </tbody>
       </table>
     </div>
-    <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-center">
-        <li v-on:click="getPreviousPage()" class="page-item">
-          <a class="page-link">Previous</a>
-        </li>
-        <li
-          v-for="indexPage in totalPage()"
-          :key="indexPage"
-          v-on:click="getDataPagination(indexPage)"
-          class="page-item"
-          :class="isActive(indexPage)"
-        >
-          <a class="page-link" href="#">{{ indexPage }}</a>
-        </li>
-
-        <li v-on:click="getNextPage()" class="page-item">
-          <a class="page-link" href="#">Next</a>
-        </li>
-      </ul>
-    </nav>
   </div>
 </template>
 
 <script>
-// import axios from "axios";
 export default {
   name: "ListTeacherProfile",
   data() {
     return {
-      dataForPagination: [],
-      elementPerpage: 10,
-      currentPage: 1,
       class_name: "",
       class_name_list: [],
     };
@@ -105,31 +91,6 @@ export default {
   },
 
   methods: {
-    totalPage() {
-      return Math.ceil(this.teachers.length / this.elementPerpage);
-    },
-    getDataPagination(NumberPage) {
-      this.currentPage = NumberPage;
-      this.dataForPagination = [];
-      let start = (NumberPage - 1) * this.elementPerpage;
-      let end = NumberPage * this.elementPerpage;
-      this.dataForPagination = this.teachers.slice(start, end);
-    },
-    getPreviousPage() {
-      if (this.currentPage > 1) {
-        this.currentPage--;
-        this.getDataPagination(this.currentPage);
-      }
-    },
-    getNextPage() {
-      if (this.currentPage < this.totalPage()) {
-        this.currentPage++;
-        this.getDataPagination(this.currentPage);
-      }
-    },
-    isActive(NumberPage) {
-      return NumberPage == this.currentPage ? "active" : "";
-    },
     viewData(profile_id) {
       console.log("teacher profile id ", profile_id);
       this.$router.push("/profile/teacher/" + profile_id + "");

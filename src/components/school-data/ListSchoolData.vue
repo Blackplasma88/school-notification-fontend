@@ -9,17 +9,24 @@
             <th scope="col">ปีการศึกษา</th>
             <th scope="col">ภาคเรียน</th>
             <th scope="col">สถานะ</th>
-            <th scope="col">การจัดการ</th>
+            <!-- <th scope="col">การจัดการ</th> -->
           </tr>
         </thead>
         <tbody>
           <tr v-for="school in school_datas" :key="school">
             <td>{{ school.year }}</td>
             <td>{{ school.term }}</td>
-            <td>{{ school.status }}</td>
             <td>
-              <button>อัพเดต</button>
+              <div v-if="school.status != true">
+                <td>กำลังดำเนินการ</td>
+              </div>
+              <div v-else>
+                <td>จบการเรียนการสอน</td>
+              </div>
             </td>
+            <!-- <td>
+              <button>อัพเดต</button>
+            </td> -->
           </tr>
         </tbody>
       </table>

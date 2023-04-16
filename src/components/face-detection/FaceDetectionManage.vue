@@ -112,6 +112,7 @@
         </div>
       </form>
     </CreatePopup>
+    <ListFaceDetected :class_names="this.data_list" />
   </div>
 </template>
 
@@ -119,10 +120,12 @@
 import axios from "axios";
 import { ref } from "vue";
 import CreatePopup from "@/components/main/CreatePopup.vue";
+import ListFaceDetected from "./ListFaceDetected.vue";
 export default {
   name: "FaceDetectionManage",
   components: {
     CreatePopup,
+    ListFaceDetected,
   },
   data() {
     return {
@@ -138,7 +141,7 @@ export default {
       data_list_not_train: [],
       data_list: [],
       data_id_train: [],
-      data_name_train:"",
+      data_name_train: "",
     };
   },
   mounted() {},
@@ -148,20 +151,22 @@ export default {
         !this.popupTriggers.buttonPopupCreate;
     },
     togglePopupTrain() {
-      this.data_list_not_train = []
+      this.data_list_not_train = [];
       this.popupTriggers.buttonPopupTrain =
         !this.popupTriggers.buttonPopupTrain;
+
       for (let i = 0; i < this.data_list.length; i++) {
         if (this.data_list[i].data.status === "not") {
           this.data_list_not_train.push(this.data_list[i].data);
         }
       }
-      console.log(this.data_list_not_train)
+      console.log(this.data_list_not_train);
     },
     async submitForm() {
       for (let i = 0; i < this.class_list.length; i++) {
         if (this.class_list[i].class_room == this.class_room) {
           this.class_id = this.class_list[i].id;
+          console.log(this.class_id);
           break;
         }
       }
@@ -173,6 +178,7 @@ export default {
           })
           .then((response) => {
             this.popupTriggers.buttonPopupCreate = false;
+
             this.$swal("Success!", response.data.message, "success").then(
               () => {
                 window.location.reload();
@@ -185,7 +191,7 @@ export default {
       }
     },
     async submitFormTrain() {
-      let data_train = {}
+      let data_train = {};
       for (let i = 0; i < this.data_list_not_train.length; i++) {
         if (this.data_list_not_train[i].name == this.data_name_train) {
           data_train = this.data_list_not_train[i];
@@ -193,11 +199,11 @@ export default {
         }
       }
 
-      console.log(data_train)
+      console.log(data_train);
       try {
         await axios
           .post("http://127.0.0.1:8080/face-detection/trained-model", {
-            id:data_train.id,
+            id: data_train.id,
             class_id: data_train.class_id,
           })
           .then((response) => {
@@ -218,6 +224,8 @@ export default {
         .get("http://127.0.0.1:8080/class/all?class_year=" + this.class_year)
         .then((response) => {
           this.class_list = response.data.data.class_list;
+
+          console.log("getByClassYear", this.class_list);
         })
         .catch((error) => {
           this.class_list = [];
@@ -226,12 +234,14 @@ export default {
     },
     press() {
       this.data_list = [];
+      console.log("data_list", this.data_list);
       axios
         .get(
           "http://127.0.0.1:8080/class/all?class_year=" + this.class_year_get
         )
         .then((response) => {
           this.class_list = response.data.data.class_list;
+          console.log("getByClassYear", this.class_list);
           for (var i = 0; i < this.class_list.length; i++) {
             axios
               .get(

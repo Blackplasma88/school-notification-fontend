@@ -1,69 +1,79 @@
 <template>
-  <div class="messanger">
-    <div class="chatMenu">
-      <div class="chatMenuWrapper">
-        <input placeholder="Search for friends" className="chatMenuInput" />
-        <Conversations
-          v-for="item in this.conversation_list"
-          :key="item.id"
-          :conversation="item"
-          :id="item.id"
-          :currentUser="user"
-          @click="setCurrentChat(item)"
-        />
+  <div>
+    <div class="messanger">
+      <div class="chatMenu">
+        <div class="chatMenuWrapper">
+          <input placeholder="Search for friends" className="chatMenuInput" />
+          <Conversations
+            v-for="item in this.conversation_list"
+            :key="item.id"
+            :conversation="item"
+            :id="item.id"
+            :currentUser="user"
+            @click="setCurrentChat(item)"
+          />
+        </div>
       </div>
-    </div>
-    <div class="chatBox">
-      <div class="chatBoxWrapper" v-if="current_chat.id != undefined">
-        <div className="chatBoxTop" v-if="this.messaeges.length != 0">
-          <div>
-            <Message
-              v-for="item in this.messaeges"
-              :key="item.id"
-              :message="item"
-              :own="item.sender === user.id"
-            />
+      <div class="chatBox">
+        <div class="chatBoxWrapper" v-if="current_chat.id != undefined">
+          <div className="chatBoxTop" v-if="this.messaeges.length != 0">
+            <div>
+              <Message
+                v-for="item in this.messaeges"
+                :key="item.id"
+                :message="item"
+                :own="item.sender === user.id"
+              />
+            </div>
+          </div>
+          <div v-else>
+            <span class="noConverationText" />Oprn a converation to start
+            chat<span />
+          </div>
+          <div className="chatBoxBottom">
+            <textarea
+              className="chatMessageInput"
+              placeholder="write something..."
+              v-model="new_message"
+            ></textarea>
+            <button className="chatSubmitButton" @click="handleSubmit">
+              Send
+            </button>
           </div>
         </div>
         <div v-else>
-          <span class="noConverationText" />Oprn a converation to start chat<span />
-        </div>
-        <div className="chatBoxBottom">
-          <textarea
-            className="chatMessageInput"
-            placeholder="write something..."
-            v-model="new_message"
-          ></textarea>
-          <button className="chatSubmitButton" @click="handleSubmit">
-            Send
-          </button>
+          <span class="noConverationText" />Oprn a converation to start
+          chat<span />
         </div>
       </div>
-      <div v-else>
-        <span class="noConverationText" />Oprn a converation to start chat<span />
-      </div>
-    </div>
-    <div class="newConversation">
-     <div class="dropdown-wrapper">
-      <div v-if="isVisible" class="dropdown-popover">
-        <div class="selected-item">
-          Select
+      <div class="newConversation">
+        <div class="dropdown-wrapper">
+          <div v-if="isVisible" class="dropdown-popover">
+            <div class="selected-item">Select</div>
+            <input
+              v-model="searchQuery"
+              type="text"
+              placeholder="Search for chat"
+            />
+            <div class="options">
+              <ul>
+                <li
+                  @click="selectItem(user)"
+                  v-for="user in filterUser"
+                  :key="user.id"
+                >
+                  {{ user.name }}
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-        <input v-model="searchQuery" type="text" placeholder="Search for chat">
-        <div class="options">
-          <ul>
-            <li @click="selectItem(user)" v-for="user in filterUser" :key="user.id">
-              {{ user.name }}
-            </li>
-          </ul>
-        </div>
       </div>
-     </div>
     </div>
   </div>
 </template>
 
-<script >
+<script>
 import axios from "axios";
 import Conversations from "./Conversations.vue";
 import Message from "./Message.vue";
@@ -84,16 +94,16 @@ export default {
       user: {
         id: "",
       },
-      socket:{},
-      searchQuery:"",
-      selectedItem:"",
-      isVisible:true,
-      people:[],
+      socket: {},
+      searchQuery: "",
+      selectedItem: "",
+      isVisible: true,
+      people: [],
     };
   },
 
   mounted() {
-    this.user.id = localStorage.getItem("user_id")
+    this.user.id = localStorage.getItem("user_id");
     // this.user.id = "6436598bb7a3f5f85e0af7bf";
     axios
       .get("http://127.0.0.1:8080/conversation/user-id?user_id=" + this.user.id)
@@ -105,79 +115,76 @@ export default {
       .catch((error) => {
         console.log(error);
       });
-      // console.log(io); 
-      // this.socket = io("ws://localhost:8900")
-      // // io("ws://localhost:8900")
-      // this.socket.on("welcome",message =>{
-      //   console.log(message)
-      // })
-      // this.socket.emit("addUser",this.user.id)
-      // this.socket.on("getUsers",users =>{
-      //   console.log(users)
-      // })
+    // console.log(io);
+    // this.socket = io("ws://localhost:8900")
+    // // io("ws://localhost:8900")
+    // this.socket.on("welcome",message =>{
+    //   console.log(message)
+    // })
+    // this.socket.emit("addUser",this.user.id)
+    // this.socket.on("getUsers",users =>{
+    //   console.log(users)
+    // })
 
-      // this.socket.on("getMessage", data =>{
-      //     let msg = {
-      //       sender:data.senderId,
-      //       text:data.text,
-      //       created_at:Date.now()
-      //     }
+    // this.socket.on("getMessage", data =>{
+    //     let msg = {
+    //       sender:data.senderId,
+    //       text:data.text,
+    //       created_at:Date.now()
+    //     }
 
-      //     // arrival_message = msg
-      //     console.log(msg)
+    //     // arrival_message = msg
+    //     console.log(msg)
 
-      //     if (this.current_chat.members.includes(msg.sender)){
-      //       this.messaeges.push(msg)
-      //     }
-      //   })
+    //     if (this.current_chat.members.includes(msg.sender)){
+    //       this.messaeges.push(msg)
+    //     }
+    //   })
 
-      axios
-        .get("http://127.0.0.1:8080/profile/all?role=teacher")
-        .then((response) => {
-         this.people = response.data.data.profile_list
-          console.log(this.people)
-        });
+    axios
+      .get("http://127.0.0.1:8080/profile/all?role=teacher")
+      .then((response) => {
+        this.people = response.data.data.profile_list;
+        console.log(this.people);
+      });
   },
-  computed:{
-    filterUser(){
+  computed: {
+    filterUser() {
       if (this.searchQuery.trim().length > 0) {
-          return this.people.filter((person) =>
+        return this.people.filter((person) =>
           person.name
-              .toLowerCase()
-              .includes(this.searchQuery.trim().toLowerCase())
-          );
-        }
+            .toLowerCase()
+            .includes(this.searchQuery.trim().toLowerCase())
+        );
+      }
       return this.people;
-    }
+    },
   },
   methods: {
-    selectItem(user){
-      console.log(user)
+    selectItem(user) {
+      console.log(user);
       axios
-        .post(
-          "http://127.0.0.1:8080/conversation/create",{
-            sender_id:this.user.id,
-            receiver_id:user.id
-          }
-        )
+        .post("http://127.0.0.1:8080/conversation/create", {
+          sender_id: this.user.id,
+          receiver_id: user.id,
+        })
         .then((response) => {
           console.log(response.data);
-         
         })
         .catch((error) => {
           console.log(error);
         });
     },
-    scrollToEnd(){
+    scrollToEnd() {
       var con = document.querySelector(".scroll");
-      console.log(con)
+      console.log(con);
       var scrollHeight = con.scrollHeight;
       con.scrollTop = scrollHeight;
     },
     setCurrentChat(chat) {
       // console.log(chat);
       // console.log(this.current_chat.id)
-      this.messaeges = []
+      this.messaeges = [];
       this.current_chat = chat;
       // console.log(this.current_chat.id)
 
@@ -196,7 +203,7 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-   
+
       // this.$refs..scrollIntoView({ behavior: "smooth" });
     },
     handleSubmit() {
@@ -238,9 +245,8 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-        });   
+        });
     },
-
   },
 };
 </script>
@@ -259,7 +265,7 @@ export default {
   flex: 7;
 }
 
-.newConversation{
+.newConversation {
   flex: 3;
 }
 
@@ -320,14 +326,13 @@ export default {
   cursor: default;
 }
 
-.dropdown-wrapper{
+.dropdown-wrapper {
   max-width: 300;
   position: relative;
   margin: 0 auto;
-
 }
 
-.selected-item{
+.selected-item {
   height: 40px;
   border: 2px solid;
   border-radius: 5px;
@@ -337,7 +342,7 @@ export default {
   align-items: center;
 }
 
-.dropdown-popover{
+.dropdown-popover {
   position: absolute;
   border: 2px solid lightgray;
   top: 10px;
@@ -347,7 +352,7 @@ export default {
   padding: 15px;
 }
 
-input{
+input {
   width: 90%;
   height: 30px;
   border: 2px solid lightgray;
@@ -356,17 +361,16 @@ input{
   text-align: center;
 }
 
-
-ul{
+ul {
   list-style: none;
   text-align: center;
   max-height: 200;
-  overflow-y:scroll ;
+  overflow-y: scroll;
   overflow-x: hidden;
   border: 1px solid lightgray;
 }
 
-li{
+li {
   width: 100%;
   border-bottom: 1px solid lightgray;
   padding: 1px;
@@ -375,10 +379,9 @@ li{
   font-size: 16px;
 }
 
-li:hover{
+li:hover {
   background: #70878a;
 }
-
 
 @media screen and (max-width: 768px) {
   .chatMenu {

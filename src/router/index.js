@@ -32,6 +32,7 @@ import Summary from "@/views/summary/Summary.vue";
 
 import SchoolData from "@/views/school-data/SchoolData.vue";
 import FaceDetection from "@/views/face-detection/FaceDetection.vue";
+import FaceDetectionRead from "@/views/face-detection/Read.vue";
 
 import Chat from "@/views/chat/ChatView.vue";
 
@@ -162,6 +163,11 @@ const router = createRouter({
       path: "/face-detection",
       name: "FaceDetection",
       component: FaceDetection,
+    },
+    {
+      path: "/face-detection/:id",
+      name: "FaceDetectionRead",
+      component: FaceDetectionRead,
     },
   ],
 });

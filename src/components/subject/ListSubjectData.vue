@@ -40,11 +40,12 @@
                     this.instructors.filter((t) => t.id.includes(subject.id))[0]
                       .instructor_name_list
                   }} -->
-                    {{ instructors[subject.index][0] }}
+                  {{ instructors[subject.index][0] }}
                 </td>
               </div>
               <div v-else>
-                <button v-if='role === "admin"'
+                <button
+                  v-if="role === 'admin'"
                   type="button"
                   class="btn btn-outline-secondary"
                   @click="
@@ -76,7 +77,8 @@
                 </td>
               </div>
               <div v-else>
-                <button  v-if='role === "admin"'
+                <button
+                  v-if="role === 'admin'"
                   type="button"
                   class="btn btn-outline-secondary"
                   @click="
@@ -108,7 +110,8 @@
                 </td>
               </div>
               <div v-else>
-                <button  v-if='role === "admin"'
+                <button
+                  v-if="role === 'admin'"
                   type="button"
                   class="btn btn-outline-secondary"
                   @click="
@@ -166,26 +169,6 @@
         </div>
       </form>
     </EditPopup>
-    <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-center">
-        <li v-on:click="getPreviousPage()" class="page-item">
-          <a class="page-link">Previous</a>
-        </li>
-        <li
-          v-for="indexPage in totalPage()"
-          :key="indexPage"
-          v-on:click="getDataPagination(indexPage)"
-          class="page-item"
-          :class="isActive(indexPage)"
-        >
-          <a class="page-link" href="#">{{ indexPage }}</a>
-        </li>
-
-        <li v-on:click="getNextPage()" class="page-item">
-          <a class="page-link" href="#">Next</a>
-        </li>
-      </ul>
-    </nav>
   </div>
 </template>
 
@@ -214,7 +197,7 @@ export default {
   },
   data() {
     return {
-      role:"",
+      role: "",
       popupTriggers: ref({
         buttonPopup: false,
       }),
@@ -233,9 +216,9 @@ export default {
       instructor_list: [],
       instructor_list_id: [],
 
-      dataForPagination: [],
-      elementPerpage: 10,
-      currentPage: 1,
+      // dataForPagination: [],
+      // elementPerpage: 10,
+      // currentPage: 1,
       isHidden: true,
     };
   },
@@ -335,7 +318,7 @@ export default {
     },
   },
   mounted() {
-    this.role = localStorage.getItem("role")
+    this.role = localStorage.getItem("role");
   },
 };
 </script>

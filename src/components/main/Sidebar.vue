@@ -13,12 +13,12 @@
       </button>
     </div>
     &nbsp;
-    <div>
+    <!-- <div>
       <router-link to="/profile/:id" class="button">
         <h3>Profile ID</h3>
         <h3>First Name</h3>
       </router-link>
-    </div>
+    </div> -->
 
     <div class="menu">
       <router-link to="/informations" class="button">
@@ -42,14 +42,14 @@
         <span class="text">Subject</span>
       </router-link>
 
-      <router-link v-if='role === "admin"' to="/profile/teacher" class="button">
+      <router-link v-if="role === 'admin'" to="/profile/teacher" class="button">
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-users" />
         </span>
         <span class="text"> Teacher Profile </span>
       </router-link>
 
-      <router-link v-if='role === "admin"' to="/profile/student" class="button">
+      <router-link v-if="role === 'admin'" to="/profile/student" class="button">
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-users" />
         </span>
@@ -75,28 +75,51 @@
         <span class="text">Courses</span>
       </router-link>
 
-      <router-link v-if='role === "admin"' to="/school-data" class="button">
+      <router-link v-if="role === 'admin'" to="/face-detection" class="button">
         <span class="material-icons">
-          <font-awesome-icon icon="fa-solid fa-school-flag" />
+          <font-awesome-icon icon="fa-solid fa-video" />
         </span>
-        <span class="text">School Data</span>
+        <span class="text">Face Detected</span>
       </router-link>
 
-      <router-link v-if='role === "teacher" || role === "student"' to="/scores" class="button">
+      <router-link
+        v-if="role === 'teacher' || role === 'student'"
+        to="/scores"
+        class="button"
+      >
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-table-list" />
         </span>
         <span class="text">Score</span>
       </router-link>
 
-      <router-link v-if='role === "teacher" || role === "student"' to="/check-names" class="button">
+      <router-link
+        v-if="role === 'admin' || role === 'student'"
+        to="/scores"
+        class="button"
+      >
+        <span class="material-icons">
+          <font-awesome-icon icon="fa-solid fa-table-list" />
+        </span>
+        <span class="text">Score</span>
+      </router-link>
+
+      <router-link
+        v-if="role === 'teacher' || role === 'student'"
+        to="/check-names"
+        class="button"
+      >
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-check" />
         </span>
         <span class="text">Check Names</span>
       </router-link>
 
-      <router-link v-if='role === "teacher" || role === "student"' to="/summary" class="button">
+      <router-link
+        v-if="role === 'teacher' || role === 'student'"
+        to="/summary"
+        class="button"
+      >
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-chart-line" />
         </span>
@@ -111,7 +134,7 @@ export default {
   name: "Sidebar",
   data() {
     return {
-      role:"",
+      role: "",
       is_expanded:
         localStorage.getItem("is_expanded") === "true" ? true : false,
     };

@@ -10,6 +10,10 @@ export default {
   data() {
     return {};
   },
+  mounted() {
+    
+    localStorage.getItem("token")
+  },
 };
 </script>
 

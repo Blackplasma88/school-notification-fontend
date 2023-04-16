@@ -40,9 +40,9 @@ export default {
   },
   mounted() {
     // console.log(this.message);
-    this.m = this.message
+    this.m = this.message;
     // console.log(this.own);
-        // console.log(this.m.created_at)
+    // console.log(this.m.created_at)
     this.m.created_at = moment(this.m.created_at).fromNow();
     //    console.log(this.m.created_at)
   },
