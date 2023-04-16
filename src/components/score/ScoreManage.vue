@@ -237,11 +237,6 @@ export default {
           console.log(response.data.data.course_list);
           this.course_list = response.data.data.course_list;
           //   console.log(  this.school_data);
-
-
-
-
-
         })
         .catch((error) => {
           console.log(error);
@@ -287,7 +282,7 @@ export default {
             this.profile_id
         )
         .then((response) => {
-          // console.log(response.data.data.score_data);
+          console.log(response.data.data.score_data);
           this.score = response.data.data.score_data;
           this.score_information =
             response.data.data.score_data.score_information;

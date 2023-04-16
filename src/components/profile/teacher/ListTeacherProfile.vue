@@ -1,9 +1,9 @@
 <template>
   <div>
     <h2>List of Teachers</h2>
-    <!-- {{ teachers }} -->
-    <!-- {{ classes }}
-    {{ subjects }} -->
+    {{ teachers }}
+    {{ classes }}
+    {{ subjects }}
     <div>
       <table class="table table-bordered table-hover">
         <thead>
