@@ -152,6 +152,12 @@
         </div>
       </form>
     </CreatePopup>
+    <ListScoreManage
+      :scores="this.score_information"
+      :scores_name="this.score_name_list"
+      :courses="this.course_list"
+      :students="this.student_name_list"
+    />
   </div>
 </template>
 
@@ -159,10 +165,12 @@
 import { ref } from "vue";
 import axios from "axios";
 import CreatePopup from "@/components/main/CreatePopup.vue";
+import ListScoreManage from "./ListScoreManage.vue";
 export default {
   name: "ScoreManage",
   components: {
     CreatePopup,
+    ListScoreManage,
   },
   data() {
     return {
@@ -171,6 +179,7 @@ export default {
       popupTriggers: ref({
         buttonPopupAddScore: false,
       }),
+      filterOptions: "",
       year: "",
       term: "",
       term_year: [],
@@ -186,6 +195,7 @@ export default {
         type: "",
         score_full: 0,
       },
+      student_name_list: [],
     };
   },
   mounted() {
@@ -237,6 +247,9 @@ export default {
           console.log(response.data.data.course_list);
           this.course_list = response.data.data.course_list;
           //   console.log(  this.school_data);
+          console.log(this.course_list);
+
+          axios.get("");
         })
         .catch((error) => {
           console.log(error);
@@ -286,7 +299,23 @@ export default {
           this.score = response.data.data.score_data;
           this.score_information =
             response.data.data.score_data.score_information;
-          //   console.log(  this.school_data);
+          console.log(this.score_information);
+          console.log(this.score_information[0].student_id);
+          for (var i = 0; i < this.score_information.length; i++) {
+            let indexI = i;
+            axios
+              .get(
+                "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
+                  this.score_information[indexI].student_id +
+                  "&role=student"
+              )
+              .then((response) => {
+                console.log(response.data.data.profile.name);
+                this.student_name_list[indexI] =
+                  response.data.data.profile.name;
+                console.log(this.student_name_list);
+              });
+          }
         })
         .catch((error) => {
           console.log(error);
