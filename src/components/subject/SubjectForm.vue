@@ -56,13 +56,13 @@
             <option selected disabled value="">{{ sortOption }}</option>
             <option value="Asc">Asc</option>
             <option value="Desc">Desc</option>
-            
           </select>
         </div>
       </div>
     </div>
     <div class="rightContent">
-      <button v-if='role === "admin"'
+      <button
+        v-if="role === 'admin'"
         type="button"
         class="btn btn-secondary"
         @click="TogglePopup('buttonPopup')"
@@ -157,26 +157,6 @@
       :subjects="subjectList"
       :instructors="instructor_name_list"
     />
-    <!-- <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-center">
-        <li v-on:click="getPreviousPage()" class="page-item">
-          <a class="page-link">Previous</a>
-        </li>
-        <li
-          v-for="indexPage in totalPage()"
-          :key="indexPage"
-          v-on:click="getDataPagination(indexPage)"
-          class="page-item"
-          :class="isActive(indexPage)"
-        >
-          <a class="page-link" href="#">{{ indexPage }}</a>
-        </li>
-
-        <li v-on:click="getNextPage()" class="page-item">
-          <a class="page-link" href="#">Next</a>
-        </li>
-      </ul>
-    </nav> -->
   </section>
 </template>
 
@@ -194,7 +174,7 @@ export default {
   },
   data() {
     return {
-      role:"",
+      role: "",
       popupTriggers: ref({
         buttonPopup: false,
       }),
@@ -210,11 +190,9 @@ export default {
       subject_category_list: [],
       filterOptions: "",
       filterValue: "",
-      sortBy:"",
-      sortOption:"Asc",
-      // dataForPagination: [],
-      // elementPerpage: 10,
-      // currentPage: 1,
+      sortBy: "",
+      sortOption: "Asc",
+
       instructor: {
         subject_id: "",
         instructor_id: "",
@@ -256,24 +234,21 @@ export default {
         }
       }
       return this.subjects;
-      
-      
     },
   },
-  
+
   created() {
-    this.role = localStorage.getItem("role")
-     axios.get("http://127.0.0.1:8080/subject/all").then((response) => {
+    this.role = localStorage.getItem("role");
+    axios.get("http://127.0.0.1:8080/subject/all").then((response) => {
       this.subjects = response.data.data.subject_list;
       console.log("this.subjects", this.subjects);
-      this.getDataPagination(1);
       console.log("this.dataForPagination", this.dataForPagination);
       for (var i = 0; i < this.subjects.length; i++) {
         let indexI = i;
 
         this.instructor_name_list.push([null, null, null]);
 
-        this.subjects[i].index = indexI
+        this.subjects[i].index = indexI;
         // let id = this.subjects[i].id;
         // let data = [null, null, null];
 
@@ -305,35 +280,33 @@ export default {
     });
   },
   methods: {
-    sortValue(){
+    sortValue() {
       // น้อยไปมาก
-      if (this.sortOption == "Asc"){
-        if (this.sortBy === "subject_id"){
-        this.subjects.sort((a,b) => a.subject_id >b.subject_id ?1:-1);
-      }else if (this.sortBy === "category"){
-        this.subjects.sort((a,b) => a.category >b.category ?1:-1);
-      }else if (this.sortBy === "name"){
-        this.subjects.sort((a,b) => a.name >b.name ?1:-1);
-      }else if (this.sortBy === "credit"){
-        this.subjects.sort((a,b) => a.credit >b.credit ?1:-1);
-      }else if (this.sortBy === "class_year"){
-        this.subjects.sort((a,b) => a.class_year >b.class_year ?1:-1);
+      if (this.sortOption == "Asc") {
+        if (this.sortBy === "subject_id") {
+          this.subjects.sort((a, b) => (a.subject_id > b.subject_id ? 1 : -1));
+        } else if (this.sortBy === "category") {
+          this.subjects.sort((a, b) => (a.category > b.category ? 1 : -1));
+        } else if (this.sortBy === "name") {
+          this.subjects.sort((a, b) => (a.name > b.name ? 1 : -1));
+        } else if (this.sortBy === "credit") {
+          this.subjects.sort((a, b) => (a.credit > b.credit ? 1 : -1));
+        } else if (this.sortBy === "class_year") {
+          this.subjects.sort((a, b) => (a.class_year > b.class_year ? 1 : -1));
+        }
+      } else if (this.sortOption == "Desc") {
+        if (this.sortBy === "subject_id") {
+          this.subjects.sort((a, b) => (a.subject_id < b.subject_id ? 1 : -1));
+        } else if (this.sortBy === "category") {
+          this.subjects.sort((a, b) => (a.category < b.category ? 1 : -1));
+        } else if (this.sortBy === "name") {
+          this.subjects.sort((a, b) => (a.name < b.name ? 1 : -1));
+        } else if (this.sortBy === "credit") {
+          this.subjects.sort((a, b) => (a.credit < b.credit ? 1 : -1));
+        } else if (this.sortBy === "class_year") {
+          this.subjects.sort((a, b) => (a.class_year < b.class_year ? 1 : -1));
+        }
       }
-      }else  if (this.sortOption == "Desc"){
-        if (this.sortBy === "subject_id"){
-        this.subjects.sort((a,b) => a.subject_id <b.subject_id ?1:-1);
-      }else if (this.sortBy === "category"){
-        this.subjects.sort((a,b) => a.category <b.category ?1:-1);
-      }else if (this.sortBy === "name"){
-        this.subjects.sort((a,b) => a.name <b.name ?1:-1);
-      }else if (this.sortBy === "credit"){
-        this.subjects.sort((a,b) => a.credit <b.credit ?1:-1);
-      }else if (this.sortBy === "class_year"){
-        this.subjects.sort((a,b) => a.class_year <b.class_year ?1:-1);
-      }
-      }
-      
-      
     },
     TogglePopup(trigger) {
       console.log(trigger);
@@ -390,33 +363,33 @@ export default {
       };
       this.credit = 0;
     },
-    totalPage() {
-      return Math.ceil(this.subjects.length / this.elementPerpage);
-    },
-    getDataPagination(NumberPage) {
-      this.currentPage = NumberPage;
-      this.dataForPagination = [];
-      let start = (NumberPage - 1) * this.elementPerpage;
-      let end = NumberPage * this.elementPerpage;
-      this.dataForPagination = this.subjects.slice(start, end);
-      // console.log(this.subjects)
-      console.log(this.dataForPagination);
-    },
-    getPreviousPage() {
-      if (this.currentPage > 1) {
-        this.currentPage--;
-        this.getDataPagination(this.currentPage);
-      }
-    },
-    getNextPage() {
-      if (this.currentPage < this.totalPage()) {
-        this.currentPage++;
-        this.getDataPagination(this.currentPage);
-      }
-    },
-    isActive(NumberPage) {
-      return NumberPage == this.currentPage ? "active" : "";
-    },
+    // totalPage() {
+    //   return Math.ceil(this.subjects.length / this.elementPerpage);
+    // },
+    // getDataPagination(NumberPage) {
+    //   this.currentPage = NumberPage;
+    //   this.dataForPagination = [];
+    //   let start = (NumberPage - 1) * this.elementPerpage;
+    //   let end = NumberPage * this.elementPerpage;
+    //   this.dataForPagination = this.subjects.slice(start, end);
+    //   // console.log(this.subjects)
+    //   console.log(this.dataForPagination);
+    // },
+    // getPreviousPage() {
+    //   if (this.currentPage > 1) {
+    //     this.currentPage--;
+    //     this.getDataPagination(this.currentPage);
+    //   }
+    // },
+    // getNextPage() {
+    //   if (this.currentPage < this.totalPage()) {
+    //     this.currentPage++;
+    //     this.getDataPagination(this.currentPage);
+    //   }
+    // },
+    // isActive(NumberPage) {
+    //   return NumberPage == this.currentPage ? "active" : "";
+    // },
   },
 };
 </script>
