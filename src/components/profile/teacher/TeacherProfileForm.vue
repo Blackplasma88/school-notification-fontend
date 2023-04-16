@@ -8,11 +8,6 @@
           placeholder="Search"
           v-model="filterValue"
         />
-        &nbsp;
-        <button type="button" class="btn btn-secondary">
-          <font-awesome-icon icon="fa-solid fa-search" />
-        </button>
-        {{ filterValue }}
       </div>
       <div class="filter">
         <div>
@@ -21,11 +16,12 @@
             aria-label="Select"
             name="class_filter"
             id="class_filter"
-            v-model="class_filter"
+            v-model="filterOptions"
           >
             <option selected disabled value="">Filter</option>
-            <option value="class_year">ชั้นปี</option>
-            <option value="class_room">ห้อง</option>
+            <option value="profile_id">รหัสอาจารย์</option>
+            <option value="name">ชื่อ - สกุล</option>
+            <option value="category">ภาควิชา</option>
           </select>
         </div>
         &nbsp;
@@ -35,11 +31,29 @@
             aria-label="Select"
             name="class_sort"
             id="class_sort"
-            v:model:value="class_sort"
+            v-model="sortBy"
+            @change="sortValue()"
           >
             <option selected disabled value="">Sort by</option>
-            <option value="class_year">ชั้นปี</option>
-            <option value="class_room">ห้อง</option>
+            <option value="profile_id">รหัสอาจารย์</option>
+            <option value="name">ชื่อ - สกุล</option>
+            <option value="category">ภาควิชา</option>
+          </select>
+        </div>
+        &nbsp;
+        <div>
+          <select
+            class="form-select"
+            aria-label="Select"
+            name="sortyBy"
+            id="sortyBy"
+            v-model="sortOption"
+            @change="sortValue()"
+          >
+            <option selected disabled value="">{{ sortOption }}</option>
+            <option value="Asc">Asc</option>
+            <option value="Desc">Desc</option>
+            
           </select>
         </div>
       </div>
@@ -108,7 +122,7 @@
     <ListTeacherProfile
       :filterOptions="filterOptions"
       :filterValue="filterValue"
-      :teachers="teachers"
+      :teachers="filterList"
       :classes="class_name_list"
       :subjects="subject_name_list"
     />
@@ -132,6 +146,8 @@ export default {
       popupTriggers: ref({
         buttonPopup: false,
       }),
+      sortOption:"Asc",
+      sortBy:"",
       filterOptions: "",
       filterValue: "",
       class_filter: "",
@@ -149,43 +165,6 @@ export default {
   },
   mounted() {
     this.role = localStorage.getItem("role");
-  },
-  created() {
-    // axios.get("http://127.0.0.1:8080/profile/all?role=teacher").then((res) => {
-    //   console.log("teacher_list", res.data.data.profile_list);
-    //   this.teachers = res.data.data.profile_list;
-    //   console.log("this.teachers", this.teachers);
-    //   for (var i = 0; i < this.teachers.length; i++) {
-    //     let indexI = i;
-    //     this.class_name_list.push("");
-    //     console.log(this.teachers[i].class_in_counseling);
-    //     console.log(this.teachers[i].subject_id);
-    //     axios
-    //       .get(
-    //         "http://127.0.0.1:8080/class/id?class_id=" +
-    //           this.teachers[indexI].class_in_counseling
-    //       )
-    //       .then((res) => {
-    //         this.class_name =
-    //           res.data.data.class.class_year +
-    //           "/" +
-    //           res.data.data.class.class_room;
-    //         this.class_name_list[indexI] = this.class_name;
-    //         console.log("this.class_name", this.class_name);
-    //       });
-    //     axios
-    //       .get(
-    //         "http://127.0.0.1:8080/subject/id?subject_id=" +
-    //           this.teachers[indexI].subject_id
-    //       )
-    //       .then((res) => {
-    //         console.log(res.data.data.subject.name);
-    //         this.subject_name_list[indexI] = res.data.data.subject.name;
-    //         console.log("this.subject_name_list", this.subject_name_list);
-    //       });
-    //   }
-    //   console.log("this.class_name_list", this.class_name_list);
-    // });
 
     axios.get("http://127.0.0.1:8080/profile/all?role=teacher").then((res) => {
       console.log("teacher_list", res.data.data.profile_list);
@@ -195,6 +174,7 @@ export default {
       for (var i = 0; i < this.teachers.length; i++) {
         let indexI = i;
         this.class_name_list.push("");
+        this.teachers[i].class_name_index = indexI
         console.log(this.teachers[i].class_in_counseling);
         axios
           .get(
@@ -210,6 +190,7 @@ export default {
             console.log("this.class_name", this.class_name);
           });
 
+          this.teachers[i].subject_name_index = indexI
         axios
           .get(
             "http://127.0.0.1:8080/subject/id?subject_id=" +
@@ -224,8 +205,57 @@ export default {
       console.log("this.class_name_list", this.class_name_list);
     });
   },
+  computed: {
+    filterList() {
+      if (this.filterValue.trim().length > 0) {
+        if (this.filterOptions == "" || this.filterOptions == "profile_id") {
+          return this.teachers.filter((teacher) =>
+          teacher.profile_id
+              .toLowerCase()
+              .includes(this.filterValue.trim().toLowerCase())
+          );
+        } else if (this.filterOptions == "name") {
+          return this.teachers.filter((teacher) =>
+          teacher.name
+              .toLowerCase()
+              .includes(this.filterValue.trim().toLowerCase())
+          );
+        } else if (this.filterOptions == "category") {
+          return this.teachers.filter((teacher) =>
+          teacher.category
+              .toLowerCase()
+              .includes(this.filterValue.trim().toLowerCase())
+          );
+        }
+      }
+      return this.teachers;
+      
+      
+    },
+  },
 
   methods: {
+    sortValue(){
+      if (this.sortOption == "Asc"){
+        if (this.sortBy === "profile_id"){
+        this.teachers.sort((a,b) => a.profile_id >b.profile_id ?1:-1);
+      }else if (this.sortBy === "name"){
+        this.teachers.sort((a,b) => a.name >b.name ?1:-1);
+      }else if (this.sortBy === "category"){
+        this.teachers.sort((a,b) => a.category >b.category ?1:-1);
+      }
+      }else  if (this.sortOption == "Desc"){
+        if (this.sortBy === "profile_id"){
+        this.teachers.sort((a,b) => a.profile_id <b.profile_id ?1:-1);
+      }else if (this.sortBy === "name"){
+        this.teachers.sort((a,b) => a.name <b.name ?1:-1);
+      }else if (this.sortBy === "category"){
+        this.teachers.sort((a,b) => a.category <b.category ?1:-1);
+      }
+      }
+      
+      
+    },
     TogglePopup(trigger) {
       console.log(trigger);
       this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;

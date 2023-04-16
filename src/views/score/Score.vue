@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import ScoreManage from "@/components/score/ScoreManage.vue";
 export default {
   name: "Score",
@@ -15,6 +16,9 @@ export default {
   mounted(){
     if (localStorage.getItem("token") == null || localStorage.getItem("token") == undefined){
       this.$router.push("/login");
+    }
+    axios.defaults.headers = {
+        Authorization:localStorage.getItem("token"),
     }
   },
 }

@@ -1,8 +1,8 @@
 <template>
   <div>
     <h2>List of Teachers</h2>
-    <!-- {{ teachers }}
-    {{ classes }} -->
+    <!-- {{ teachers }} -->
+    <!-- {{ classes }} -->
     <!-- {{ subjects }} -->
     <div>
       <table class="table table-bordered table-hover">
@@ -18,13 +18,13 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(teacher, i) in teachers" :key="teacher.id">
+          <tr v-for="(teacher) in teachers" :key="teacher.id">
             <td>{{ teacher.profile_id }}</td>
             <td>{{ teacher.name }}</td>
             <td>{{ teacher.category }}</td>
             <td>
               <div v-if="teacher.class_in_counseling != ''">
-                <td>ม.{{ classes[i] }}</td>
+                <td>ม.{{ classes[teacher.class_name_index] }}</td>
               </div>
               <div v-else>
                 <td>ไม่มี</td>
@@ -33,7 +33,7 @@
             <td>
               <div v-if="teacher.subject_id != ''">
                 <td>
-                  {{ subjects[i] }}
+                  {{ subjects[teacher.subject_name_index] }}
                 </td>
               </div>
               <div v-else>
@@ -41,8 +41,8 @@
               </div>
             </td>
             <td>
-              <div v-if="teacher.course_teaches_list[i] != null">
-                {{ teacher.course_teaches_list[i].course_id_list.length }}
+              <div v-if="teacher.course_teaches_list[teacher.course_teaches_list.length-1].course_id_list != null">
+                {{ teacher.course_teaches_list[teacher.course_teaches_list.length-1].course_id_list.length}}
               </div>
               <div v-else>
                 <td>ไม่มี</td>
