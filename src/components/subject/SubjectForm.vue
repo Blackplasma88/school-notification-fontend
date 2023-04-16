@@ -261,9 +261,9 @@ export default {
     },
   },
   
-  created() {
+  async created() {
     this.role = localStorage.getItem("role")
-     axios.get("http://127.0.0.1:8080/subject/all").then((response) => {
+     await axios.get("http://127.0.0.1:8080/subject/all").then((response) => {
       this.subjects = response.data.data.subject_list;
       console.log("this.subjects", this.subjects);
       this.getDataPagination(1);

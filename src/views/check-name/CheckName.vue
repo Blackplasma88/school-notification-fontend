@@ -1,17 +1,27 @@
 <template>
-  <main id="check-name-page">
-    <h1>Check Name</h1>
-    <CheckNamaManage></CheckNamaManage>
-  </main>
+  <div class="w-100">
+    <Navbar /> 
+    <div class="d-flex w-100">
+      <Sidebar />
+      <div class="w-100 px-5" style="padding-top:5%;">
+        <CheckNamaManage></CheckNamaManage>
+      </div>
+    </div>
+   </div>
+  
 </template>
 
 <script>
+import Navbar from "@/components/main/Navbar.vue";
+import Sidebar from "@/components/main/Sidebar.vue";
 import axios from "axios";
 import CheckNamaManage from "@/components/check-name/CheckNamaManage.vue";
 export default {
   name: "CheckNama",
   components: {
     CheckNamaManage,
+    Navbar,
+    Sidebar,
   },
   mounted(){
     if (localStorage.getItem("token") == null || localStorage.getItem("token") == undefined){

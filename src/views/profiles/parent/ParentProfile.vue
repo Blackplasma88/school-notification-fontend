@@ -1,16 +1,27 @@
 <template>
-  <main id="parent-profile-page">
-    <ParentProfileForm />
-  </main>
+  <div class="w-100">
+    <Navbar /> 
+    <div class="d-flex w-100">
+      <Sidebar />
+      <div class="w-100 px-5" style="padding-top:5%;">
+        <ParentProfileForm />
+      </div>
+    </div>
+   </div>
+  
 </template>
 
 <script>
+import Navbar from "@/components/main/Navbar.vue";
+import Sidebar from "@/components/main/Sidebar.vue";
 import axios from "axios";
 import ParentProfileForm from "@/components/profile/parent/ParentProfileForm.vue";
 export default {
   name: "ParentProfile",
   components: {
     ParentProfileForm,
+    Navbar,
+    Sidebar,
   },
   mounted(){
     if (localStorage.getItem("token") == null || localStorage.getItem("token") == undefined){

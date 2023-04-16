@@ -1,16 +1,30 @@
 <template>
-  <main id="location-page">
-    <h1>Location</h1>
+  <div class="w-100">
+    <Navbar /> 
+    <div class="d-flex w-100">
+      <Sidebar  />
+      <div class="w-100 px-5" style="padding-top:5%;">
+        <h1>Location</h1>
     <LocationForm />
-  </main>
+      </div>
+      
+    </div>
+    
+   </div>
+
+ 
 </template>
 
 <script>
+import Navbar from "@/components/main/Navbar.vue";
+import Sidebar from "@/components/main/Sidebar.vue";
 import axios from "axios";
 import LocationForm from "@/components/location/LocationForm.vue";
 export default {
   components: {
     LocationForm,
+    Navbar,
+    Sidebar,
   },
   mounted(){
     if (localStorage.getItem("token") == null || localStorage.getItem("token") == undefined){

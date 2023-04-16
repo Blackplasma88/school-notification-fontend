@@ -44,7 +44,7 @@ const router = createRouter({
       component: Profile,
     },
     {
-      path: "/",
+      path: "/informations",
       name: "Informations",
       component: Information,
     },
@@ -144,7 +144,7 @@ const router = createRouter({
       component: Summary,
     },
     {
-      path: "/login",
+      path: "/",
       name: "Login",
       component: Login,
     },

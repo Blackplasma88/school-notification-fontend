@@ -1,6 +1,6 @@
 <template>
   <!-- <aside hidden :class="`${is_expanded ? 'is-expanded' : ''}`"> -->
-    <aside :class="`${is_expanded ? 'is-expanded' : ''}`">
+    <aside style="padding-top:5%;" :class="`${is_expanded ? 'is-expanded' : ''}`">
     <div>
       <button @click="ToggleMenu">
         <img
@@ -21,7 +21,7 @@
     </div>
 
     <div class="menu">
-      <router-link to="/" class="button">
+      <router-link to="/informations" class="button">
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-comments" />
         </span>

@@ -1,17 +1,28 @@
 <template>
-  <main id="course-page">
-    <h1>Manage Score</h1>
+  <div class="w-100">
+    <Navbar /> 
+    <div class="d-flex w-100">
+      <Sidebar />
+      <div class="w-100 px-5" style="padding-top:5%;">
+        <h1>Manage Score</h1>
     <ScoreManage></ScoreManage>
-  </main>
+      </div>
+    </div>
+   </div>
+  
 </template>
 
 <script>
+import Navbar from "@/components/main/Navbar.vue";
+import Sidebar from "@/components/main/Sidebar.vue";
 import axios from "axios";
 import ScoreManage from "@/components/score/ScoreManage.vue";
 export default {
   name: "Score",
   components: {
     ScoreManage,
+    Navbar,
+    Sidebar,
   },
   mounted(){
     if (localStorage.getItem("token") == null || localStorage.getItem("token") == undefined){

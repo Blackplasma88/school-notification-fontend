@@ -1,17 +1,28 @@
 <template>
-  <main>
-    <h1>Face Detection</h1>
-    <FaceDetectionManage></FaceDetectionManage>
-  </main>
+  <div class="w-100">
+    <Navbar /> 
+    <div class="d-flex w-100">
+      <Sidebar />
+      <div class="w-100 px-5" style="padding-top:5%;">
+        <h1>Face Detection</h1>
+  <FaceDetectionManage></FaceDetectionManage>
+      </div>
+    </div>
+   </div>
+  
 </template>
 
 <script>
+import Navbar from "@/components/main/Navbar.vue";
+import Sidebar from "@/components/main/Sidebar.vue";
 import axios from "axios";
 import FaceDetectionManage from "@/components/face-detection/FaceDetectionManage.vue";
 export default {
   name: "FaceDetection",
   components: {
     FaceDetectionManage,
+    Navbar,
+    Sidebar,
   },
   mounted(){
     if (localStorage.getItem("token") == null || localStorage.getItem("token") == undefined){

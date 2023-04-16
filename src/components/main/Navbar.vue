@@ -1,14 +1,14 @@
 <template>
-  <nav
-    class="navbar sticky-top navbar-expand-lg"
-    style="background-color: #3b5998"
+  <nav 
+    class="w-100 navbar sticky-top navbar-expand-lg"
+    style="position:fixed; top:0; background-color: #3b5998"
   >
     <div class="container-fluid">
       <div class="container-fluid">
         <h2 class="navbar-brand">School Notification</h2>
       </div>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+        <!-- <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul> -->
         <div class="menu">
           <div class="d-flex">
             <router-link to="/chat" class="button">
@@ -20,7 +20,7 @@
                 />
               </span>
             </router-link>
-            <router-link to="/logout" class="button">
+            <router-link to="/logout" class="button ms-3 me-3">
               <span class="material-icons">
                 <font-awesome-icon
                   icon="fa-solid fa-right-from-bracket"

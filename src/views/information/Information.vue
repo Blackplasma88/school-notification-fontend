@@ -1,19 +1,32 @@
 <template>
-  <main class="information-page">
-    <h1>Information</h1>
-    <InformationForm />
-  </main>
+  <!-- <main class="information-page"> -->
+   <div class="w-100">
+    <Navbar /> 
+    <div class="d-flex w-100">
+      <Sidebar />
+      <div class="w-100 px-5" style="padding-top:5%;">
+        <h1>Information</h1>
+        <InformationForm />
+      </div>
+    </div>
+   </div>
+  <!-- </main> -->
 </template>
 
 <script>
+import Navbar from "@/components/main/Navbar.vue";
+import Sidebar from "@/components/main/Sidebar.vue";
 import axios from "axios";
 import InformationForm from "@/components/information/InformationForm";
 export default {
+
   name: "Information",
   components: {
     InformationForm,
+    Navbar,
+    Sidebar,
   },
-  mounted(){
+  created(){
     if (localStorage.getItem("token") == null || localStorage.getItem("token") == undefined){
       this.$router.push("/login");
     }
@@ -24,4 +37,6 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+
+</style>

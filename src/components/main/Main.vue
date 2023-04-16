@@ -1,8 +1,8 @@
 <template>
   <div class="app">
-    <Sidebar v-if="sid_check" />
+    <Sidebar :hidden='haveCheck === "hidden"' v-if="sid_check" />
     <div class="head">
-      <Navbar v-if="nav_check" />
+      <Navbar :hidden='haveCheck === "hidden"' v-if="nav_check" />
       <div class="main">
         <router-view />
       </div>
@@ -19,6 +19,9 @@ export default {
     Navbar,
     Sidebar,
   },
+  props: {
+    haveCheck: String,
+  },
 
   data() {
     return {
@@ -33,6 +36,7 @@ export default {
       this.nav_check = true
       this.sid_check = true
     }
+    console.log(this.haveCheck)
   },
 };
 </script>

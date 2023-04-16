@@ -1,5 +1,5 @@
 <template>
-  <main id="login-page">
+  <div id="login-page">
     <div class="d-flex justify-content-center">
       <div class="login-image">
         <img src="@/assets/login.jpg" alt="login" width="500" />
@@ -19,7 +19,7 @@
         
       </div>
     </div>
-  </main>
+  </div>
 </template>
 
 <script>
@@ -32,6 +32,7 @@ export default {
       id: "",
       username: "",
       password: "",
+      hidden:"hidden",
     };
   },
   methods:{
@@ -51,7 +52,7 @@ export default {
             //     };
                 // setAuthHeader(localStorage.getItem("token"))
                 console.log(localStorage)
-                this.$router.push("/");
+                this.$router.push("/informations");
 
           });
       } catch (error) {

@@ -1,16 +1,27 @@
 <template>
-  <main id="course-page">
-    <SchoolDataView></SchoolDataView>
-  </main>
+  <div class="w-100">
+    <Navbar /> 
+    <div class="d-flex w-100">
+      <Sidebar />
+      <div class="w-100 px-5" style="padding-top:5%;">
+        <SchoolDataView></SchoolDataView>
+      </div>
+    </div>
+   </div>
+  
 </template>
 
 <script>
+import Navbar from "@/components/main/Navbar.vue";
+import Sidebar from "@/components/main/Sidebar.vue";
 import axios from "axios";
 import SchoolDataView from "@/components/school-data/SchoolDataView.vue";
 export default {
   name: "SchoolData",
   components: {
     SchoolDataView,
+    Navbar,
+    Sidebar,
   },
   mounted() {
     if (
