@@ -150,6 +150,43 @@ export default {
   mounted() {
     this.role = localStorage.getItem("role");
   },
+  created() {
+    axios.get("http://127.0.0.1:8080/profile/all?role=teacher").then((res) => {
+      console.log("teacher_list", res.data.data.profile_list);
+      this.teachers = res.data.data.profile_list;
+      console.log("this.teachers", this.teachers);
+      for (var i = 0; i < this.teachers.length; i++) {
+        let indexI = i;
+        this.class_name_list.push("");
+        console.log(this.teachers[i].class_in_counseling);
+        console.log(this.teachers[i].subject_id);
+        axios
+          .get(
+            "http://127.0.0.1:8080/class/id?class_id=" +
+              this.teachers[indexI].class_in_counseling
+          )
+          .then((res) => {
+            this.class_name =
+              res.data.data.class.class_year +
+              "/" +
+              res.data.data.class.class_room;
+            this.class_name_list[indexI] = this.class_name;
+            console.log("this.class_name", this.class_name);
+          });
+        axios
+          .get(
+            "http://127.0.0.1:8080/subject/id?subject_id=" +
+              this.teachers[indexI].subject_id
+          )
+          .then((res) => {
+            console.log(res.data.data.subject.name);
+            this.subject_name_list[indexI] = res.data.data.subject.name;
+            console.log("this.subject_name_list", this.subject_name_list);
+          });
+      }
+      console.log("this.class_name_list", this.class_name_list);
+    });
+  },
 
   methods: {
     TogglePopup(trigger) {

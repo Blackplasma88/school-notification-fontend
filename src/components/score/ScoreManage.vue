@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <div>
     <div class="filter">
       <div class="search-wrapper d-flex">
         <input
@@ -75,7 +75,7 @@
           v-model="this.course_name"
           @change="getScoreNameList()"
         >
-          <option selected disabled value="">select course</option>
+          <option selected disabled value="">select course name</option>
           <option v-for="item in this.course_list" :key="item.id">
             {{ item.name }}
           </option>
@@ -89,7 +89,7 @@
           v-model="this.score_name"
           @change="getScoreData()"
         >
-          <option selected disabled value="">select score</option>
+          <option selected disabled value="">select score name</option>
           <option v-for="item in this.score_name_list" :key="item.id">
             {{ item }}
           </option>
@@ -98,11 +98,12 @@
       &nbsp;
       <div class="btnAddScore">
         <button
+          v-if="this.role === 'teacher'"
           type="button"
           class="btn btn-secondary"
           @click="togglePopupAddScore()"
         >
-          Create course
+          add score
         </button>
       </div>
     </div>
@@ -151,27 +152,22 @@
         </div>
       </form>
     </CreatePopup>
-    <ListScoreManage
-      :filterValue="filterValue"
-      :filterOptions="filterOptions"
-      :scores="score_information"
-    />
-  </section>
+  </div>
 </template>
 
 <script>
 import { ref } from "vue";
 import axios from "axios";
 import CreatePopup from "@/components/main/CreatePopup.vue";
-import ListScoreManage from "./ListScoreManage.vue";
 export default {
   name: "ScoreManage",
   components: {
     CreatePopup,
-    ListScoreManage,
   },
   data() {
     return {
+      role: "",
+      profile_id: "",
       popupTriggers: ref({
         buttonPopupAddScore: false,
       }),
@@ -190,12 +186,11 @@ export default {
         type: "",
         score_full: 0,
       },
-      filterOptions: "",
-      sort_filter: "",
-      filterValue: "",
     };
   },
   mounted() {
+    this.role = localStorage.getItem("role");
+    this.profile_id = localStorage.getItem("profile_id");
     axios
       .get("http://127.0.0.1:8080/school-data/term-year-data")
       .then((response) => {
@@ -229,7 +224,11 @@ export default {
       }
       axios
         .get(
-          "http://127.0.0.1:8080/course/year-term?profile_id=t1&role=teacher&year=" +
+          "http://127.0.0.1:8080/course/year-term?profile_id=" +
+            this.profile_id +
+            "&role=" +
+            this.role +
+            "&year=" +
             this.year +
             "&term=" +
             this.term
@@ -238,6 +237,11 @@ export default {
           console.log(response.data.data.course_list);
           this.course_list = response.data.data.course_list;
           //   console.log(  this.school_data);
+
+
+
+
+
         })
         .catch((error) => {
           console.log(error);
@@ -256,7 +260,10 @@ export default {
         .get(
           "http://127.0.0.1:8080/score/score-in-course?course_id=" +
             this.course_id +
-            "&role=teacher&id=t1"
+            "&role=" +
+            this.role +
+            "&id=" +
+            this.profile_id
         )
         .then((response) => {
           // console.log(response.data.data.score.name);
@@ -274,7 +281,10 @@ export default {
             this.course_id +
             "&name=" +
             this.score_name +
-            "&role=teacher&id=t1"
+            "&role=" +
+            this.role +
+            "&id=" +
+            this.profile_id
         )
         .then((response) => {
           // console.log(response.data.data.score_data);
