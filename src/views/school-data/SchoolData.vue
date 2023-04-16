@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import SchoolDataView from "@/components/school-data/SchoolDataView.vue";
 export default {
   name: "SchoolData",
@@ -19,8 +20,8 @@ export default {
       this.$router.push("/login");
     }
     axios.defaults.headers = {
-        Authorization:localStorage.getItem("token"),
-    }
+      Authorization: localStorage.getItem("token"),
+    };
   },
 };
 </script>
