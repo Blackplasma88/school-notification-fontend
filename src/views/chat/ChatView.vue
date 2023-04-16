@@ -12,13 +12,16 @@ export default {
   components: {
     ChatComponent,
   },
-  mounted(){
-    if (localStorage.getItem("token") == null || localStorage.getItem("token") == undefined){
+  mounted() {
+    if (
+      localStorage.getItem("token") == null ||
+      localStorage.getItem("token") == undefined
+    ) {
       this.$router.push("/login");
     }
     axios.defaults.headers = {
-            Authorization:localStorage.getItem("token"),
-    }
+      Authorization: localStorage.getItem("token"),
+    };
   },
 };
 </script>

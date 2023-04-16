@@ -123,7 +123,7 @@
         <div class="form-control">
           <label for="select"> date :</label>
           <input
-            type="text"
+            type="date"
             class="form-control"
             placeholder="date"
             v-model="this.check_name_data_new.date"
@@ -192,7 +192,7 @@ export default {
         date: "",
         time_late: 0,
       },
-      model_ready:false,
+      model_ready: false,
       student_name_list: [],
     };
   },
@@ -343,19 +343,18 @@ export default {
       axios
         .get("http://127.0.0.1:8080/course/id?course_id=" + this.course_id)
         .then((res) => {
-           let class_id = res.data.data.course.class_id
+          let class_id = res.data.data.course.class_id;
           axios
             .get(
               "http://127.0.0.1:8080/face-detection/class_id?class_id=" +
                 res.data.data.course.class_id
             )
             .then((res) => {
-              
               if (res.data.data.data.status === "yes") {
                 axios
                   .get(
                     "http://127.0.0.1:8080/face-detection/open-camera?class_id=" +
-                    class_id +
+                      class_id +
                       "&course_id=" +
                       this.course_id
                   )
