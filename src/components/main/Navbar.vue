@@ -14,7 +14,7 @@
             <router-link to="/chat" class="button">
               <span class="material-icons">
                 <font-awesome-icon
-                  icon="fa-solid fa-right-from-bracket"
+                  icon="fa-solid fa-message"
                   size="2x"
                   style="color: #ffffff"
                 />

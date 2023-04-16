@@ -48,30 +48,29 @@
     <div class="rightContent">
       <div>
         <select
-      class="form-select"
-      aria-label="Select"
-      v-model="this.year"
-      @change="getCourseList()"
-    >
-      <option selected disabled>select</option>
-      <option v-for="item in this.term_year" :key="item.id">
-        {{ item.year }}
-      </option> 
-    </select>
-    
+          class="form-select"
+          aria-label="Select"
+          v-model="this.year"
+          @change="getCourseList()"
+        >
+          <option selected disabled>select</option>
+          <option v-for="item in this.term_year" :key="item.id">
+            {{ item.year }}
+          </option>
+        </select>
       </div>
       &nbsp;
       <div>
         <select
-      class="form-select"
-      aria-label="Select"
-      v-model="this.term"
-      @change="getCourseList()"
-    >
-      <option selected disabled>select</option>
-      <option value="1">1</option>
-      <option value="2">2</option>
-    </select>
+          class="form-select"
+          aria-label="Select"
+          v-model="this.term"
+          @change="getCourseList()"
+        >
+          <option selected disabled>select</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+        </select>
       </div>
       &nbsp;
       <div>
@@ -88,7 +87,12 @@
         </select>
       </div>
       <div class="btnCreateCourse">
+<<<<<<< HEAD
         <button v-if='this.role === "admin"'
+=======
+        <button
+          v-if="this.role === 'admin'"
+>>>>>>> origin/arm
           type="button"
           class="btn btn-secondary"
           @click="togglePopupCreateCourse()"
@@ -230,7 +234,7 @@
     <ListCourseData
       :filterOptions="filterOptions"
       :filterValue="filterValue"
-      :courses="courses"
+      :courses="course_list"
       :subjects="subject_name_list"
       :instructors="instructor_name_list"
       :classes="class_name_list"
@@ -252,53 +256,140 @@ export default {
   },
   data() {
     return {
+<<<<<<< HEAD
       role:"",
       profile_id:"",
+=======
+      role: "",
+      profile_id: "",
+>>>>>>> origin/arm
       popupTriggers: ref({
         buttonPopup: false,
       }),
       filterOptions: "",
       filterValue: "",
+<<<<<<< HEAD
       term_year:[],
       year:"",
       term:"",
       course_list:[],
+=======
+      term_year: [],
+      year: "",
+      term: "",
+      course_list: [],
+>>>>>>> origin/arm
       class_year: "",
       class_room: "",
-      class_list:[],
-      school_data:[],
-      instructor_list:[],
-      category:"",
-      subject_list:[],
-      instructor_name:"",
-      subject_name:"",
+      class_list: [],
+      school_data: [],
+      instructor_list: [],
+      category: "",
+      subject_list: [],
+      instructor_name: "",
+      subject_name: "",
+      subject_name_list: [],
+      instructor_name_list: [],
+      class_name_list: [],
+      location_name_list: [],
     };
   },
+<<<<<<< HEAD
   mounted(){
     this.role = localStorage.getItem("role")
     this.profile_id = localStorage.getItem("profile_id")
+=======
+  mounted() {
+    this.role = localStorage.getItem("role");
+    this.profile_id = localStorage.getItem("profile_id");
+>>>>>>> origin/arm
     axios
-        .get("http://127.0.0.1:8080/school-data/term-year-data")
-        .then((response) => {
-          // console.log(response.data.data.school_data);
-          this.term_year = response.data.data.school_data;
-            // console.log(  this.term_year);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      .get("http://127.0.0.1:8080/school-data/term-year-data")
+      .then((response) => {
+        // console.log(response.data.data.school_data);
+        this.term_year = response.data.data.school_data;
+        // console.log(  this.term_year);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
   methods: {
     async getCourseList() {
-      if (this.year === "" || this.term=== ""){
-        return
+      if (this.year === "" || this.term === "") {
+        return;
       }
       axios
+<<<<<<< HEAD
         .get("http://127.0.0.1:8080/course/year-term?profile_id="+this.profile_id+"&role="+this.role+"&year="+this.year+"&term="+this.term)
+=======
+        .get(
+          "http://127.0.0.1:8080/course/year-term?profile_id=" +
+            this.profile_id +
+            "&role=" +
+            this.role +
+            "&year=" +
+            this.year +
+            "&term=" +
+            this.term
+        )
+>>>>>>> origin/arm
         .then((response) => {
-          // console.log(response.data.data.course_list);
+          console.log(response.data.data.course_list);
           this.course_list = response.data.data.course_list;
           //   console.log(  this.school_data);
+
+          for (var i = 0; i < this.course_list.length; i++) {
+            let indexI = i;
+            this.class_name_list.push("");
+            console.log(this.course_list[i].class_id);
+            console.log(this.course_list[i].subject_id);
+            axios
+              .get(
+                "http://127.0.0.1:8080/class/id?class_id=" +
+                  this.course_list[indexI].class_id
+              )
+              .then((res) => {
+                this.class_name =
+                  res.data.data.class.class_year +
+                  "/" +
+                  res.data.data.class.class_room;
+                this.class_name_list[indexI] = this.class_name;
+                console.log("this.class_name", this.class_name);
+              });
+            axios
+              .get(
+                "http://127.0.0.1:8080/subject/id?subject_id=" +
+                  this.course_list[indexI].subject_id
+              )
+              .then((res) => {
+                console.log(res.data.data.subject.name);
+                this.subject_name_list[indexI] = res.data.data.subject.name;
+                console.log("this.subject_name_list", this.subject_name_list);
+              });
+            axios
+              .get(
+                "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
+                  this.course_list[indexI].instructor_id +
+                  "&role=teacher"
+              )
+              .then((response) => {
+                this.instructor_name_list[indexI] =
+                  response.data.data.profile.name;
+                console.log(response.data.data.profile.name);
+              });
+            axios
+              .get(
+                "http://127.0.0.1:8080/location/id?location_id=" +
+                  this.course_list[indexI].location_id
+              )
+              .then((response) => {
+                this.location_name_list[indexI] =
+                  response.data.data.location.location_id;
+                console.log(response.data.data.location.location_id);
+              });
+          }
+          console.log(this.subject_name_list);
         })
         .catch((error) => {
           console.log(error);
@@ -404,8 +495,8 @@ export default {
       for (let i = 0; i < this.subject_list.length; i++) {
         if (this.subject_list[i].name === this.subject_name) {
           this.subject_id = this.subject_list[i].subject_id;
-          if (this.subject_list[i].instructor_id===null){
-            return
+          if (this.subject_list[i].instructor_id === null) {
+            return;
           }
           for (let j = 0; j < this.subject_list[i].instructor_id.length; j++) {
             axios

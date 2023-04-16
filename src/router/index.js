@@ -29,7 +29,6 @@ import Logout from "@/views/logout/Logout.vue";
 import Score from "@/views/score/Score.vue";
 import CheckName from "@/views/check-name/CheckName.vue";
 import Summary from "@/views/summary/Summary.vue";
-import SchoolManage from "@/views/school-mange/SchoolManage.vue";
 
 import SchoolData from "@/views/school-data/SchoolData.vue";
 import FaceDetection from "@/views/face-detection/FaceDetection.vue";
@@ -85,7 +84,7 @@ const router = createRouter({
       component: TeacherProfile,
     },
     {
-      path: "/profile/teacher/:profile_id",
+      path: "/profile/teacher/:id",
       name: "TeacherProfileRead",
       component: TeacherProfileRead,
     },
@@ -95,7 +94,7 @@ const router = createRouter({
       component: StudnetProfile,
     },
     {
-      path: "/profile/student/:profile_id",
+      path: "/profile/student/:id",
       name: "StudentProfileRead",
       component: StudentProfileRead,
     },
@@ -143,11 +142,6 @@ const router = createRouter({
       path: "/summary",
       name: "Summary",
       component: Summary,
-    },
-    {
-      path: "/school-manage",
-      name: "SchoolManage",
-      component: SchoolManage,
     },
     {
       path: "/login",

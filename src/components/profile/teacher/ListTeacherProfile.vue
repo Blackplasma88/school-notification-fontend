@@ -1,7 +1,9 @@
 <template>
   <div>
     <h2>List of Teachers</h2>
-    <!-- {{ teachers }} -->
+    {{ teachers }}
+    {{ classes }}
+    {{ subjects }}
     <div>
       <table class="table table-bordered table-hover">
         <thead>
@@ -16,19 +18,13 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(teacher, i) in dataForPagination" :key="teacher.id">
+          <tr v-for="(teacher, i) in teachers" :key="teacher.id">
             <td>{{ teacher.profile_id }}</td>
             <td>{{ teacher.name }}</td>
             <td>{{ teacher.category }}</td>
             <td>
               <div v-if="teacher.class_in_counseling != ''">
-                <td>
-                  ม.{{
-                    this.class_name_list[
-                      (this.currentPage - 1) * this.elementPerpage + i
-                    ]
-                  }}
-                </td>
+                <td>ม.{{ classes[i] }}</td>
               </div>
               <div v-else>
                 <td>ไม่มี</td>
@@ -36,18 +32,20 @@
             </td>
             <td>
               <div v-if="teacher.subject_id != ''">
-                <td>{{ teacher.subject_id }}</td>
+                <td>
+                  {{ subjects[i] }}
+                </td>
               </div>
               <div v-else>
                 <td>ไม่มี</td>
               </div>
             </td>
             <td>
-              <div v-if="teacher.course_teaches_list.course_id_list != null">
-                <td>{{ teacher.course_id_list.course_id_list.length - 1 }}</td>
+              <div v-if="teacher.course_teaches_list[i] != null">
+                {{ teacher.course_teaches_list[i].course_id_list.length }}
               </div>
               <div v-else>
-                <td>{{ 0 }}</td>
+                <td>ไม่มี</td>
               </div>
             </td>
             <td>
@@ -86,12 +84,11 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 export default {
   name: "ListTeacherProfile",
   data() {
     return {
-      teachers: [],
       dataForPagination: [],
       elementPerpage: 10,
       currentPage: 1,
@@ -99,36 +96,14 @@ export default {
       class_name_list: [],
     };
   },
-  mounted() {
-    axios.get("http://127.0.0.1:8080/profile/all?role=teacher").then((res) => {
-      console.log("teacher_list", res.data.data.profile_list);
-      this.teachers = res.data.data.profile_list;
-      console.log("this.teachers", this.teachers);
-      this.getDataPagination(1);
-
-      console.log("this.dataForPagination", this.dataForPagination);
-
-      for (var i = 0; i < this.teachers.length; i++) {
-        let indexI = i;
-        this.class_name_list.push("");
-        console.log(this.teachers[i].class_in_counseling);
-        axios
-          .get(
-            "http://127.0.0.1:8080/class/id?class_id=" +
-              this.teachers[indexI].class_in_counseling
-          )
-          .then((res) => {
-            this.class_name =
-              res.data.data.class.class_year +
-              "/" +
-              res.data.data.class.class_room;
-            this.class_name_list[indexI] = this.class_name;
-            console.log("this.class_name", this.class_name);
-          });
-      }
-      console.log("this.class_name_list", this.class_name_list);
-    });
+  props: {
+    teachers: Array,
+    filterValue: String,
+    filterOptions: String,
+    classes: Array,
+    subjects: Array,
   },
+
   methods: {
     totalPage() {
       return Math.ceil(this.teachers.length / this.elementPerpage);
@@ -157,7 +132,7 @@ export default {
     },
     viewData(profile_id) {
       console.log("teacher profile id ", profile_id);
-      this.$router.push("/profile/teacher/" + profile_id);
+      this.$router.push("/profile/teacher/" + profile_id + "");
     },
   },
 };

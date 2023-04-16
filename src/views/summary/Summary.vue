@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main id="summary-page">
     <h1>Summary</h1>
     <SummaryView></SummaryView>
   </main>

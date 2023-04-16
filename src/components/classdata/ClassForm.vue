@@ -20,9 +20,9 @@
           <select
             class="form-select"
             aria-label="Select"
-            name="class_filter"
-            id="class_filter"
-            v-model="class_filter"
+            name="filter"
+            id="filter"
+            v-model="filterOptions"
           >
             <option selected disabled value="">Filter</option>
             <option value="class_year">ชั้นปี</option>
@@ -34,9 +34,9 @@
           <select
             class="form-select"
             aria-label="Select"
-            name="class_sort"
-            id="class_sort"
-            v:model:value="class_sort"
+            name="sortyBy"
+            id="sortyBy"
+            v:model:value="sortyBy"
           >
             <option selected disabled value="">Sort by</option>
             <option value="class_year">ชั้นปี</option>
@@ -129,7 +129,6 @@ export default {
         console.log(response.data.data.class_list);
         this.classes = response.data.data.class_list;
 
-        // console.log("this.dataForPagination", this.dataForPagination);
         console.log("this.advisor_name_list", this.advisor_name_list);
         for (var i = 0; i < this.classes.length; i++) {
           let indexI = i;

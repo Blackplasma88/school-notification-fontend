@@ -119,9 +119,7 @@ export default {
     },
     viewData(profile_id) {
       console.log("student profile id ", profile_id);
-      this.$router.push(
-        "/profile/student/profile_id?profile_id=" + profile_id + ""
-      );
+      this.$router.push("/profile/student/" + profile_id + "");
     },
   },
 };
