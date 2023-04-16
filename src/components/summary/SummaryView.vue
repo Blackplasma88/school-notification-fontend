@@ -1,41 +1,88 @@
 <template>
-  <div>
-    <h2>test</h2>
-    <div class="rightContent">
-      <select
-        class="form-select"
-        aria-label="Select"
-        v-model="this.year"
-        @change="getCourseList()"
-      >
-        <option selected disabled>select</option>
-        <option v-for="item in this.term_year" :key="item.id">
-          {{ item.year }}
-        </option>
-      </select>
-      <select
-        class="form-select"
-        aria-label="Select"
-        v-model="this.term"
-        @change="getCourseList()"
-      >
-        <option selected disabled>select</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-      </select>
-      <select
-        class="form-select"
-        aria-label="Select"
-        v-model="this.course_name"
-        @change="getCourseSummaryList()"
-      >
-        <option selected disabled>select</option>
-        <option v-for="item in this.course_list" :key="item.id">
-          {{ item.name }}
-        </option>
-      </select>
+  <section>
+    <div class="filter">
+      <div class="search-wrapper d-flex">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search"
+          v-model="filterValue"
+        />
+      </div>
+
+      <div class="filter">
+        <div>
+          <select
+            class="form-select"
+            aria-label="Select"
+            name="class_filter"
+            id="class_filter"
+            v-model="filterOptions"
+          >
+            <option selected disabled value="">Filter</option>
+            <option value="class_year">ชั้นปี</option>
+            <option value="class_room">ห้อง</option>
+          </select>
+        </div>
+        &nbsp;
+        <div>
+          <select
+            class="form-select"
+            aria-label="Select"
+            name="sort_filter"
+            id="sort_filter"
+            v:model:value="sort_filter"
+          >
+            <option selected disabled value="">Sort by</option>
+            <option value="class_year">ชั้นปี</option>
+            <option value="class_room">ห้อง</option>
+          </select>
+        </div>
+      </div>
     </div>
-  </div>
+    <div class="rightContent">
+      <div>
+        <select
+          class="form-select"
+          aria-label="Select"
+          v-model="this.year"
+          @change="getCourseList()"
+        >
+          <option selected disabled value="">select year</option>
+          <option v-for="item in this.term_year" :key="item.id">
+            {{ item.year }}
+          </option>
+        </select>
+      </div>
+      &nbsp;
+      <div>
+        <select
+          class="form-select"
+          aria-label="Select"
+          v-model="this.term"
+          @change="getCourseList()"
+        >
+          <option selected disabled value="">select term</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+        </select>
+      </div>
+      &nbsp;
+      <div>
+        <select
+          class="form-select"
+          aria-label="Select"
+          v-model="this.course_name"
+          @change="getCourseSummaryList()"
+        >
+          <option selected disabled value="">select course name</option>
+          <option v-for="item in this.course_list" :key="item.id">
+            {{ item.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
