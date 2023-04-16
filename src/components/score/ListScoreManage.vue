@@ -1,18 +1,185 @@
 <template>
   <div>
     <h2>List of Score</h2>
-    {{ scores }}
-    <div></div>
+    <!-- score:{{ scores }} course:{{ courses }} -->
+    <!-- {{ students }} -->
+    <!-- {{ scores }}
+    {{ courses }}
+    {{ scores_name }} -->
+    <div>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th scope="col">ชื่อนักเรียน</th>
+            <th scope="col">สถานะ</th>
+            <th scope="col">คะแนนที่ได้</th>
+            <th scope="col">อัพเดตคะแนน</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(score, i) in scores" :key="score.id">
+            <td>{{ students[i] }}</td>
+            <td>{{ score.status }}</td>
+
+            <td>
+              <div v-if="score.status == 'create'">
+                <input type="text" />
+              </div>
+              <div v-else>
+                {{ score.score_get }}
+              </div>
+            </td>
+            <td>
+              <button
+                v-if="role === 'teacher'"
+                type="button"
+                class="btn btn-outline-secondary"
+                @click="
+                  TogglePopup(
+                    'buttonPopup',
+                    courses[i].id,
+                    scores_name[i],
+                    score.score_get,
+                    score.student_id,
+                    score.status
+                  )
+                "
+              >
+                เพิ่ม
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <EditPopup
+      v-if="popupTriggers.buttonPopup"
+      @close="TogglePopup('buttonPopup')"
+    >
+      <form @submit.prevent="submitForm">
+        <div class="form-control">
+          <div>
+            <label for="student_id">รหัสนักเรียน :</label>
+            {{ score.student_id }}
+          </div>
+          <div>
+            <label for="student_id">ชื่องาน :</label>
+            {{ score.name }}
+          </div>
+
+          <label for="select"> สถานะ :</label>
+          <select
+            class="form-select"
+            aria-label="Select"
+            name="status"
+            id="status"
+            v-model="score.status"
+          >
+            <option selected disabled value="">select status</option>
+            <option value="normal">normal</option>
+            <option value="normal">late</option>
+          </select>
+
+          <label for="select"> คะแนนที่ได้ :</label>
+          <input
+            type="number"
+            class="form-control"
+            placeholder="กรอกคะแนน"
+            v-model="score.score_get"
+          />
+
+          <div class="button-group">
+            <button class="popup-close btn btn-success">Confirm</button>
+            &nbsp;
+            <button
+              type="button"
+              class="popup-close btn btn-danger"
+              @click="ToggleClose('buttonPopup')"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </EditPopup>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import { ref } from "vue";
+import EditPopup from "@/components/main/EditPopup.vue";
 export default {
   name: "ListScoreManage",
+  components: {
+    EditPopup,
+  },
+  data() {
+    return {
+      role: "",
+      popupTriggers: ref({
+        buttonPopup: false,
+      }),
+      score: {
+        course_id: "",
+        name: "",
+        student_id: "",
+        score_get: 0,
+        status: "",
+      },
+    };
+  },
   props: {
     filterValue: String,
     filterOptions: String,
     scores: Array,
+    courses: Array,
+    students: Array,
+    scores_name: Array,
+  },
+  mounted() {
+    this.role = localStorage.getItem("role");
+  },
+  methods: {
+    TogglePopup(trigger, course_id, name, score_get, student_id, status) {
+      console.log(trigger, course_id, name, score_get, student_id, status);
+      this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
+      console.log(this.popupTriggers.buttonPopup);
+
+      console.log("course_id", course_id);
+      this.score.course_id = course_id;
+      this.score.student_id = student_id;
+      this.score.name = name;
+
+      console.log(this.score);
+    },
+    ToggleClose(trigger) {
+      console.log(trigger);
+      this.popupTriggers.buttonPopup = false;
+      this.resetForm();
+    },
+    async submitForm() {
+      console.log("submit");
+      this.score.score_get = parseInt(this.score.score_get);
+      console.log(this.score);
+      axios
+        .post("http://127.0.0.1:8080/score/update-student-score", this.score)
+        .then((res) => {
+          console.log(res);
+          this.resetForm();
+          this.popupTriggers.buttonPopup = false;
+          this.$swal("Success!", res.data.message, "success").then(() => {
+            window.location.reload();
+          });
+        });
+    },
+    resetForm() {
+      this.score.course_id = "";
+      this.score.name = "";
+      this.score.student_id = "";
+      this.score.score_get = 0;
+      this.score.status = "";
+    },
   },
 };
 </script>
