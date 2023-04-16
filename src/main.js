@@ -26,6 +26,7 @@ import { faAward } from "@fortawesome/free-solid-svg-icons";
 import { faSchoolFlag } from "@fortawesome/free-solid-svg-icons";
 import { faChartLine } from "@fortawesome/free-solid-svg-icons";
 import { faMessage } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faBars);
 library.add(faChevronLeft);
@@ -45,6 +46,7 @@ library.add(faAward);
 library.add(faSchoolFlag);
 library.add(faChartLine);
 library.add(faMessage);
+library.add(faUser);
 
 createApp(App)
   .use(VueSweetalert2)

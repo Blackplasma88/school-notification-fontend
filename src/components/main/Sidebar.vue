@@ -13,12 +13,12 @@
       </button>
     </div>
     &nbsp;
-    <div>
+    <!-- <div>
       <router-link to="/profile/:id" class="button">
         <h3>Profile ID</h3>
         <h3>First Name</h3>
       </router-link>
-    </div>
+    </div> -->
 
     <div class="menu">
       <router-link to="/" class="button">

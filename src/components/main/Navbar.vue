@@ -10,7 +10,16 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
         <div class="menu">
-          <div class="d-flex">
+          <div class="d-flex gap-3">
+            <router-link to="/profile/:id" class="button">
+              <span class="material-icons">
+                <font-awesome-icon
+                  icon="fa-solid fa-user"
+                  size="2x"
+                  style="color: #ffffff"
+                />
+              </span>
+            </router-link>
             <router-link to="/chat" class="button">
               <span class="material-icons">
                 <font-awesome-icon

@@ -30,7 +30,7 @@
             <td>{{ course.score_work_get }}</td>
             <td>{{ course.score_mid_get }}</td>
             <td>{{ course.score_final_get }}</td>
-            <td>{{ course.score_work_get }}</td>
+            <td>{{ course.score_work_full }}</td>
 
             <td>{{ course.check_name_attend_count }}</td>
             <td>{{ course.check_name_absent_count }}</td>
