@@ -225,9 +225,6 @@ export default {
       }
 
       axios
-<<<<<<< HEAD
-        .get("http://127.0.0.1:8080/check-name/check-name-in-course?course_id="+this.course_id+"&role="+this.role+"&id="+this.profile_id)
-=======
         .get(
           "http://127.0.0.1:8080/check-name/check-name-in-course?course_id=" +
             this.course_id +
@@ -236,7 +233,6 @@ export default {
             "&id=" +
             this.profile_id
         )
->>>>>>> origin/arm
         .then((response) => {
           // console.log(response.data.data.score.name);
           this.date_list = response.data.data.check_name.date;
@@ -248,9 +244,6 @@ export default {
     },
     async getCheckNameDateData() {
       axios
-<<<<<<< HEAD
-        .get("http://127.0.0.1:8080/check-name/check-name-data?course_id="+this.course_id+"&date="+this.date+"&role="+this.role+"&id="+this.profile_id)
-=======
         .get(
           "http://127.0.0.1:8080/check-name/check-name-data?course_id=" +
             this.course_id +
@@ -261,7 +254,6 @@ export default {
             "&id=" +
             this.profile_id
         )
->>>>>>> origin/arm
         .then((response) => {
           // console.log(response.data.data.date_data);
           this.date_data = response.data.data.date_data;
