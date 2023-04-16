@@ -43,6 +43,23 @@
         <span class="noConverationText" />Oprn a converation to start chat<span />
       </div>
     </div>
+    <div class="newConversation">
+     <div class="dropdown-wrapper">
+      <div v-if="isVisible" class="dropdown-popover">
+        <div class="selected-item">
+          Select
+        </div>
+        <input v-model="searchQuery" type="text" placeholder="Search for chat">
+        <div class="options">
+          <ul>
+            <li @click="selectItem(user)" v-for="user in filterUser" :key="user.id">
+              {{ user.name }}
+            </li>
+          </ul>
+        </div>
+      </div>
+     </div>
+    </div>
   </div>
 </template>
 
@@ -68,6 +85,10 @@ export default {
         id: "",
       },
       socket:{},
+      searchQuery:"",
+      selectedItem:"",
+      isVisible:true,
+      people:[],
     };
   },
 
@@ -110,8 +131,43 @@ export default {
       //     }
       //   })
 
+      axios
+        .get("http://127.0.0.1:8080/profile/all?role=teacher")
+        .then((response) => {
+         this.people = response.data.data.profile_list
+          console.log(this.people)
+        });
+  },
+  computed:{
+    filterUser(){
+      if (this.searchQuery.trim().length > 0) {
+          return this.people.filter((person) =>
+          person.name
+              .toLowerCase()
+              .includes(this.searchQuery.trim().toLowerCase())
+          );
+        }
+      return this.people;
+    }
   },
   methods: {
+    selectItem(user){
+      console.log(user)
+      axios
+        .post(
+          "http://127.0.0.1:8080/conversation/create",{
+            sender_id:this.user.id,
+            receiver_id:user.id
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+         
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     scrollToEnd(){
       var con = document.querySelector(".scroll");
       console.log(con)
@@ -203,6 +259,10 @@ export default {
   flex: 7;
 }
 
+.newConversation{
+  flex: 3;
+}
+
 .chatBoxWrapper {
   display: flex;
   flex-direction: column;
@@ -259,6 +319,66 @@ export default {
   color: rgb(224, 220, 220);
   cursor: default;
 }
+
+.dropdown-wrapper{
+  max-width: 300;
+  position: relative;
+  margin: 0 auto;
+
+}
+
+.selected-item{
+  height: 40px;
+  border: 2px solid;
+  border-radius: 5px;
+  padding: 5 px 10 px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dropdown-popover{
+  position: absolute;
+  border: 2px solid lightgray;
+  top: 10px;
+  left: 0px;
+  right: 0px;
+  background-color: #fff;
+  padding: 15px;
+}
+
+input{
+  width: 90%;
+  height: 30px;
+  border: 2px solid lightgray;
+  padding-left: 10px;
+  align-items: center;
+  text-align: center;
+}
+
+
+ul{
+  list-style: none;
+  text-align: center;
+  max-height: 200;
+  overflow-y:scroll ;
+  overflow-x: hidden;
+  border: 1px solid lightgray;
+}
+
+li{
+  width: 100%;
+  border-bottom: 1px solid lightgray;
+  padding: 1px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+li:hover{
+  background: #70878a;
+}
+
 
 @media screen and (max-width: 768px) {
   .chatMenu {
