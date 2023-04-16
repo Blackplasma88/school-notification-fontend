@@ -82,14 +82,20 @@
         </select>
       </div>
     </div>
+    <ListSummary 
+    
+    />
   </section>
 </template>
 
 <script>
 import axios from "axios";
-
+import ListSummary from "./ListSummary.vue";
 export default {
   name: "CheckNamaManage",
+  components: {
+    ListSummary,
+  },
   data() {
     return {
       role: "",

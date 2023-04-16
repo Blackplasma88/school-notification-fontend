@@ -69,15 +69,6 @@
             required
             placeholder="Ex. 2021-01-30"
           />
-          <label for="select"> เวลาที่สาย :</label>
-          <input
-            type="number"
-            class="form-control"
-            name="time_late"
-            v-model="time_late"
-            required
-            placeholder="เวลาที่สาย"
-          />
 
           <div class="button-group">
             <button class="popup-close btn btn-success">Confirm</button>
@@ -107,9 +98,9 @@ export default {
     return {
       student_check: {
         course_id: "",
-        studnet_id: "",
+        student_id: "",
         date: "",
-        checkby: "",
+        check_by: "",
       },
       popupTriggers: ref({
         buttonPopup: false,
@@ -129,11 +120,11 @@ export default {
       return moment(date).format("YYYY-MM-DD HH:mm:ss");
     },
 
-    TogglePopup(trigger, course_id, studnet_id) {
-      console.log(trigger, course_id, studnet_id);
+    TogglePopup(trigger, course_id, student_id) {
+      console.log(trigger, course_id, student_id);
       this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
       this.student_check.course_id = course_id;
-      this.student_check.studnet_id = studnet_id;
+      this.student_check.student_id = student_id;
       console.log(this.student_check);
     },
     ToggleClose(trigger) {
@@ -144,8 +135,7 @@ export default {
     async submitForm() {
       console.log("submit");
       this.student_check.date = this.date;
-      this.student.check_by = "teacher";
-      this.student_check.time_late = parseInt(this.time_late);
+      this.student_check.check_by = "teacher";
       console.log(this.student_check);
       axios
         .post(
@@ -154,6 +144,9 @@ export default {
         )
         .then((response) => {
           this.$swal("Success!", response.data.message, "success");
+          this.resetForm();
+          this.popupTriggers.buttonPopup = false;
+          window.location.reload();
         })
         .catch((err) => {
           this.$swal("Error!", err.response.data.message, "error");
