@@ -1,7 +1,7 @@
 <template>
-  <nav 
+  <nav
     class="w-100 navbar sticky-top navbar-expand-lg"
-    style="position:fixed; top:0; background-color: #3b5998"
+    style="position: fixed; top: 0; background-color: #3b5998"
   >
     <div class="container-fluid">
       <div class="container-fluid">
@@ -10,32 +10,24 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <!-- <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul> -->
         <div class="menu">
-          <div class="d-flex gap-3">
-            <router-link to="/profile/:id" class="button">
+          <div class="d-flex gap-4">
+            <router-link
+              v-if="role === 'teacher' || role === 'student'"
+              to="/profile/:id"
+              class="button"
+            >
               <span class="material-icons">
-                <font-awesome-icon
-                  icon="fa-solid fa-user"
-                  size="2x"
-                  style="color: #ffffff"
-                />
+                <font-awesome-icon icon="fa-solid fa-user" />
               </span>
             </router-link>
             <router-link to="/chat" class="button">
               <span class="material-icons">
-                <font-awesome-icon
-                  icon="fa-solid fa-message"
-                  size="2x"
-                  style="color: #ffffff"
-                />
+                <font-awesome-icon icon="fa-solid fa-message" />
               </span>
             </router-link>
-            <router-link to="/logout" class="button ms-3 me-3">
+            <router-link to="/logout" class="button me-4">
               <span class="material-icons">
-                <font-awesome-icon
-                  icon="fa-solid fa-right-from-bracket"
-                  size="2x"
-                  style="color: #ffffff"
-                />
+                <font-awesome-icon icon="fa-solid fa-right-from-bracket" />
               </span>
             </router-link>
           </div>
@@ -51,15 +43,23 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 export default {
   name: "Navbar",
   data() {
-    return {};
+    return {
+      role: "",
+    };
   },
-  methods: {},
+  created() {
+    this.role = localStorage.getItem("role");
+  },
   components: { FontAwesomeIcon },
 };
 </script>
 
 <style scoped>
 h2 {
+  color: #ffffff;
+}
+.material-icons {
+  font-size: 1.5rem;
   color: #ffffff;
 }
 </style>

@@ -1,24 +1,18 @@
 <template>
   <!-- <aside hidden :class="`${is_expanded ? 'is-expanded' : ''}`"> -->
-    <aside style="padding-top:5%;" :class="`${is_expanded ? 'is-expanded' : ''}`">
+  <aside style="padding-top: 5%" :class="`${is_expanded ? 'is-expanded' : ''}`">
     <div>
       <button @click="ToggleMenu">
         <img
           src="@/assets/logo.png"
-          alt=""
-          width="35"
-          height="35"
+          alt="logo"
+          width="30"
+          height="30"
           class="d-inline-block align-text-top"
         />
       </button>
     </div>
     &nbsp;
-    <!-- <div>
-      <router-link to="/profile/:id" class="button">
-        <h3>Profile ID</h3>
-        <h3>First Name</h3>
-      </router-link>
-    </div> -->
 
     <div class="menu">
       <router-link to="/informations" class="button">
@@ -63,7 +57,7 @@
       </router-link> -->
       <router-link to="/classes" class="button">
         <span class="material-icons">
-          <font-awesome-icon icon="fa-solid fa-comments" />
+          <font-awesome-icon icon="fa-solid fa-chalkboard-user" />
         </span>
         <span class="text">Class</span>
       </router-link>
@@ -82,19 +76,15 @@
         <span class="text">Face Detected</span>
       </router-link>
 
-      <router-link
-        v-if="role === 'teacher' || role === 'student'"
-        to="/scores"
-        class="button"
-      >
+      <router-link v-if="role === 'admin'" to="/school-data" class="button">
         <span class="material-icons">
-          <font-awesome-icon icon="fa-solid fa-table-list" />
+          <font-awesome-icon icon="fa-solid fa-school-flag" />
         </span>
-        <span class="text">Score</span>
+        <span class="text">School Data</span>
       </router-link>
 
       <router-link
-        v-if="role === 'admin' || role === 'student'"
+        v-if="role === 'teacher' || role === 'student'"
         to="/scores"
         class="button"
       >

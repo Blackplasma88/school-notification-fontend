@@ -1,9 +1,15 @@
 <template>
   <div>
-    <div class="messanger">
-      <div class="chatMenu">
-        <div class="chatMenuWrapper">
-          <input placeholder="Search for friends" className="chatMenuInput" />
+    <div
+      class="d-flex flex-nowrap justify-content-around align-self-center m-3 p-2"
+    >
+      <div id="chatMenu">
+        <div id="chatMenuWrapper">
+          <input
+            placeholder="Search for friends"
+            id="chatMenuInput"
+            class="form-control"
+          />
           <Conversations
             v-for="item in this.conversation_list"
             :key="item.id"
@@ -14,8 +20,9 @@
           />
         </div>
       </div>
-      <div class="chatBox">
-        <div class="chatBoxWrapper" v-if="current_chat.id != undefined">
+
+      <div id="chatBox">
+        <div id="chatBoxWrapper" v-if="current_chat.id != undefined">
           <div className="chatBoxTop" v-if="this.messaeges.length != 0">
             <div>
               <Message
@@ -26,13 +33,15 @@
               />
             </div>
           </div>
-          <div v-else>
-            <span class="noConverationText" />Oprn a converation to start
-            chat<span />
+          <div v-else class="m-3 p-2">
+            <p class="noConverationText">Open a converation to start chat</p>
+            <!-- <span id="noConverationText" />
+            Open a converation to start chat<span /> -->
           </div>
           <div className="chatBoxBottom">
             <textarea
-              className="chatMessageInput"
+              id="chatMessageInput"
+              class="form-control"
               placeholder="write something..."
               v-model="new_message"
             ></textarea>
@@ -41,20 +50,26 @@
             </button>
           </div>
         </div>
-        <div v-else>
-          <span class="noConverationText" />Oprn a converation to start
-          chat<span />
+        <div v-else class="m-3 p-2">
+          <!-- <span class="noConverationText" />
+          Open a converation to start chat
+          <span /> -->
+          <p class="noConverationText">Open a converation to start chat</p>
         </div>
       </div>
-      <div class="newConversation">
+
+      <div id="newConversation">
         <div class="dropdown-wrapper">
           <div v-if="isVisible" class="dropdown-popover">
-            <div class="selected-item">Select</div>
             <input
+              id="chatMenuInput"
+              class="form-control"
               v-model="searchQuery"
               type="text"
               placeholder="Search for chat"
             />
+
+            <!-- <div class="selected-item">Select</div>
             <div class="options">
               <ul>
                 <li
@@ -65,7 +80,14 @@
                   {{ user.name }}
                 </li>
               </ul>
-            </div>
+            </div> -->
+
+            <select class="form-select" aria-label="Default select example">
+              <option selected>Select</option>
+              <option v-for="user in filterUser" :key="user.id">
+                {{ user.name }}
+              </option>
+            </select>
           </div>
         </div>
       </div>
@@ -252,23 +274,7 @@ export default {
 </script>
 
 <style>
-.messanger {
-  height: calc(100vh - 70px);
-  display: flex;
-}
-
-.chatMenu {
-  flex: 3;
-}
-
-.chatBox {
-  flex: 7;
-}
-
-.newConversation {
-  flex: 3;
-}
-
+/* 
 .chatBoxWrapper {
   display: flex;
   flex-direction: column;
@@ -282,25 +288,39 @@ export default {
   padding-right: 10px;
 }
 
-.chatMenuWrapper,
-.chatBoxWrapper {
-  padding: 10px;
-  height: 100%;
-}
-
-.chatMenuInput {
-  width: 90%;
-  padding: 10px 0;
-  border: none;
-  border-bottom: 1px solid gray;
-}
-
 .chatBoxBottom {
   margin-top: 5px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+} */
+
+/* 
+.noConversationText {
+  position: absolute;
+  top: 10%;
+  font-size: 50px;
+  color: rgb(224, 220, 220);
+  cursor: default;
 }
+
+.chatMenuWrapper,
+.chatBoxWrapper {
+  padding: 10px;
+  height: 100%;
+}
+.chatMenuInput {
+  width: 90%;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 1px solid gray;
+} */
+
+/* .newConversation {
+  flex: 3;
+}
+
+
 
 .chatMessageInput {
   width: 80%;
@@ -316,14 +336,6 @@ export default {
   cursor: pointer;
   background-color: teal;
   color: white;
-}
-
-.noConversationText {
-  position: absolute;
-  top: 10%;
-  font-size: 50px;
-  color: rgb(224, 220, 220);
-  cursor: default;
 }
 
 .dropdown-wrapper {
@@ -345,6 +357,7 @@ export default {
 .dropdown-popover {
   position: absolute;
   border: 2px solid lightgray;
+  border-radius: 0.5rem;
   top: 10px;
   left: 0px;
   right: 0px;
@@ -381,19 +394,5 @@ li {
 
 li:hover {
   background: #70878a;
-}
-
-@media screen and (max-width: 768px) {
-  .chatMenu {
-    flex: 1;
-  }
-
-  .chatMenuInput {
-    display: none;
-  }
-
-  .chatBox {
-    flex: 10;
-  }
-}
+} */
 </style>
