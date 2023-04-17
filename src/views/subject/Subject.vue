@@ -4,7 +4,6 @@
     <div class="d-flex w-100">
       <Sidebar />
       <div class="w-100 px-5" style="padding-top: 5%">
-        <h1>Subject</h1>
         <SubjectForm />
       </div>
     </div>

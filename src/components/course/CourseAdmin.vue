@@ -1,7 +1,7 @@
 <template>
   <section>
     <div class="filter">
-      <div class="search-wrapper d-flex">
+      <div>
         <input
           type="text"
           class="form-control"
@@ -9,7 +9,7 @@
           v-model="filterValue"
         />
       </div>
-      <div class="filter">
+      <div class="filter gap-2">
         <div>
           <select
             class="form-select"
@@ -28,7 +28,6 @@
             <option value="location_id">สถานที่</option>
           </select>
         </div>
-        &nbsp;
         <div>
           <select
             class="form-select"
@@ -48,7 +47,6 @@
             <!-- <option value="location_id">สถานที่</option> -->
           </select>
         </div>
-        &nbsp;
         <div>
           <select
             class="form-select"
@@ -65,7 +63,7 @@
         </div>
       </div>
     </div>
-    <div class="rightContent">
+    <div class="rightContent gap-2">
       <div>
         <select
           class="form-select"
@@ -79,7 +77,6 @@
           </option>
         </select>
       </div>
-      &nbsp;
       <div>
         <select
           class="form-select"
@@ -248,15 +245,17 @@
         </div>
       </form>
     </CreatePopup> -->
-    <ListCourseData
-      :filterOptions="filterOptions"
-      :filterValue="filterValue"
-      :courses="filterList"
-      :subjects="subject_name_list"
-      :instructors="instructor_name_list"
-      :classes="class_name_list"
-      :locations="location_name_list"
-    />
+    <div v-if="this.year && this.term != ''" class="p-3 m-2">
+      <ListCourseData
+        :filterOptions="filterOptions"
+        :filterValue="filterValue"
+        :courses="filterList"
+        :subjects="subject_name_list"
+        :instructors="instructor_name_list"
+        :classes="class_name_list"
+        :locations="location_name_list"
+      />
+    </div>
   </section>
 </template>
 

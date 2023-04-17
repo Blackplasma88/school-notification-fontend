@@ -1,7 +1,8 @@
 <template>
-  <div>
+  <div class="m-1 p-2">
     <!-- List {{ filterOptions }} List {{ filterValue }} -->
     <div>
+      <h2>สถานที่</h2>
       <table class="table table-bordered table-hover">
         <thead>
           <tr>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="rightContent">
+    <div class="rightContent gap-1">
       <div>
         <select
           class="form-select"
@@ -112,7 +112,9 @@
         </div>
       </form>
     </CreatePopup>
-    <ListFaceDetected :class_names="this.data_list" />
+    <div v-if="class_year_get != ''">
+      <ListFaceDetected :class_names="this.data_list" />
+    </div>
   </div>
 </template>
 

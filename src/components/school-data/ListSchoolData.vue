@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <h2>List of School Data</h2>
+  <div class="m-1 p-3">
     <!-- {{ school_datas }} -->
     <div v-show="isShow == true">
+      <h2>ตารางการจัดการ</h2>
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
@@ -32,6 +32,7 @@
       </table>
     </div>
     <div v-show="isShow == false">
+      <h2>ตารางการจัดการ</h2>
       <table class="table table-bordered table-hover">
         <thead>
           <tr>

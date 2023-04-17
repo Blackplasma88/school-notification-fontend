@@ -9,7 +9,7 @@
           v-model="filterValue"
         />
       </div>
-      <div class="filter">
+      <div class="filter gap-2">
         <div>
           <select
             class="form-select"
@@ -26,7 +26,6 @@
             <option value="class_year">ชั้นปี</option>
           </select>
         </div>
-        &nbsp;
         <div>
           <select
             class="form-select"
@@ -236,10 +235,10 @@ export default {
       return this.subjects;
     },
   },
-  
+
   async created() {
-    this.role = localStorage.getItem("role")
-     await axios.get("http://127.0.0.1:8080/subject/all").then((response) => {
+    this.role = localStorage.getItem("role");
+    await axios.get("http://127.0.0.1:8080/subject/all").then((response) => {
       this.subjects = response.data.data.subject_list;
       console.log("this.subjects", this.subjects);
       console.log("this.dataForPagination", this.dataForPagination);

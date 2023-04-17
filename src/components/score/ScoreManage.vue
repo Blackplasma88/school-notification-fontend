@@ -56,7 +56,7 @@
         </div>
       </div>
     </div>
-    <div class="rightContent">
+    <div class="rightContent gap-1">
       <div>
         <select
           class="form-select"
@@ -70,7 +70,6 @@
           </option>
         </select>
       </div>
-      &nbsp;
       <div>
         <select
           class="form-select"
@@ -83,7 +82,6 @@
           <option value="2">2</option>
         </select>
       </div>
-      &nbsp;
       <div>
         <select
           class="form-select"
@@ -97,7 +95,6 @@
           </option>
         </select>
       </div>
-      &nbsp;
       <div>
         <select
           class="form-select"
@@ -111,8 +108,7 @@
           </option>
         </select>
       </div>
-      &nbsp;
-      <div class="btnAddScore">
+      <div v-if="score_name_list != ''" class="btnAddScore">
         <button
           v-if="this.role === 'teacher'"
           type="button"
@@ -168,12 +164,14 @@
         </div>
       </form>
     </CreatePopup>
-    <ListScoreManage
-      :scores="filterList"
-      :scores_name="this.score_name_list"
-      :courses="this.course_list"
-      :students="this.student_name_list"
-    />
+    <div v-if="score_name != ''">
+      <ListScoreManage
+        :scores="filterList"
+        :scores_name="this.score_name_list"
+        :courses="this.course_list"
+        :students="this.student_name_list"
+      />
+    </div>
   </div>
 </template>
 

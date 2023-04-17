@@ -10,7 +10,7 @@
       {{ subjects }} -->
       <!-- {{ days }} -->
       <!-- {{ times }} -->
-
+      <h2>ตารางแสดงผลงคอร์สเรียน</h2>
       <table class="table table-bordered table-hover">
         <thead>
           <tr>

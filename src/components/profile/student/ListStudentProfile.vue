@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>List of students</h2>
+    <h2>รายชื่อนักเรียน</h2>
     <!-- {{ students }} -->
     <!-- List {{ filterOptions }} List {{ filterValue }} -->
     <!-- {{ classes }} -->

@@ -61,16 +61,23 @@
         </select>
       </div>
       &nbsp;
-      <button v-if='role === "admin"' type="button" class="btn btn-secondary" @click="submitForm">
+      <button
+        v-if="role === 'admin'"
+        type="button"
+        class="btn btn-secondary"
+        @click="submitForm"
+      >
         Create Class
       </button>
     </div>
-    <ListClassData
-      :filterOptions="filterOptions"
-      :filterValue="filterValue"
-      :classes="ClassList"
-      :advisors="advisor_name_list"
-    />
+    <div v-if="class_year != ''">
+      <ListClassData
+        :filterOptions="filterOptions"
+        :filterValue="filterValue"
+        :classes="ClassList"
+        :advisors="advisor_name_list"
+      />
+    </div>
   </section>
 </template>
 
@@ -85,7 +92,7 @@ export default {
   },
   data() {
     return {
-      role:"",
+      role: "",
       popupTriggers: ref({
         buttonPopup: false,
       }),
@@ -121,29 +128,29 @@ export default {
       if (this.filterValue.trim().length > 0) {
         if (this.filterOptions == "" || this.filterOptions == "class_year") {
           return this.classes.filter((classe) =>
-          classe.class_year
+            classe.class_year
               .toLowerCase()
               .includes(this.filterValue.trim().toLowerCase())
           );
         } else if (this.filterOptions == "class_room") {
           return this.classes.filter((classe) =>
-          classe.class_room
+            classe.class_room
               .toLowerCase()
               .includes(this.filterValue.trim().toLowerCase())
           );
         } else if (this.filterOptions == "advisor_id") {
           return this.classes.filter((classe) =>
-          classe.advisor_id
+            classe.advisor_id
               .toLowerCase()
               .includes(this.filterValue.trim().toLowerCase())
           );
-        } 
+        }
       }
       return this.classes;
     },
   },
   created() {
-    this.role = localStorage.getItem("role")
+    this.role = localStorage.getItem("role");
     // axios
     //   .get("http://127.0.0.1:8080/class/all?class_year=" + this.class_year)
     //   .then((response) => {
@@ -194,36 +201,36 @@ export default {
       }
     },
     press() {
-      this.classes = []
+      this.classes = [];
       axios
-      .get("http://127.0.0.1:8080/class/all?class_year=" + this.class_year)
-      .then((response) => {
-        this.classes = response.data.data.class_list;
+        .get("http://127.0.0.1:8080/class/all?class_year=" + this.class_year)
+        .then((response) => {
+          this.classes = response.data.data.class_list;
 
-        // console.log("this.dataForPagination", this.dataForPagination);
-        console.log("this.advisor_name_list", this.advisor_name_list);
-        for (var i = 0; i < this.classes.length; i++) {
-          let indexI = i;
-          this.classes[i].index = indexI
-          this.advisor_name_list.push("");
-          console.log(this.classes[i].advisor_id);
-          if (this.classes[i].advisor_id != "") {
-            console.log("advisor", this.classes[i].advisor_id);
-            axios
-              .get(
-                "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
-                  this.classes[indexI].advisor_id +
-                  "&role=teacher"
-              )
-              .then((response) => {
-                this.advisor_name_list[indexI] =
-                  response.data.data.profile.name;
-                console.log(response.data.data.profile.name);
-              });
-          }
+          // console.log("this.dataForPagination", this.dataForPagination);
           console.log("this.advisor_name_list", this.advisor_name_list);
-        }
-      });
+          for (var i = 0; i < this.classes.length; i++) {
+            let indexI = i;
+            this.classes[i].index = indexI;
+            this.advisor_name_list.push("");
+            console.log(this.classes[i].advisor_id);
+            if (this.classes[i].advisor_id != "") {
+              console.log("advisor", this.classes[i].advisor_id);
+              axios
+                .get(
+                  "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
+                    this.classes[indexI].advisor_id +
+                    "&role=teacher"
+                )
+                .then((response) => {
+                  this.advisor_name_list[indexI] =
+                    response.data.data.profile.name;
+                  console.log(response.data.data.profile.name);
+                });
+            }
+            console.log("this.advisor_name_list", this.advisor_name_list);
+          }
+        });
     },
   },
 };

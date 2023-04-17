@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h2>List of Face Detected</h2>
     <!-- {{ class_names }} -->
-    <div>
+    <div v-if="class_names != ''">
+      <h2>ตารางแสดงห้องเพื่อการเช็ค</h2>
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
@@ -18,7 +18,18 @@
             <td>ม.{{ c.data.name }}</td>
             <td>{{ c.data.number_of_student }}</td>
             <td>{{ c.data.number_of_image }}</td>
-            <td>{{ c.data.status }}</td>
+
+            <div v-if="c.data.status == 'not'">
+              <td>
+                <p>ยังไม่ได้ดำเนินการ</p>
+              </td>
+            </div>
+            <div v-else>
+              <td>
+                <p>ดำเนินการแล้ว</p>
+              </td>
+            </div>
+            <!-- <td>{{ c.data.status }}</td> -->
             <td>
               <button
                 class="btn btn-primary"
