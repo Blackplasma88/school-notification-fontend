@@ -4,7 +4,7 @@
     <div class="d-flex w-100">
       <Sidebar />
       <div class="w-100 px-5" style="padding-top: 5%">
-        <SubjectForm />
+        <CreateCourseComponent />
       </div>
     </div>
   </div>
@@ -13,14 +13,14 @@
 <script>
 import Navbar from "@/components/main/Navbar.vue";
 import Sidebar from "@/components/main/Sidebar.vue";
+import CreateCourseComponent from "@/components/course/CreateCourseComponent.vue";
 import axios from "axios";
-import SubjectForm from "@/components/subject/SubjectForm";
 export default {
-  name: "Subject",
+  name: "Create",
   components: {
-    SubjectForm,
     Navbar,
     Sidebar,
+    CreateCourseComponent,
   },
   created() {
     if (

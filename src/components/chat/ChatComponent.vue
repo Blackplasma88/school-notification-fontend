@@ -1,9 +1,9 @@
 <template>
   <div>
     <div
-      class="d-flex flex-nowrap justify-content-around align-self-center m-3 p-2"
+      class="d-flex flex-nowrap justify-content-between align-items-stretch m-2 p-2 gap-0"
     >
-      <div id="chatMenu">
+      <div id="chatMenu" class="">
         <div id="chatMenuWrapper">
           <input
             placeholder="Search for friends"
@@ -21,11 +21,11 @@
         </div>
       </div>
 
-      <div id="chatBox">
+      <div id="chatBox" class="sticky-bottom ustify-content-center">
         <div id="chatBoxWrapper" v-if="current_chat.id != undefined">
-          <div className="chatBoxTop" v-if="this.messaeges.length != 0">
-            <div >
-              <Message 
+          <div id="chatBoxTop" v-if="this.messaeges.length != 0">
+            <div>
+              <Message
                 v-for="item in this.messaeges"
                 :key="item.id"
                 :message="item"
@@ -38,16 +38,25 @@
             <!-- <span id="noConverationText" />
             Open a converation to start chat<span /> -->
           </div>
-          <div className="chatBoxBottom">
-            <textarea
-              id="chatMessageInput"
-              class="form-control"
-              placeholder="write something..."
-              v-model="new_message"
-            ></textarea>
-            <button className="chatSubmitButton" @click="handleSubmit">
-              Send
-            </button>
+          <div id="chatBoxBottom" class="d-flex sticky-bottom gap-2">
+            <div>
+              <textarea
+                id="chatMessageInput"
+                class="form-control"
+                placeholder="write something..."
+                v-model="new_message"
+              ></textarea>
+            </div>
+
+            <div class="pt-3">
+              <button
+                id="chatSubmitButton"
+                @click="handleSubmit"
+                class="btn btn-secondary btn-sm"
+              >
+                Send
+              </button>
+            </div>
           </div>
         </div>
         <div v-else class="m-3 p-2">

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div class="p-1 m-2">
       <!-- List {{ filterOptions }} List {{ filterValue }} -->
       <!-- {{ courses }} -->
       <!-- {{ categories }} -->
@@ -10,7 +10,7 @@
       {{ subjects }} -->
       <!-- {{ days }} -->
       <!-- {{ times }} -->
-
+      <h2>ตารางแสดงผลคอร์สเรียน</h2>
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
@@ -49,23 +49,38 @@
             <td>อาคาร {{ locations[course.location_id_index].location_id }}</td>
             <td v-if="role === 'admin'">
               <div v-if="course.status == 'create'">
-                <button @click="updateCourseStatus(course.id)">อัพเดต</button>
+                <button
+                  class="btn btn-outline-secondary"
+                  @click="updateCourseStatus(course.id)"
+                >
+                  อัพเดต
+                </button>
               </div>
               <div v-else-if="course.status == 'finish'">เสร็จสิ้น</div>
               <div v-else>กำลังดำเนินการ</div>
             </td>
-            <td  v-if="role === 'teacher'">
+            <td v-if="role === 'teacher'">
               <div v-if="course.status == 'progress'">
-                <button @click="summaryCourse(course.id)">สรุปผล</button>
+                <button
+                  class="btn btn-outline-success"
+                  @click="summaryCourse(course.id)"
+                >
+                  สรุปผล
+                </button>
               </div>
               <div v-else-if="course.status == 'summary'">
-                <button @click="updateCourseStatus(course.id)">แก้ไข</button>
+                <button
+                  class="btn btn-outline-warning"
+                  @click="updateCourseStatus(course.id)"
+                >
+                  แก้ไข
+                </button>
               </div>
               <div v-else>
                 {{ course.status }}
               </div>
             </td>
-            <td  v-if="role === 'student'">
+            <td v-if="role === 'student'">
               <div v-if="course.status == 'progress'">กำลังดำเนินการ</div>
               <div v-else-if="course.status == 'summary'">สรุปผล</div>
               <div v-else>
@@ -80,7 +95,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 export default {
   name: "ListCourseData",
   data() {},
@@ -95,40 +110,42 @@ export default {
     subjects: Array,
     days: Array,
     times: Array,
-    role:String,
+    role: String,
   },
-  methods:{
-    async updateCourseStatus(id){
+  methods: {
+    async updateCourseStatus(id) {
       // console.log(id);
-      await axios.post("http://127.0.0.1:8080/course/change-to-progress",{
-        id:id
-      }).then((res)=>{
-        this.$swal("Success!", res.data.message, "success").then(
-              () => {
-                window.location.reload();
-              }
-            );
-      }).catch((err)=>{
-        console.log(err);
-        this.$swal("Error!", err.response.data.message, "error");
-      })
+      await axios
+        .post("http://127.0.0.1:8080/course/change-to-progress", {
+          id: id,
+        })
+        .then((res) => {
+          this.$swal("Success!", res.data.message, "success").then(() => {
+            window.location.reload();
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$swal("Error!", err.response.data.message, "error");
+        });
     },
-    async summaryCourse(id){
+    async summaryCourse(id) {
       // console.log(id);
-      await axios.post("http://127.0.0.1:8080/summary/course-id  ",{
-        course_id:id
-      }).then((res)=>{
-        this.$swal("Success!", res.data.message, "success").then(
-              () => {
-                window.location.reload();
-              }
-            );
-      }).catch((err)=>{
-        console.log(err);
-        this.$swal("Error!", err.response.data.message, "error");
-      })
-    }
-  }
+      await axios
+        .post("http://127.0.0.1:8080/summary/course-id  ", {
+          course_id: id,
+        })
+        .then((res) => {
+          this.$swal("Success!", res.data.message, "success").then(() => {
+            window.location.reload();
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$swal("Error!", err.response.data.message, "error");
+        });
+    },
+  },
 };
 </script>
 

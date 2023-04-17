@@ -10,7 +10,7 @@
         />
       </div>
 
-      <div class="filter">
+      <div class="filter gap-2">
         <div>
           <select
             class="form-select"
@@ -24,7 +24,6 @@
             <option value="class_room">ห้อง</option>
           </select>
         </div>
-        &nbsp;
         <div>
           <select
             class="form-select"
@@ -40,7 +39,7 @@
         </div>
       </div>
     </div>
-    <div class="rightContent">
+    <div class="rightContent gap-2">
       <div>
         <select
           class="form-select"
@@ -54,7 +53,6 @@
           </option>
         </select>
       </div>
-      &nbsp;
       <div>
         <select
           class="form-select"
@@ -67,9 +65,14 @@
           <option value="2">2</option>
         </select>
       </div>
-      &nbsp;
-      <div  v-if="this.course_list.length !== 0 || (this.term !== '' && this.year !== '')">
-        <select v-if="this.role === 'teacher'"
+      <div
+        v-if="
+          this.course_list.length !== 0 ||
+          (this.term !== '' && this.year !== '')
+        "
+      >
+        <select
+          v-if="this.role === 'teacher'"
           class="form-select"
           aria-label="Select"
           v-model="this.course_name"
@@ -81,19 +84,19 @@
           </option>
         </select>
 
-        <select v-if="this.role === 'student'"
-        class="form-select"
-        aria-label="Select"
-        v-model="this.course_name"
-        @change="getCheckNamaOfStudent()"
-      >
-        <option selected disabled value="">select course name</option>
-        <option v-for="item in this.course_list" :key="item.id">
-          {{ item.name }}
-        </option>
-      </select>
+        <select
+          v-if="this.role === 'student'"
+          class="form-select"
+          aria-label="Select"
+          v-model="this.course_name"
+          @change="getCheckNamaOfStudent()"
+        >
+          <option selected disabled value="">select course name</option>
+          <option v-for="item in this.course_list" :key="item.id">
+            {{ item.name }}
+          </option>
+        </select>
       </div>
-      &nbsp;
       <div v-if="this.date_list.length !== 0">
         <select
           class="form-select"
@@ -107,8 +110,10 @@
           </option>
         </select>
       </div>
-      &nbsp;
-      <div class="btnAddDate" v-if="role === 'teacher' && this.course_name !== ''">
+      <div
+        class="btnAddDate"
+        v-if="role === 'teacher' && this.course_name !== ''"
+      >
         <button
           v-if="this.role === 'teacher'"
           type="button"
@@ -118,10 +123,13 @@
           add date
         </button>
       </div>
-      &nbsp;
       <div>
-        <button 
-          v-if="this.role === 'teacher' && this.date !== '' && this.date_data.status === 'progress'"
+        <button
+          v-if="
+            this.role === 'teacher' &&
+            this.date !== '' &&
+            this.date_data.status === 'progress'
+          "
           type="button"
           class="btn btn-secondary"
           @click="openCamera()"
@@ -129,10 +137,13 @@
           open camera
         </button>
       </div>
-      &nbsp;
       <div>
-        <button 
-          v-if="this.role === 'teacher' && this.date !== '' && this.date_data.status === 'progress'"
+        <button
+          v-if="
+            this.role === 'teacher' &&
+            this.date !== '' &&
+            this.date_data.status === 'progress'
+          "
           type="button"
           class="btn btn-secondary"
           @click="endDate()"
@@ -162,7 +173,6 @@
 
           <div class="button-group">
             <button class="popup-close btn btn-success">Confirm</button>
-            &nbsp;
             <button
               type="button"
               class="popup-close btn btn-danger"
@@ -202,6 +212,7 @@ export default {
         buttonPopupAddDate: false,
         buttonPopupOpenCamera: false,
       }),
+      filterOptions: "",
       year: "",
       term: "",
       term_year: [],
@@ -229,28 +240,32 @@ export default {
         // console.log(response.data.data.school_data);
         this.term_year = response.data.data.school_data;
         // console.log(  this.term_year);
-        if (localStorage.getItem("year_in_check_name") === null || localStorage.getItem("year_in_check_name") === undefined ){
-      this.year = this.term_year[this.term_year.length-1].year
-    }else{
-      this.year =localStorage.getItem("year_in_check_name")
-    }
+        if (
+          localStorage.getItem("year_in_check_name") === null ||
+          localStorage.getItem("year_in_check_name") === undefined
+        ) {
+          this.year = this.term_year[this.term_year.length - 1].year;
+        } else {
+          this.year = localStorage.getItem("year_in_check_name");
+        }
 
-    if (localStorage.getItem("term_in_check_name") === null || localStorage.getItem("term_in_check_name") === undefined ){
-      this.term = this.term_year[this.term_year.length-1].term
-    }else{
-      this.term =localStorage.getItem("term_in_check_name")
-    }
+        if (
+          localStorage.getItem("term_in_check_name") === null ||
+          localStorage.getItem("term_in_check_name") === undefined
+        ) {
+          this.term = this.term_year[this.term_year.length - 1].term;
+        } else {
+          this.term = localStorage.getItem("term_in_check_name");
+        }
 
-    if (this.term !== "" &&   this.year !== ""){
-     this.getCourseList()
-    }
+        if (this.term !== "" && this.year !== "") {
+          this.getCourseList();
+        }
       })
       .catch((error) => {
         console.log(error);
         this.$swal("Error!", error.response.data.message, "error");
       });
-
-      
   },
   methods: {
     togglePopupOpenCamera() {
@@ -265,8 +280,8 @@ export default {
       if (this.year === "" || this.term === "") {
         return;
       }
-      localStorage.setItem("term_in_check_name",this.year)
-      localStorage.setItem("term_in_check_name",this.term)
+      localStorage.setItem("term_in_check_name", this.year);
+      localStorage.setItem("term_in_check_name", this.term);
       axios
         .get(
           "http://127.0.0.1:8080/course/year-term?profile_id=" +
@@ -322,7 +337,7 @@ export default {
           "http://127.0.0.1:8080/check-name/check-name-data?course_id=" +
             this.course_id +
             "&date=" +
-            this.date 
+            this.date
         )
         .then((response) => {
           console.log(response.data.data.date_data);
@@ -411,7 +426,7 @@ export default {
           console.log(error);
         });
     },
-    async endDate(){
+    async endDate() {
       for (let i = 0; i < this.course_list.length; i++) {
         if (this.course_list[i].name == this.course_name) {
           this.course_id = this.course_list[i].id;
@@ -420,23 +435,21 @@ export default {
       }
 
       await axios
-        .post("http://127.0.0.1:8080/check-name/end-date",{
+        .post("http://127.0.0.1:8080/check-name/end-date", {
           course_id: this.course_id,
-          date:this.date
+          date: this.date,
         })
         .then((response) => {
-            this.$swal("Success!", response.data.message, "success").then(
-              () => {
-                window.location.reload();
-              }
-            );
+          this.$swal("Success!", response.data.message, "success").then(() => {
+            window.location.reload();
+          });
         })
         .catch((error) => {
           console.log(error);
           this.$swal("Error!", error.response.data.message, "error");
         });
     },
-    getCheckNamaOfStudent(){
+    getCheckNamaOfStudent() {
       console.log(this.course_name);
       for (let i = 0; i < this.course_list.length; i++) {
         if (this.course_list[i].name == this.course_name) {
@@ -446,9 +459,9 @@ export default {
       }
 
       axios
-      .get(
+        .get(
           "http://127.0.0.1:8080/check-name/check-name-data?course_id=" +
-            this.course_id 
+            this.course_id
         )
         .then((response) => {
           console.log(response.data.data.date_data);
@@ -472,13 +485,13 @@ export default {
           //       this.student_name_list[indexI] =
           //         response.data.data.profile.name;
           //       console.log(this.student_name_list);
-              // });
+          // });
           // }
         })
         .catch((error) => {
           console.log(error);
         });
-    }
+    },
   },
 };
 </script>

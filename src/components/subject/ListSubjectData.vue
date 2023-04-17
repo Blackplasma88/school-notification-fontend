@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h2>List of Subject</h2>
+  <div class="p-1 m-2">
+    <h2>รายวิชา</h2>
 
     <!-- {{ subjects }} -->
     <!-- {{ subjects }} -->

@@ -9,7 +9,7 @@
           v-model="filterValue"
         />
       </div>
-      <div class="filter">
+      <div class="filter gap-2">
         <div>
           <select
             class="form-select"
@@ -26,7 +26,6 @@
             <option value="class_year">ชั้นปี</option>
           </select>
         </div>
-        &nbsp;
         <div>
           <select
             class="form-select"

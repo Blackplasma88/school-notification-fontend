@@ -65,7 +65,7 @@
         </div>
       </div>
     </div>
-    <div class="rightContent">
+    <div class="rightContent gap-2">
       <div>
         <select
           class="form-select"
@@ -79,7 +79,6 @@
           </option>
         </select>
       </div>
-      &nbsp;
       <div>
         <select
           class="form-select"
@@ -111,13 +110,13 @@
           v-if="this.role === 'admin'"
           type="button"
           class="btn btn-secondary"
-          @click="togglePopupCreateCourse()"
+          @click="createCourse()"
         >
           Create course
         </button>
       </div>
     </div>
-    <CreatePopup v-if="popupTriggers.buttonPopup">
+    <!-- <CreatePopup v-if="popupTriggers.buttonPopup">
       <form @submit.prevent="submitForm">
         <div class="form-control">
           <label for="select"> หมวดหมู่ :</label>
@@ -216,7 +215,7 @@
             v-model="this.time_1"
           />
 
-          <!-- <label for="select"> วัน :</label>
+          <label for="select"> วัน :</label>
           <select
             class="form-select"
             aria-label="Select"
@@ -231,7 +230,7 @@
             class="form-control"
             placeholder="กรอกเวลา"
             v-model="this.time_2"
-          /> -->
+          />
 
           <div class="button-group">
             <button class="popup-close btn btn-success">Confirm</button>
@@ -246,7 +245,7 @@
           </div>
         </div>
       </form>
-    </CreatePopup>
+    </CreatePopup> -->
     <ListCourseData
       :filterOptions="filterOptions"
       :filterValue="filterValue"
@@ -263,12 +262,12 @@
 <script>
 import { ref } from "vue";
 import axios from "axios";
-import CreatePopup from "@/components/main/CreatePopup.vue";
+// import CreatePopup from "@/components/main/CreatePopup.vue";
 import ListCourseData from "@/components/course/ListCourseData.vue";
 export default {
   name: "CourseAdmin",
   components: {
-    CreatePopup,
+    // CreatePopup,
     ListCourseData,
   },
   data() {
@@ -310,18 +309,24 @@ export default {
         // console.log(response.data.data.school_data);
         this.term_year = response.data.data.school_data;
 
-        if (localStorage.getItem("year_in_course") === null || localStorage.getItem("year_in_course") === undefined ){
-      this.year = this.term_year[this.term_year.length-1].year
-    }else{
-      this.year =localStorage.getItem("year_in_course")
-    }
+        if (
+          localStorage.getItem("year_in_course") === null ||
+          localStorage.getItem("year_in_course") === undefined
+        ) {
+          this.year = this.term_year[this.term_year.length - 1].year;
+        } else {
+          this.year = localStorage.getItem("year_in_course");
+        }
 
-    if (localStorage.getItem("term_in_course") === null || localStorage.getItem("term_in_course") === undefined ){
-      this.term = this.term_year[this.term_year.length-1].term
-    }else{
-      this.term =localStorage.getItem("term_in_course")
-    }
-      this.getCourseList()
+        if (
+          localStorage.getItem("term_in_course") === null ||
+          localStorage.getItem("term_in_course") === undefined
+        ) {
+          this.term = this.term_year[this.term_year.length - 1].term;
+        } else {
+          this.term = localStorage.getItem("term_in_course");
+        }
+        this.getCourseList();
         // console.log(  this.term_year);
       })
       .catch((error) => {
@@ -451,14 +456,13 @@ export default {
     },
 
     async getCourseList() {
-      
-      this.course_list = []
+      this.course_list = [];
       if (this.year === "" || this.term === "") {
         return;
       }
 
-      localStorage.setItem("year_in_course",this.year)
-      localStorage.setItem("term_in_course",this.term)
+      localStorage.setItem("year_in_course", this.year);
+      localStorage.setItem("term_in_course", this.term);
       axios
         .get(
           "http://127.0.0.1:8080/course/year-term?year=" +
@@ -545,31 +549,35 @@ export default {
           console.log(error);
         });
     },
-    togglePopupCreateCourse() {
-      this.instructor_list = [];
-      this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
+    // togglePopupCreateCourse() {
+    //   this.instructor_list = [];
+    //   this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
 
-      axios
-        .get("http://127.0.0.1:8080/school-data/subject-category")
-        .then((response) => {
-          // console.log(response.data.data.school_data);
-          this.school_data = response.data.data.school_data;
-          //   console.log(  this.school_data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    //   axios
+    //     .get("http://127.0.0.1:8080/school-data/subject-category")
+    //     .then((response) => {
+    //       // console.log(response.data.data.school_data);
+    //       this.school_data = response.data.data.school_data;
+    //       //   console.log(  this.school_data);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
 
-      axios
-        .get("http://127.0.0.1:8080/location/all")
-        .then((response) => {
-          // console.log(response.data.data.school_data);
-          this.location_list = response.data.data.location_list;
-          //   console.log(  this.school_data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    //   axios
+    //     .get("http://127.0.0.1:8080/location/all")
+    //     .then((response) => {
+    //       // console.log(response.data.data.school_data);
+    //       this.location_list = response.data.data.location_list;
+    //       //   console.log(  this.school_data);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // },
+    createCourse() {
+      console.log("createCourse");
+      this.$router.push("/course/create");
     },
     async submitForm() {
       // check

@@ -100,6 +100,7 @@ export default {
   },
   data() {
     return {
+      filterOptions: "",
       role: "",
       profile_id: "",
       year: "",
@@ -143,12 +144,9 @@ export default {
           this.getCourseList();
         }
 
-        if (this.role == "student"){
-          this.getStudentCourseSummaryList()
+        if (this.role == "student") {
+          this.getStudentCourseSummaryList();
         }
-
-
-
       })
       .catch((error) => {
         console.log(error);
@@ -156,41 +154,40 @@ export default {
   },
   methods: {
     async getCourseList() {
-      this.course_summary = []
+      this.course_summary = [];
       if (this.year === "" || this.term === "") {
         return;
       }
       localStorage.setItem("year_in_summary", this.year);
       localStorage.setItem("term_in_summary", this.term);
-      if (this.role === "teacher"){
-        this.course_list = []
+      if (this.role === "teacher") {
+        this.course_list = [];
         axios
-        .get(
-          "http://127.0.0.1:8080/course/year-term?profile_id=" +
-            this.profile_id +
-            "&role=" +
-            this.role +
-            "&year=" +
-            this.year +
-            "&term=" +
-            this.term
-        )
-        .then((response) => {
-          console.log(response.data.data.course_list);
-          this.course_list = response.data.data.course_list;
+          .get(
+            "http://127.0.0.1:8080/course/year-term?profile_id=" +
+              this.profile_id +
+              "&role=" +
+              this.role +
+              "&year=" +
+              this.year +
+              "&term=" +
+              this.term
+          )
+          .then((response) => {
+            console.log(response.data.data.course_list);
+            this.course_list = response.data.data.course_list;
 
-          console.log(this.course_list);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      }else if (this.role === "student"){
-        this.getStudentCourseSummaryList()
+            console.log(this.course_list);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else if (this.role === "student") {
+        this.getStudentCourseSummaryList();
       }
-     
     },
     async getCourseSummaryList() {
-      this.course_summary = []
+      this.course_summary = [];
       console.log(this.course_name);
       for (let i = 0; i < this.course_list.length; i++) {
         if (this.course_list[i].name == this.course_name) {
@@ -231,7 +228,6 @@ export default {
         });
     },
     async getStudentCourseSummaryList() {
-
       axios
         .get(
           "http://127.0.0.1:8080/course-summary/student?year=" +
