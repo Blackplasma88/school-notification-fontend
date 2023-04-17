@@ -1,16 +1,27 @@
 <template>
-  <main id="face-read-page">
-    <ReadFaceDetected />
-  </main>
+  <div class="w-100">
+    <Navbar />
+    <div class="d-flex w-100">
+      <Sidebar />
+      <div class="w-100 px-5" style="padding-top: 5%">
+        <ReadFaceDetected />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
 import ReadFaceDetected from "@/components/face-detection/ReadFaceDetected.vue";
+import Navbar from "@/components/main/Navbar.vue";
+import Sidebar from "@/components/main/Sidebar.vue";
+
 export default {
   name: "Read",
   components: {
     ReadFaceDetected,
+    Navbar,
+    Sidebar,
   },
   created() {
     if (

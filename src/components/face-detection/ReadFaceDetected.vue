@@ -23,10 +23,10 @@
               <td>{{ this.student_name_list[name] }}</td>
               <td>
                 <input
-                  class="form-control form-control-sm"
-                  id="image"
+                  class="form-control"
                   type="file"
-                  ref="file"
+                  id="formFileMultiple"
+                  multiple
                   @change="selectFile"
                 />
               </td>

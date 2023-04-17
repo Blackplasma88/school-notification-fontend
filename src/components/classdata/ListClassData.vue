@@ -1,11 +1,10 @@
 <template>
   <div>
-    <h2>List of Class</h2>
     <div>
       <!-- List {{ filterOptions }} List {{ filterValue }} -->
 
       <!-- {{ advisors }} -->
-
+      <h2>ตารางแสดงห้องเรียน</h2>
       <table class="table table-bordered table-hover">
         <thead>
           <tr>

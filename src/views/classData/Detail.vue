@@ -22,7 +22,7 @@ export default {
     Sidebar,
     DetailClassComponent,
   },
-  created() {
+  mounted() {
     if (
       localStorage.getItem("token") == null ||
       localStorage.getItem("token") == undefined

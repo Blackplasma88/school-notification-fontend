@@ -3,13 +3,12 @@
 </template>
 
 <script>
-
 export default {
   name: "Logout",
-  created(){
-    localStorage.clear()
+  created() {
+    localStorage.clear();
     this.$router.push("/");
-  }
+  },
 };
 </script>
 

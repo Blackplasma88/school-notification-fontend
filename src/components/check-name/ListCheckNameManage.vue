@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h2>List of Check Name</h2>
     <!-- {{ check_names }} -->
     <!-- {{ student_names }} -->
     <!-- Course:{{ course_list }} -->
     <div>
+      <h2>ตารางแสดงผลการเช็คชื่อ</h2>
       <table class="table table-bordered table-hover">
         <thead>
           <tr>

@@ -1,14 +1,13 @@
 <template>
   <div class="w-100">
-    <Navbar /> 
+    <Navbar />
     <div class="d-flex w-100">
       <Sidebar />
-      <div class="w-100 px-5" style="padding-top:5%;">
+      <div class="w-100 px-5" style="padding-top: 5%">
         <SchoolDataView></SchoolDataView>
       </div>
     </div>
-   </div>
-  
+  </div>
 </template>
 
 <script>

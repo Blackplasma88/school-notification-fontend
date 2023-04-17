@@ -1,5 +1,4 @@
 <template>
-  <!-- <main class="information-page"> -->
   <div class="w-100">
     <Navbar />
     <div class="d-flex w-100">
@@ -9,7 +8,6 @@
       </div>
     </div>
   </div>
-  <!-- </main> -->
 </template>
 
 <script>
