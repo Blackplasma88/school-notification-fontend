@@ -309,6 +309,19 @@ export default {
       .then((response) => {
         // console.log(response.data.data.school_data);
         this.term_year = response.data.data.school_data;
+
+        if (localStorage.getItem("year_in_course") === null || localStorage.getItem("year_in_course") === undefined ){
+      this.year = this.term_year[this.term_year.length-1].year
+    }else{
+      this.year =localStorage.getItem("year_in_course")
+    }
+
+    if (localStorage.getItem("term_in_course") === null || localStorage.getItem("term_in_course") === undefined ){
+      this.term = this.term_year[this.term_year.length-1].term
+    }else{
+      this.term =localStorage.getItem("term_in_course")
+    }
+      this.getCourseList()
         // console.log(  this.term_year);
       })
       .catch((error) => {
@@ -438,16 +451,17 @@ export default {
     },
 
     async getCourseList() {
+      
+      this.course_list = []
       if (this.year === "" || this.term === "") {
         return;
       }
+
+      localStorage.setItem("year_in_course",this.year)
+      localStorage.setItem("term_in_course",this.term)
       axios
         .get(
-          "http://127.0.0.1:8080/course/year-term?profile_id=" +
-            this.profile_id +
-            "&role=" +
-            this.role +
-            "&year=" +
+          "http://127.0.0.1:8080/course/year-term?year=" +
             this.year +
             "&term=" +
             this.term

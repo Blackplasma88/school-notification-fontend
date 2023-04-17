@@ -177,7 +177,8 @@
     <ListCheckNameManage
       :check_names="this.check_name_data_list"
       :student_names="this.student_name_list"
-      :course_list="this.course_list"
+      :c_id="this.course_id"
+      :role="role"
     />
   </div>
 </template>
@@ -219,20 +220,37 @@ export default {
       student_name_list: [],
     };
   },
-  created() {
+  async created() {
     this.profile_id = localStorage.getItem("profile_id");
     this.role = localStorage.getItem("role");
-    axios
+    await axios
       .get("http://127.0.0.1:8080/school-data/term-year-data")
       .then((response) => {
         // console.log(response.data.data.school_data);
         this.term_year = response.data.data.school_data;
         // console.log(  this.term_year);
+        if (localStorage.getItem("year_in_check_name") === null || localStorage.getItem("year_in_check_name") === undefined ){
+      this.year = this.term_year[this.term_year.length-1].year
+    }else{
+      this.year =localStorage.getItem("year_in_check_name")
+    }
+
+    if (localStorage.getItem("term_in_check_name") === null || localStorage.getItem("term_in_check_name") === undefined ){
+      this.term = this.term_year[this.term_year.length-1].term
+    }else{
+      this.term =localStorage.getItem("term_in_check_name")
+    }
+
+    if (this.term !== "" &&   this.year !== ""){
+     this.getCourseList()
+    }
       })
       .catch((error) => {
         console.log(error);
         this.$swal("Error!", error.response.data.message, "error");
       });
+
+      
   },
   methods: {
     togglePopupOpenCamera() {
@@ -247,6 +265,8 @@ export default {
       if (this.year === "" || this.term === "") {
         return;
       }
+      localStorage.setItem("term_in_check_name",this.year)
+      localStorage.setItem("term_in_check_name",this.term)
       axios
         .get(
           "http://127.0.0.1:8080/course/year-term?profile_id=" +

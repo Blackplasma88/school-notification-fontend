@@ -11,15 +11,15 @@
           @change="press"
         >
           <option selected disabled value="">ชั้นปี</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
+          <option value="1">ชั้นปี 1</option>
+          <option value="2">ชั้นปี 2</option>
+          <option value="3">ชั้นปี 3</option>
+          <option value="4">ชั้นปี 4</option>
+          <option value="5">ชั้นปี 5</option>
+          <option value="6">ชั้นปี 6</option>
         </select>
       </div>
-      <div class="btnCreate">
+      <!-- <div class="btnCreate">
         <button
           type="button"
           class="btn btn-secondary"
@@ -27,8 +27,9 @@
         >
           new class
         </button>
-      </div>
-      <div class="btnCreate">
+      </div> -->
+      &nbsp;
+      <div class="btnCreate" v-if="this.data_list.length !== 0">
         <button
           type="button"
           class="btn btn-secondary"
@@ -144,7 +145,14 @@ export default {
       data_name_train: "",
     };
   },
-  created() {},
+  created() {
+    if (localStorage.getItem("class_year_get") === null || localStorage.getItem("class_year_get") === undefined ){
+      this.class_year_get = 1
+    }else{
+      this.class_year_get =localStorage.getItem("class_year_get")
+    }
+    this.press()
+  },
   methods: {
     togglePopupCreate() {
       this.popupTriggers.buttonPopupCreate =
@@ -234,6 +242,7 @@ export default {
     },
     press() {
       this.data_list = [];
+      localStorage.setItem("class_year_get",this.class_year_get)
       console.log("data_list", this.data_list);
       axios
         .get(

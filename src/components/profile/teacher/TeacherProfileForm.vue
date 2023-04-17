@@ -257,6 +257,7 @@ export default {
       
     },
     TogglePopup(trigger) {
+      this.resetForm();
       console.log(trigger);
       this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
       console.log(this.popupTriggers.buttonPopup);
@@ -284,7 +285,6 @@ export default {
           .post("http://127.0.0.1:8080/profile/create", this.profile)
           .then((response) => {
             console.log(response);
-            this.resetForm();
             this.popupTriggers.buttonPopup = false;
             this.$swal("Success!", response.data.message, "success").then(
               () => {

@@ -68,7 +68,7 @@
         </select>
       </div>
       &nbsp;
-      <div>
+      <div v-if="this.role === 'teacher'">
         <select
           class="form-select"
           aria-label="Select"
@@ -85,6 +85,7 @@
     <ListSummary
       :course_summary="course_summary"
       :student_names="student_names"
+      :role="this.role"
     />
   </section>
 </template>
@@ -120,6 +121,34 @@ export default {
         // console.log(response.data.data.school_data);
         this.term_year = response.data.data.school_data;
         // console.log(  this.term_year);
+        if (
+          localStorage.getItem("year_in_summary") === null ||
+          localStorage.getItem("year_in_summary") === undefined
+        ) {
+          this.year = this.term_year[this.term_year.length - 1].year;
+        } else {
+          this.year = localStorage.getItem("year_in_summary");
+        }
+
+        if (
+          localStorage.getItem("term_in_summary") === null ||
+          localStorage.getItem("term_in_summary") === undefined
+        ) {
+          this.term = this.term_year[this.term_year.length - 1].term;
+        } else {
+          this.term = localStorage.getItem("term_in_summary");
+        }
+
+        if (this.term !== "" && this.year !== "" && this.role == "teacher") {
+          this.getCourseList();
+        }
+
+        if (this.role == "student"){
+          this.getStudentCourseSummaryList()
+        }
+
+
+
       })
       .catch((error) => {
         console.log(error);
@@ -127,10 +156,15 @@ export default {
   },
   methods: {
     async getCourseList() {
+      this.course_summary = []
       if (this.year === "" || this.term === "") {
         return;
       }
-      axios
+      localStorage.setItem("year_in_summary", this.year);
+      localStorage.setItem("term_in_summary", this.term);
+      if (this.role === "teacher"){
+        this.course_list = []
+        axios
         .get(
           "http://127.0.0.1:8080/course/year-term?profile_id=" +
             this.profile_id +
@@ -150,8 +184,13 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+      }else if (this.role === "student"){
+        this.getStudentCourseSummaryList()
+      }
+     
     },
     async getCourseSummaryList() {
+      this.course_summary = []
       console.log(this.course_name);
       for (let i = 0; i < this.course_list.length; i++) {
         if (this.course_list[i].name == this.course_name) {
@@ -166,6 +205,39 @@ export default {
             this.course_id +
             "&role=" +
             this.role
+        )
+        .then((response) => {
+          console.log(response.data.data.course_summary);
+          this.course_summary = response.data.data.course_summary;
+
+          console.log(this.course_summary);
+          for (var i = 0; i < this.course_summary.length; i++) {
+            let indexI = i;
+            axios
+              .get(
+                "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
+                  this.course_summary[indexI].student_id +
+                  "&role=student"
+              )
+              .then((response) => {
+                console.log(response.data.data.profile.name);
+                this.student_names[indexI] = response.data.data.profile.name;
+                console.log(this.student_names);
+              });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    async getStudentCourseSummaryList() {
+
+      axios
+        .get(
+          "http://127.0.0.1:8080/course-summary/student?year=" +
+            this.year +
+            "&term=" +
+            this.term
         )
         .then((response) => {
           console.log(response.data.data.course_summary);

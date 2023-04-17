@@ -51,13 +51,13 @@
           v-model="this.class_year"
           @change="press"
         >
-          <option selected disabled value="">ชั้นปี</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
+          <!-- <option selected disabled value=""></option> -->
+          <option value="1">ชั้นปี 1</option>
+          <option value="2">ชั้นปี 2</option>
+          <option value="3">ชั้นปี 3</option>
+          <option value="4">ชั้นปี 4</option>
+          <option value="5">ชั้นปี 5</option>
+          <option value="6">ชั้นปี 6</option>
         </select>
       </div>
       &nbsp;
@@ -144,36 +144,41 @@ export default {
   },
   created() {
     this.role = localStorage.getItem("role")
-    // axios
-    //   .get("http://127.0.0.1:8080/class/all?class_year=" + this.class_year)
-    //   .then((response) => {
-    //     console.log("classes_list");
-    //     console.log(response.data.data.class_list);
-    //     this.classes = response.data.data.class_list;
+    
+    if (localStorage.getItem("class_year") === null || localStorage.getItem("class_year") === undefined ){
+      this.class_year = 1
+    }else{
+      this.class_year =localStorage.getItem("class_year")
+    }
+    axios
+      .get("http://127.0.0.1:8080/class/all?class_year=" + this.class_year)
+      .then((response) => {
+        this.classes = response.data.data.class_list;
 
-    //     console.log("this.advisor_name_list", this.advisor_name_list);
-    //     for (var i = 0; i < this.classes.length; i++) {
-    //       let indexI = i;
-    //       this.advisor_name_list.push("");
-    //       this.classes[i].index = indexI
-    //       console.log(this.classes[i].advisor_id);
-    //       if (this.classes[i].advisor_id != "") {
-    //         console.log("advisor", this.classes[i].advisor_id);
-    //         axios
-    //           .get(
-    //             "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
-    //               this.classes[indexI].advisor_id +
-    //               "&role=teacher"
-    //           )
-    //           .then((response) => {
-    //             this.advisor_name_list[indexI] =
-    //               response.data.data.profile.name;
-    //             console.log(response.data.data.profile.name);
-    //           });
-    //       }
-    //       console.log("this.advisor_name_list", this.advisor_name_list);
-    //     }
-    //   });
+        // console.log("this.dataForPagination", this.dataForPagination);
+        console.log("this.advisor_name_list", this.advisor_name_list);
+        for (var i = 0; i < this.classes.length; i++) {
+          let indexI = i;
+          this.classes[i].index = indexI
+          this.advisor_name_list.push("");
+          console.log(this.classes[i].advisor_id);
+          if (this.classes[i].advisor_id != "") {
+            console.log("advisor", this.classes[i].advisor_id);
+            axios
+              .get(
+                "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
+                  this.classes[indexI].advisor_id +
+                  "&role=teacher"
+              )
+              .then((response) => {
+                this.advisor_name_list[indexI] =
+                  response.data.data.profile.name;
+                console.log(response.data.data.profile.name);
+              });
+          }
+          console.log("this.advisor_name_list", this.advisor_name_list);
+        }
+      });
   },
 
   methods: {
@@ -195,6 +200,7 @@ export default {
     },
     press() {
       this.classes = []
+      localStorage.setItem("class_year",this.class_year)
       axios
       .get("http://127.0.0.1:8080/class/all?class_year=" + this.class_year)
       .then((response) => {

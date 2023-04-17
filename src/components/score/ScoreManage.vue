@@ -268,7 +268,7 @@ export default {
       return this.score_information;
     },
   },
-  created() {
+  async created() {
     this.role = localStorage.getItem("role");
     this.profile_id = localStorage.getItem("profile_id");
     // console.log(localStorage.getItem("profile_id"));
@@ -277,6 +277,44 @@ export default {
       .then((response) => {
         // console.log(response.data.data.school_data);
         this.term_year = response.data.data.school_data;
+
+        if (localStorage.getItem("year_in_score") === null || localStorage.getItem("year_in_score") === undefined ){
+      this.year = this.term_year[this.term_year.length-1].year
+    }else{
+      this.year =localStorage.getItem("year_in_score")
+    }
+
+    if (localStorage.getItem("term_in_score") === null || localStorage.getItem("term_in_score") === undefined ){
+      this.term = this.term_year[this.term_year.length-1].term
+    }else{
+      this.term =localStorage.getItem("term_in_score")
+    }
+
+    if (this.term !== "" &&   this.year !== ""){
+     this.getCourseList()
+    }
+    
+    
+  //   if (localStorage.getItem("score_course_name") === null || localStorage.getItem("score_course_name") === undefined ){
+  //     this.course_name = ""
+  //   }else{
+  //     this.course_name =localStorage.getItem("score_course_name")
+  //   }
+
+  //   if (this.role === "teacher" &&   this.course_name !== ""){
+  //     this.getScoreNameList()
+  //     if (localStorage.getItem("score_course_id") === null || localStorage.getItem("score_course_id") === undefined ){
+  //     this.course_id = ""
+  //   }else{
+  //     this.course_id =localStorage.getItem("score_course_id")
+  //   }
+  // }
+      
+  
+  //   if (this.role === "student" &&   this.course_name !== ""){
+  //     this.getScoreStudent()
+  //   }
+
         // console.log(  this.term_year);
       })
       .catch((error) => {
@@ -322,7 +360,10 @@ export default {
       if (this.year === "" || this.term === "") {
         return;
       }
-      axios
+     
+      localStorage.setItem("year_in_score",this.year)
+      localStorage.setItem("term_in_score",this.term)
+      await axios
         .get(
           "http://127.0.0.1:8080/course/year-term?year=" +
             this.year +
@@ -335,14 +376,17 @@ export default {
           //   console.log(  this.school_data);
           console.log(this.course_list);
 
-          axios.get("");
+          
         })
         .catch((error) => {
           console.log(error);
         });
     },
     async getScoreNameList() {
+      localStorage.setItem("score_course_name",this.course_name)
       console.log(this.course_name);
+
+      
       for (let i = 0; i < this.course_list.length; i++) {
         if (this.course_list[i].name == this.course_name) {
           this.course_id = this.course_list[i].id;
@@ -350,13 +394,14 @@ export default {
         }
       }
 
+
       axios
         .get(
           "http://127.0.0.1:8080/score/score-in-course?course_id=" +
             this.course_id 
         )
         .then((response) => {
-          // console.log(response.data.data.score.name);
+          // console.log(response.data.data.score_name_list);
           this.score_name_list = response.data.data.score_name_list;
           //   console.log(  this.school_data);
         })
@@ -365,6 +410,7 @@ export default {
         });
     },
     async getScoreData() {
+      localStorage.setItem("score_course_id",this.course_id)
       axios
         .get(
           "http://127.0.0.1:8080/score/score-data?course_id=" +
@@ -401,6 +447,7 @@ export default {
         });
     },
     getScoreStudent(){
+      localStorage.setItem("score_course_name",this.course_name)
       console.log(this.course_name);
       for (let i = 0; i < this.course_list.length; i++) {
         if (this.course_list[i].name == this.course_name) {

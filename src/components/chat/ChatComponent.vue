@@ -24,8 +24,8 @@
       <div id="chatBox">
         <div id="chatBoxWrapper" v-if="current_chat.id != undefined">
           <div className="chatBoxTop" v-if="this.messaeges.length != 0">
-            <div>
-              <Message
+            <div >
+              <Message 
                 v-for="item in this.messaeges"
                 :key="item.id"
                 :message="item"

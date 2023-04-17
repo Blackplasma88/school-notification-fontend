@@ -8,8 +8,9 @@
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
-            <th scope="col">รหัสนักเรียน</th>
-            <th scope="col">ชื่อ - นามสกุล</th>
+            <th  v-if="role === 'teacher'" scope="col">รหัสนักเรียน</th>
+            <th  v-if="role === 'student'" scope="col">ชื่อคอร์ส</th>
+            <th v-if="role === 'teacher'" scope="col">ชื่อ - นามสกุล</th>
 
             <th scope="col">คะแนนเก็บ</th>
             <th scope="col">คะแนนสอบกลางภาค</th>
@@ -24,8 +25,9 @@
         </thead>
         <tbody>
           <tr v-for="(course, i) in course_summary" :key="course.id">
-            <td>{{ course.student_id }}</td>
-            <td>{{ student_names[i] }}</td>
+            <td v-if="role === 'teacher'">{{ course.student_id }}</td>
+            <td v-if="role === 'student'">{{ course.course_name }}</td>
+            <td  v-if="role === 'teacher'">{{ student_names[i] }}</td>
 
             <td>{{ course.score_work_get }}</td>
             <td>{{ course.score_mid_get }}</td>
@@ -51,6 +53,7 @@ export default {
     filterValue: String,
     student_names: Array,
     course_summary: Array,
+    role:String,
   },
 };
 </script>

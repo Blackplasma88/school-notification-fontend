@@ -65,6 +65,13 @@
                 {{ course.status }}
               </div>
             </td>
+            <td  v-if="role === 'student'">
+              <div v-if="course.status == 'progress'">กำลังดำเนินการ</div>
+              <div v-else-if="course.status == 'summary'">สรุปผล</div>
+              <div v-else>
+                {{ course.status }}
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>

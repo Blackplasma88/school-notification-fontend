@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>List of School Data</h2>
+    <h2 v-if="school_datas.length !== 0">List of School Data</h2>
     <!-- {{ school_datas }} -->
     <div v-show="isShow == true">
       <table class="table table-bordered table-hover">

@@ -55,7 +55,7 @@
         </select>
       </div>
       &nbsp;
-      <div class="btnEndTerm">
+      <div class="btnEndTerm"  v-if="this.manage_with === 'year_term'"> 
         <button
           type="button"
           class="btn btn-secondary"
@@ -65,7 +65,7 @@
         </button>
       </div>
       &nbsp;
-      <div class="btnAddSubjectCategory">
+      <div class="btnAddSubjectCategory"  v-if="this.manage_with === 'subject_category'">
         <button
           type="button"
           class="btn btn-secondary"
