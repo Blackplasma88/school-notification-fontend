@@ -1,18 +1,53 @@
 <template>
   <div>
-    <!-- {{ student_profile }} -->
-    <div>
-      <h4>รหัสนักเรียน : {{ student_profile.profile_id }}</h4>
-      <h4>ชื่อ - สกุล : {{ student_profile.name }}</h4>
-      <h4>ชั้น : ม.{{ this.class_name }}</h4>
-      <h4>เกรดเฉลี่ย : {{ student_profile.gpa }}</h4>
-      <h4>หน่วยกิตทั้งหมด : {{ student_profile.all_credit }}</h4>
-      <h4>เกรดเฉลี่ยภาคเรียน : {{ student_profile.term_score[0].gpa }}</h4>
-      <h4>
-        หน่วยกิตภาคเรียน : {{ student_profile.term_score[0].term_credit }}
-      </h4>
-      <div v-if="student_profile.parent_id != ''">
-        <h4>ผู้ปกครอง : {{ student_profile.parent_id }}</h4>
+    <div
+      class="d-flex flex-nowrap p-2 m-5 justify-content-center align-items-center"
+    >
+      <div>
+        <div class="card p-2 m-2" style="width: 50rem">
+          <div class="card-body gap-2">
+            <h2 class="card-title">
+              {{ profile_student.name }}
+            </h2>
+            <h4 class="card-text">
+              รหัสนักเรียน : {{ profile_student.profile_id }}
+            </h4>
+            <h4 class="card-text">
+              ชั้น : ม.{{ this.profile_student.class_name }}
+            </h4>
+            <div v-if="profile_student.all_credit != 0">
+              <h4 class="card-text">
+                หน่วยกิตสะสม : {{ profile_student.all_credit }}
+              </h4>
+              <h4 class="card-text">
+                เกรดเฉลี่ยสะสม : {{ profile_student.gpa }}
+              </h4>
+            </div>
+          </div>
+        </div>
+        <div class="p-4 m-2">
+          <div v-if="profile_student.term_score != null">
+            <div v-for="(score, i) in profile_student.term_score" :key="score">
+              <h5>
+                ปีการศึกษา {{ profile_student.term_score[i].year }} /
+                {{ profile_student.term_score[i].term }}
+              </h5>
+              <h5>
+                หน่วยกิตภาคเรียน :
+                {{ profile_student.term_score[i].all_credit }}
+              </h5>
+              <h5>
+                เกรดเฉลี่ยประจำภาคเรียน :
+                {{ profile_student.term_score[i].gpa }}
+              </h5>
+
+              <h5>
+                จำนวนวิชาที่เรียน :
+                {{ profile_student.term_score[i].course_list.length }}
+              </h5>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -25,10 +60,8 @@ export default {
   components: {},
   data() {
     return {
-      student_profile: {
+      profile_student: {
         profile_id: "",
-        name: "",
-        role: "",
         class_id: "",
         parent_id: "",
         gpa: 0,
@@ -42,9 +75,9 @@ export default {
             course_list: [],
           },
         ],
+        class_name: "",
+        parent_name: "",
       },
-      class_name: "",
-      parent_name: "",
     };
   },
   created() {
@@ -59,12 +92,12 @@ export default {
         console.log("profile_id", this.$route.params.profile_id);
         console.log("profile");
         console.log(response.data.data.profile);
-        this.student_profile = response.data.data.profile;
+        this.profile_student = response.data.data.profile;
 
         axios
           .get(
             "http://127.0.0.1:8080/class/id?class_id=" +
-              this.student_profile.class_id
+              this.profile_student.class_id
           )
           .then((response) => {
             console.log("class");
@@ -74,11 +107,11 @@ export default {
                 "/" +
                 response.data.data.class.class_room
             );
-            this.class_name =
+            this.profile_student.class_name =
               response.data.data.class.class_year +
               "/" +
               response.data.data.class.class_room;
-            console.log("class name :", this.class_name);
+            console.log("class name :", this.profile_student.class_name);
           });
       });
   },

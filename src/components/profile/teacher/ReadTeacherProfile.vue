@@ -1,30 +1,35 @@
 <template>
-  <div>
+  <div
+    class="d-flex flex-nowrap p-2 m-5 justify-content-center align-items-center"
+  >
     <!-- {{ teacher_profile }} -->
     <div>
-      <h4>รหัสอาจารย์ : {{ teacher_profile.profile_id }}</h4>
-      <h4>ชื่อ - นามสกุล : {{ teacher_profile.name }}</h4>
-      <h4>ภาควิชา : {{ teacher_profile.category }}</h4>
+      <div class="card" style="width: 50rem">
+        <div class="card-body gap-2">
+          <h2 class="card-title">
+            {{ teacher_profile.name }}
+          </h2>
+          <h4 class="card-text">
+            รหัสอาจารย์ : {{ teacher_profile.profile_id }}
+          </h4>
+          <h4 class="card-text">ภาควิชา : {{ teacher_profile.category }}</h4>
 
-      <div>
-        <div v-if="teacher_profile.subject_id != ''">
-          <h4>วิชาที่สอน : {{ teacher_profile.subject_id }}</h4>
-        </div>
-        <div v-else>
-          <h4>วิชาที่สอน : ไม่มี</h4>
+          <div v-if="teacher_profile.subject_id != ''" class="gap-2">
+            <h4 class="card-text">
+              วิชาที่สอน : {{ teacher_profile.subject_id }}
+            </h4>
+          </div>
+          <div>
+            <div v-if="this.class_name != ''" class="gap-2">
+              <h4 class="card-text">ชั้นปีที่ดูแล : ม.{{ this.class_name }}</h4>
+            </div>
+            <div v-else>
+              <h4 class="card-text">ชั้นปีที่ดูแล : ไม่มี</h4>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div>
-        <div v-if="this.class_name != ''">
-          <h4>ชั้นปีที่ดูแล : ม.{{ this.class_name }}</h4>
-        </div>
-        <div v-else>
-          <h4>ชั้นปีที่ดูแล : ไม่มี</h4>
-        </div>
-      </div>
-
-      <div v-if="teacher_profile.slot != null">
+      <div v-if="teacher_profile.slot != null" class="p-2 m-2">
         <h4>ตารางสอน</h4>
         <table class="table table-bordered table-hover">
           <thead>
@@ -96,6 +101,7 @@ export default {
         ],
       },
       class_name: "",
+      subject_name: "",
     };
   },
   async created() {
@@ -130,6 +136,17 @@ export default {
               "/" +
               response.data.data.class.class_room;
             console.log("class name :", this.class_name);
+          });
+
+        axios
+          .get(
+            "http://127.0.0.1:8080/subject/id?subject_id=" +
+              this.teacher_profile.subject_id
+          )
+          .then((response) => {
+            // console.log(response.data.data.subject.name);
+            this.subject_name = response.data.data.subject.name;
+            // console.log("subject name :", this.subject_name);
           });
       })
       .catch((error) => {

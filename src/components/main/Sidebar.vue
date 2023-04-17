@@ -15,6 +15,13 @@
     &nbsp;
 
     <div class="menu">
+      <router-link v-if="role === 'admin'" to="/school-data" class="button">
+        <span class="material-icons">
+          <font-awesome-icon icon="fa-solid fa-school-flag" />
+        </span>
+        <span class="text">School Data</span>
+      </router-link>
+
       <router-link to="/informations" class="button">
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-comments" />
@@ -74,13 +81,6 @@
           <font-awesome-icon icon="fa-solid fa-video" />
         </span>
         <span class="text">Face Detected</span>
-      </router-link>
-
-      <router-link v-if="role === 'admin'" to="/school-data" class="button">
-        <span class="material-icons">
-          <font-awesome-icon icon="fa-solid fa-school-flag" />
-        </span>
-        <span class="text">School Data</span>
       </router-link>
 
       <router-link

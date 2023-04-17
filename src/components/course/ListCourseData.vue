@@ -27,7 +27,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(course) in courses" :key="course.id">
+          <tr v-for="course in courses" :key="course.id">
             <td>
               {{ course.name }}
             </td>
@@ -47,9 +47,7 @@
             <td>
               {{ course.date_time[0].day }} / {{ course.date_time[0].time[0] }}
             </td>
-            <td>
-              {{ locations[course.location_id_index].location_id }}
-            </td>
+            <td>อาคาร {{ locations[course.location_id_index].location_id }}</td>
             <td>
               <div v-if="course.status == 'create'">
                 <button>อัพเดต</button>

@@ -21,7 +21,7 @@
                 location.room
               }}
             </td>
-            <td>{{ location.building_name }}</td>
+            <td> {{ location.building_name }}</td>
             <td>{{ location.floor }}</td>
             <td>{{ location.room }}</td>
             <td>
