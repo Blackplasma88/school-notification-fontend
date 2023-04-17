@@ -1,6 +1,5 @@
 <template>
   <section>
-    <h2>Manage with</h2>
     <div class="filter">
       <div class="search-wrapper d-flex">
         <input
@@ -141,7 +140,7 @@ export default {
   },
   data() {
     return {
-      role:"",
+      role: "",
       popupTriggers: ref({
         buttonPopupAddSubjectCategory: false,
         buttonPopupEndTerm: false,

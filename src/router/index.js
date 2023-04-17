@@ -25,6 +25,8 @@ import ParentProfile from "@/views/profiles/parent/ParentProfile.vue";
 import ParentProfileRead from "@/views/profiles/parent/Read.vue";
 
 import Course from "@/views/course/Course.vue";
+import CourseCreate from "@/views/course/Create.vue";
+
 import Login from "@/views/login/Login.vue";
 import Logout from "@/views/logout/Logout.vue";
 import Score from "@/views/score/Score.vue";
@@ -129,6 +131,11 @@ const router = createRouter({
       path: "/courses",
       name: "Courses",
       component: Course,
+    },
+    {
+      path: "/course/create",
+      name: "CourseCreate",
+      component: CourseCreate,
     },
     {
       path: "/school-data",

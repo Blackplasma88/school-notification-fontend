@@ -111,13 +111,14 @@
           v-if="this.role === 'admin'"
           type="button"
           class="btn btn-secondary"
-          @click="togglePopupCreateCourse()"
+          @click="createCourse()"
         >
           Create course
         </button>
       </div>
     </div>
-    <CreatePopup v-if="popupTriggers.buttonPopup">
+    <!-- <CreatePopup v-if="popupTriggers.buttonPopup">
+
       <form @submit.prevent="submitForm">
         <div class="form-control">
           <label for="select"> หมวดหมู่ :</label>
@@ -216,7 +217,7 @@
             v-model="this.time_1"
           />
 
-          <!-- <label for="select"> วัน :</label>
+          <label for="select"> วัน :</label>
           <select
             class="form-select"
             aria-label="Select"
@@ -231,7 +232,7 @@
             class="form-control"
             placeholder="กรอกเวลา"
             v-model="this.time_2"
-          /> -->
+          />
 
           <div class="button-group">
             <button class="popup-close btn btn-success">Confirm</button>
@@ -246,7 +247,7 @@
           </div>
         </div>
       </form>
-    </CreatePopup>
+    </CreatePopup> -->
     <ListCourseData
       :filterOptions="filterOptions"
       :filterValue="filterValue"
@@ -262,12 +263,12 @@
 <script>
 import { ref } from "vue";
 import axios from "axios";
-import CreatePopup from "@/components/main/CreatePopup.vue";
+// import CreatePopup from "@/components/main/CreatePopup.vue";
 import ListCourseData from "@/components/course/ListCourseData.vue";
 export default {
   name: "CourseAdmin",
   components: {
-    CreatePopup,
+    // CreatePopup,
     ListCourseData,
   },
   data() {
@@ -530,31 +531,35 @@ export default {
           console.log(error);
         });
     },
-    togglePopupCreateCourse() {
-      this.instructor_list = [];
-      this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
+    // togglePopupCreateCourse() {
+    //   this.instructor_list = [];
+    //   this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
 
-      axios
-        .get("http://127.0.0.1:8080/school-data/subject-category")
-        .then((response) => {
-          // console.log(response.data.data.school_data);
-          this.school_data = response.data.data.school_data;
-          //   console.log(  this.school_data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    //   axios
+    //     .get("http://127.0.0.1:8080/school-data/subject-category")
+    //     .then((response) => {
+    //       // console.log(response.data.data.school_data);
+    //       this.school_data = response.data.data.school_data;
+    //       //   console.log(  this.school_data);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
 
-      axios
-        .get("http://127.0.0.1:8080/location/all")
-        .then((response) => {
-          // console.log(response.data.data.school_data);
-          this.location_list = response.data.data.location_list;
-          //   console.log(  this.school_data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    //   axios
+    //     .get("http://127.0.0.1:8080/location/all")
+    //     .then((response) => {
+    //       // console.log(response.data.data.school_data);
+    //       this.location_list = response.data.data.location_list;
+    //       //   console.log(  this.school_data);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // },
+    createCourse() {
+      console.log("createCourse");
+      this.$router.push("/course/create");
     },
     async submitForm() {
       // check

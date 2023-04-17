@@ -1,13 +1,12 @@
 <template>
   <div>
-    <h2>List of Subject</h2>
-
     <!-- {{ subjects }} -->
     <!-- {{ subjects }} -->
     <!-- {{ filterOptions }} -->
     <!-- {{ instructors }} -->
 
     <div>
+      <h2>ตารางแสดงวิชาทั้งหมด</h2>
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
