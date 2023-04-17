@@ -84,8 +84,8 @@
         </select>
       </div>
       &nbsp;
-      <div>
-        <select
+      <div v-if="this.course_list.length !== 0 || (this.term !== '' && this.year !== '')">
+        <select v-if="this.role === 'teacher'"
           class="form-select"
           aria-label="Select"
           v-model="this.course_name"
@@ -96,9 +96,21 @@
             {{ item.name }}
           </option>
         </select>
+
+        <select v-if="this.role === 'student'"
+        class="form-select"
+        aria-label="Select"
+        v-model="this.course_name"
+        @change="getScoreStudent()"
+      >
+        <option selected disabled value="">select course name</option>
+        <option v-for="item in this.course_list" :key="item.id">
+          {{ item.name }}
+        </option>
+      </select>
       </div>
       &nbsp;
-      <div>
+      <div v-if="this.score_name_list.length !== 0">
         <select
           class="form-select"
           aria-label="Select"
@@ -112,7 +124,7 @@
         </select>
       </div>
       &nbsp;
-      <div class="btnAddScore">
+      <div class="btnAddScore" v-if="role === 'teacher' && this.course_name !== ''">
         <button
           v-if="this.role === 'teacher'"
           type="button"
@@ -259,7 +271,7 @@ export default {
   created() {
     this.role = localStorage.getItem("role");
     this.profile_id = localStorage.getItem("profile_id");
-    console.log(localStorage.getItem("profile_id"));
+    // console.log(localStorage.getItem("profile_id"));
     axios
       .get("http://127.0.0.1:8080/school-data/term-year-data")
       .then((response) => {
@@ -312,11 +324,7 @@ export default {
       }
       axios
         .get(
-          "http://127.0.0.1:8080/course/year-term?profile_id=" +
-            this.profile_id +
-            "&role=" +
-            this.role +
-            "&year=" +
+          "http://127.0.0.1:8080/course/year-term?year=" +
             this.year +
             "&term=" +
             this.term
@@ -345,11 +353,7 @@ export default {
       axios
         .get(
           "http://127.0.0.1:8080/score/score-in-course?course_id=" +
-            this.course_id +
-            "&role=" +
-            this.role +
-            "&id=" +
-            this.profile_id
+            this.course_id 
         )
         .then((response) => {
           // console.log(response.data.data.score.name);
@@ -366,11 +370,7 @@ export default {
           "http://127.0.0.1:8080/score/score-data?course_id=" +
             this.course_id +
             "&name=" +
-            this.score_name +
-            "&role=" +
-            this.role +
-            "&id=" +
-            this.profile_id
+            this.score_name 
         )
         .then((response) => {
           console.log(response.data.data.score_data);
@@ -400,20 +400,65 @@ export default {
           console.log(error);
         });
     },
+    getScoreStudent(){
+      console.log(this.course_name);
+      for (let i = 0; i < this.course_list.length; i++) {
+        if (this.course_list[i].name == this.course_name) {
+          this.course_id = this.course_list[i].id;
+          break;
+        }
+      }
+
+      axios
+      .get(
+          "http://127.0.0.1:8080/score/score-data?course_id=" +
+            this.course_id 
+        )
+        .then((response) => {
+          // console.log(response.data.data.score_data);
+          this.score_information = response.data.data.score_data;
+          // this.score_information =
+          //   response.data.data.score_data.score_information;
+          // console.log(this.score_information);
+          // console.log(this.score_information[0].student_id);
+          for (var i = 0; i < this.score_information.length; i++) {
+            let indexI = i;
+            this.score_information[i].index = i;
+            axios
+              .get(
+                "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
+                  this.score_information[indexI].student_id +
+                  "&role=student"
+              )
+              .then((response) => {
+                console.log(response.data.data.profile.name);
+                this.student_name_list[indexI] =
+                  response.data.data.profile.name;
+                console.log(this.student_name_list);
+              });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     async submitForm() {
       this.score_new.course_id = this.course_id;
       console.log(this.score_new);
       axios
         .post("http://127.0.0.1:8080/score/create", this.score_new)
-        .then(() => {
+        .then((response) => {
           this.popupTriggers.buttonPopupAddSubjectCategory =
             !this.popupTriggers.buttonPopupAddSubjectCategory;
-          // console.log(response.data.data.school_data);
-          // this.subject_list = response.data.data.subject_list;
-          //   console.log(  this.school_data);
+            this.$swal("Success!", response.data.message, "success").then(
+              () => {
+                window.location.reload();
+              }
+            );
         })
         .catch((error) => {
           console.log(error);
+          this.$swal("Error!", error.response.data.message, "error");
         });
     },
   },

@@ -2,9 +2,9 @@
   <div>
     <!-- score:{{ scores }} course:{{ courses }} -->
     <!-- {{ students }} -->
-    <!-- {{ scores }}
-    {{ courses }}
-    {{ scores_name }} -->
+    <!-- {{ scores }} -->
+    <!-- {{ courses }} -->
+    <!-- {{ scores_name }} -->
     <div class="m-3 p-1">
       <div v-if="role == 'teacher'">
         <div>
@@ -55,7 +55,35 @@
           </table>
         </div>
       </div>
-      <div v-else-if="role == 'student'">student</div>
+      <div v-else-if="role == 'student'">
+        <div>
+          <h2>ตารางแสดงคะแนน</h2>
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th scope="col">ชื่องาน</th>
+                <th scope="col">สถานะ</th>
+                <th scope="col">คะแนนที่ได้</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="score in scores" :key="score.id">
+                <td>{{ score.name }}</td>
+                <td>{{ score.status }}</td>
+
+                <td>
+                  <div v-if="score.status == 'create'">
+                    <input type="text" />
+                  </div>
+                  <div v-else>
+                    {{ score.score_get }}
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
     <EditPopup
       v-if="popupTriggers.buttonPopup"

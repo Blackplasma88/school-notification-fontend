@@ -8,19 +8,18 @@
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
-            <th scope="col">รหัสนักเรียน</th>
-            <th scope="col">ชื่อ - สกุล</th>
+            <th scope="col">วันที่</th>
             <th scope="col">เวลาที่เช็คชื่อ</th>
             <th scope="col">สถานะ</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(check_name, i) in check_names" :key="check_name.id">
-            <td>{{ check_name.student_id }}</td>
-            <td>{{ student_names[i] }}</td>
+          <tr v-for="(check_name) in check_names" :key="check_name.id">
+            <td>{{ check_name.date }}</td>
             <td>
               <div v-if="check_name.time != ''">
-                <td>{{ format_date(check_name) }}</td>
+                <td>{{ check_name.time }}</td>
+                <!-- <td>{{ format_date(check_name.time) }}</td> -->
               </div>
               <div v-else>
                 <td>ยังไม่ได้เช็คชื่อ</td>
@@ -30,23 +29,8 @@
               {{ course_list[i].id }}
             </td> -->
             <td>
-              <div v-if="check_name.status != ''">
+              <div >
                 {{ check_name.status }}
-              </div>
-              <div v-else>
-                <button
-                  type="button"
-                  class="btn btn-outline-secondary"
-                  @click="
-                    TogglePopup(
-                      'buttonPopup',
-                      course_list[i].id,
-                      check_name.student_id
-                    )
-                  "
-                >
-                  เช็คชื่อ
-                </button>
               </div>
             </td>
           </tr>

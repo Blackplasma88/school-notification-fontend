@@ -68,8 +68,8 @@
         </select>
       </div>
       &nbsp;
-      <div>
-        <select
+      <div  v-if="this.course_list.length !== 0 || (this.term !== '' && this.year !== '')">
+        <select v-if="this.role === 'teacher'"
           class="form-select"
           aria-label="Select"
           v-model="this.course_name"
@@ -80,9 +80,21 @@
             {{ item.name }}
           </option>
         </select>
+
+        <select v-if="this.role === 'student'"
+        class="form-select"
+        aria-label="Select"
+        v-model="this.course_name"
+        @change="getCheckNamaOfStudent()"
+      >
+        <option selected disabled value="">select course name</option>
+        <option v-for="item in this.course_list" :key="item.id">
+          {{ item.name }}
+        </option>
+      </select>
       </div>
       &nbsp;
-      <div>
+      <div v-if="this.date_list.length !== 0">
         <select
           class="form-select"
           aria-label="Select"
@@ -96,7 +108,7 @@
         </select>
       </div>
       &nbsp;
-      <div class="btnAddDate">
+      <div class="btnAddDate" v-if="role === 'teacher' && this.course_name !== ''">
         <button
           v-if="this.role === 'teacher'"
           type="button"
@@ -107,14 +119,25 @@
         </button>
       </div>
       &nbsp;
-      <div class="btnAddDate">
-        <button
-          v-if="this.role === 'teacher'"
+      <div>
+        <button 
+          v-if="this.role === 'teacher' && this.date !== '' && this.date_data.status === 'progress'"
           type="button"
           class="btn btn-secondary"
           @click="openCamera()"
         >
           open camera
+        </button>
+      </div>
+      &nbsp;
+      <div>
+        <button 
+          v-if="this.role === 'teacher' && this.date !== '' && this.date_data.status === 'progress'"
+          type="button"
+          class="btn btn-secondary"
+          @click="endDate()"
+        >
+          end date
         </button>
       </div>
     </div>
@@ -279,11 +302,7 @@ export default {
           "http://127.0.0.1:8080/check-name/check-name-data?course_id=" +
             this.course_id +
             "&date=" +
-            this.date +
-            "&role=" +
-            this.role +
-            "&id=" +
-            this.profile_id
+            this.date 
         )
         .then((response) => {
           console.log(response.data.data.date_data);
@@ -309,8 +328,6 @@ export default {
                 console.log(this.student_name_list);
               });
           }
-
-          axios.get("");
         })
         .catch((error) => {
           console.log(error);
@@ -374,6 +391,74 @@ export default {
           console.log(error);
         });
     },
+    async endDate(){
+      for (let i = 0; i < this.course_list.length; i++) {
+        if (this.course_list[i].name == this.course_name) {
+          this.course_id = this.course_list[i].id;
+          break;
+        }
+      }
+
+      await axios
+        .post("http://127.0.0.1:8080/check-name/end-date",{
+          course_id: this.course_id,
+          date:this.date
+        })
+        .then((response) => {
+            this.$swal("Success!", response.data.message, "success").then(
+              () => {
+                window.location.reload();
+              }
+            );
+        })
+        .catch((error) => {
+          console.log(error);
+          this.$swal("Error!", error.response.data.message, "error");
+        });
+    },
+    getCheckNamaOfStudent(){
+      console.log(this.course_name);
+      for (let i = 0; i < this.course_list.length; i++) {
+        if (this.course_list[i].name == this.course_name) {
+          this.course_id = this.course_list[i].id;
+          break;
+        }
+      }
+
+      axios
+      .get(
+          "http://127.0.0.1:8080/check-name/check-name-data?course_id=" +
+            this.course_id 
+        )
+        .then((response) => {
+          console.log(response.data.data.date_data);
+          this.check_name_data_list = response.data.data.date_data;
+          // console.log(response.data.data.date_data.check_name_data);
+          // console.log(this.date_data);
+          // this.check_name_data_list =
+          //   response.data.data.date_data.check_name_data;
+
+          // console.log(this.check_name_data_list);
+          // for (var i = 0; i < this.check_name_data_list.length; i++) {
+          //   let indexI = i;
+          //   axios
+          //     .get(
+          //       "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
+          //         this.check_name_data_list[indexI].student_id +
+          //         "&role=student"
+          //     )
+          //     .then((response) => {
+          //       console.log(response.data.data.profile.name);
+          //       this.student_name_list[indexI] =
+          //         response.data.data.profile.name;
+          //       console.log(this.student_name_list);
+              // });
+          // }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   },
 };
 </script>

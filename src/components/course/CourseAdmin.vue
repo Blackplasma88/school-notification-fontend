@@ -255,6 +255,7 @@
       :instructors="instructor_name_list"
       :classes="class_name_list"
       :locations="location_name_list"
+      :role="role"
     />
   </section>
 </template>
