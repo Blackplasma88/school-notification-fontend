@@ -12,6 +12,7 @@ import Subject from "@/views/subject/Subject.vue";
 
 import Class from "@/views/classData/Class.vue";
 import ClassRead from "@/views/classData/Read.vue";
+import ClassDetail from "@/views/classData/Detail.vue";
 
 import Profile from "@/views/profiles/Profile.vue";
 import TeacherProfile from "@/views/profiles/teacher/TeacherProfile.vue";
@@ -118,6 +119,11 @@ const router = createRouter({
       path: "/class/:id",
       name: "ClassRead",
       component: ClassRead,
+    },
+    {
+      path: "/class/detail",
+      name: "ClassDetail",
+      component: ClassDetail,
     },
     {
       path: "/courses",

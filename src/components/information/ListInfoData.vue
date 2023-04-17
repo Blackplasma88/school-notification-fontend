@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h2>List of Information</h2>
     <div>
       <div v-for="info in informations" :key="info.id">
         <InformationData

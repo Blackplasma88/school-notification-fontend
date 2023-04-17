@@ -34,7 +34,8 @@
         </div>
       </div>
     </div>
-    <div class="rightContent">
+
+    <div v-if="this.role == 'admin'" class="rightContent">
       <button type="button" class="btn btn-secondary" @click="createInfo">
         Create
       </button>
@@ -48,6 +49,13 @@
 import ListInfoData from "@/components/information/ListInfoData.vue";
 export default {
   name: "InformationForm",
+  data() {
+    return {
+      user_id: "",
+      role: "",
+      profile_id: "",
+    };
+  },
   components: {
     ListInfoData,
   },
@@ -56,6 +64,11 @@ export default {
       console.log("createInfo");
       this.$router.push("/information/create");
     },
+  },
+  created() {
+    // this.user_id = localStorage.getItem("user_id");
+    this.role = localStorage.getItem("role");
+    // this.profile_id = localStorage.getItem("profile_id");
   },
 };
 </script>

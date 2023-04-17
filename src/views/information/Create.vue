@@ -1,24 +1,20 @@
 <template>
   <div class="w-100">
-    <Navbar /> 
+    <Navbar />
     <div class="d-flex w-100">
       <Sidebar />
-      <div class="w-100 px-5" style="padding-top:5%;">
-        <h1>New Information</h1>
-    <CreateInfoComponent />
+      <div class="w-100 px-5" style="padding-top: 5%">
+        <CreateInfoComponent />
       </div>
-      
     </div>
-    
-   </div>
-  
+  </div>
 </template>
 
 <script>
 import Navbar from "@/components/main/Navbar.vue";
 import Sidebar from "@/components/main/Sidebar.vue";
 import axios from "axios";
-import CreateInfoComponent from '@/components/information/CreateInfoComponent.vue';
+import CreateInfoComponent from "@/components/information/CreateInfoComponent.vue";
 export default {
   name: "Create",
   components: {
@@ -26,13 +22,16 @@ export default {
     Navbar,
     Sidebar,
   },
-  mounted(){
-    if (localStorage.getItem("token") == null || localStorage.getItem("token") == undefined){
+  mounted() {
+    if (
+      localStorage.getItem("token") == null ||
+      localStorage.getItem("token") == undefined
+    ) {
       this.$router.push("/login");
     }
     axios.defaults.headers = {
-            Authorization:localStorage.getItem("token"),
-        }
+      Authorization: localStorage.getItem("token"),
+    };
   },
 };
 </script>

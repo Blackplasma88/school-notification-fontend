@@ -3,7 +3,6 @@
     <div class="card-info-detail">
       <div class="info-w-i" v-if="information.filepath">
         <div class="info-head">
-          <!-- <h2>Information Details</h2> -->
           <button type="button" class="btn btn-secondary" @click="editInfo">
             Edit
           </button>

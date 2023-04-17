@@ -62,7 +62,18 @@
         </span>
         <span class="text"> Parent Profile </span>
       </router-link> -->
-      <router-link to="/classes" class="button">
+      <router-link v-if="role === 'admin'" to="/classes" class="button">
+        <span class="material-icons">
+          <font-awesome-icon icon="fa-solid fa-chalkboard-user" />
+        </span>
+        <span class="text">Class</span>
+      </router-link>
+
+      <router-link
+        v-if="role === 'teacher' || role === 'student'"
+        to="/class/detail"
+        class="button"
+      >
         <span class="material-icons">
           <font-awesome-icon icon="fa-solid fa-chalkboard-user" />
         </span>

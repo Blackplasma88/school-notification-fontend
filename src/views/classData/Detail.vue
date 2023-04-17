@@ -1,30 +1,28 @@
 <template>
-  <!-- <main class="information-page"> -->
   <div class="w-100">
     <Navbar />
     <div class="d-flex w-100">
       <Sidebar />
       <div class="w-100 px-5" style="padding-top: 5%">
-        <InformationForm />
+        <DetailClassComponent />
       </div>
     </div>
   </div>
-  <!-- </main> -->
 </template>
 
 <script>
 import Navbar from "@/components/main/Navbar.vue";
 import Sidebar from "@/components/main/Sidebar.vue";
 import axios from "axios";
-import InformationForm from "@/components/information/InformationForm";
+import DetailClassComponent from "@/components/classdata/DetailClassComponent.vue";
 export default {
-  name: "Information",
+  name: "Detail",
   components: {
-    InformationForm,
     Navbar,
     Sidebar,
+    DetailClassComponent,
   },
-  created() {
+  mounted() {
     if (
       localStorage.getItem("token") == null ||
       localStorage.getItem("token") == undefined
@@ -38,4 +36,4 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style></style>
