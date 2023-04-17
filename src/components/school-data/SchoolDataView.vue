@@ -1,6 +1,5 @@
 <template>
   <section>
-    <h2>Manage with</h2>
     <div class="filter">
       <div class="search-wrapper d-flex">
         <input
@@ -55,7 +54,7 @@
         </select>
       </div>
       &nbsp;
-      <div class="btnEndTerm"  v-if="this.manage_with === 'year_term'"> 
+      <div class="btnEndTerm" v-if="this.manage_with === 'year_term'">
         <button
           type="button"
           class="btn btn-secondary"
@@ -65,7 +64,10 @@
         </button>
       </div>
       &nbsp;
-      <div class="btnAddSubjectCategory"  v-if="this.manage_with === 'subject_category'">
+      <div
+        class="btnAddSubjectCategory"
+        v-if="this.manage_with === 'subject_category'"
+      >
         <button
           type="button"
           class="btn btn-secondary"
@@ -141,7 +143,7 @@ export default {
   },
   data() {
     return {
-      role:"",
+      role: "",
       popupTriggers: ref({
         buttonPopupAddSubjectCategory: false,
         buttonPopupEndTerm: false,

@@ -112,7 +112,7 @@
         <button
           type="button"
           class="popup-close btn btn-danger"
-          @click="togglePopupCreateCourse()"
+          @click="cancelCourse()"
         >
           Cancel
         </button>
@@ -291,7 +291,10 @@ export default {
     //       console.log(error);
     //     });
     // },
-  
+    cancelCourse() {
+      this.$router.push("/courses");
+    },
+
     async submitForm() {
       // check
       // if (this.subject_id == "" || ins)

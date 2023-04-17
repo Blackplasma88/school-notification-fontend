@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>List of Summary</h2>
+    <h2>ตารางสรุปผล</h2>
     <!-- {{ course_summary }}
     {{ student_names }} -->
 

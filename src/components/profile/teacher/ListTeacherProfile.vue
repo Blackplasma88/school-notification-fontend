@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>List of Teachers</h2>
+    <h2>รายชื่ออาจารย์</h2>
     <!-- {{ teachers }} -->
     <!-- {{ classes }} -->
     <!-- {{ subjects }} -->

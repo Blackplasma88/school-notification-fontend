@@ -1,9 +1,9 @@
 <template>
   <div>
     <div
-      class="d-flex flex-nowrap justify-content-between align-items-stretch m-2 p-2 gap-0"
+      class="d-flex flex-nowrap justify-content-around align-items-stretch h-100 m-3 p-2"
     >
-      <div id="chatMenu" class="">
+      <div id="chatMenu">
         <div id="chatMenuWrapper">
           <input
             placeholder="Search for friends"
@@ -21,9 +21,13 @@
         </div>
       </div>
 
-      <div id="chatBox" class="sticky-bottom ustify-content-center">
+      <div id="chatBox" class="p-4 m-2 w-75 align-self-stretch">
         <div id="chatBoxWrapper" v-if="current_chat.id != undefined">
-          <div id="chatBoxTop" v-if="this.messaeges.length != 0">
+          <div
+            class="chatBoxTop"
+            v-if="this.messaeges.length != 0"
+            style="height: 450px; overflow-y: scroll"
+          >
             <div>
               <Message
                 v-for="item in this.messaeges"
@@ -33,26 +37,29 @@
               />
             </div>
           </div>
-          <div v-else class="m-3 p-2">
+          <div v-else class="mb-3 pb-2">
             <p class="noConverationText">Open a converation to start chat</p>
             <!-- <span id="noConverationText" />
             Open a converation to start chat<span /> -->
           </div>
-          <div id="chatBoxBottom" class="d-flex sticky-bottom gap-2">
+          <div
+            className="chatBoxBottom "
+            class="d-flex justify-content-center w-100 mx-auto"
+          >
             <div>
-              <textarea
+              <input
                 id="chatMessageInput"
-                class="form-control"
+                class="form-control "
+                style="width: 500px"
                 placeholder="write something..."
                 v-model="new_message"
-              ></textarea>
+                @keyup.enter="handleSubmit"
+              />
             </div>
-
-            <div class="pt-3">
+            <div>
               <button
-                id="chatSubmitButton"
+                className="chatSubmitButton btn btn-secondary btn-sm m-3"
                 @click="handleSubmit"
-                class="btn btn-secondary btn-sm"
               >
                 Send
               </button>
@@ -92,13 +99,14 @@
             </div> -->
 
             <select
-              @change="selectItem(user)"
+              @change="selectItem()"
               class="form-select"
               aria-label="Default select example"
+              v-model="this.user_select"
             >
               <option selected>Select</option>
-              <option v-for="user in filterUser" :key="user.id">
-                {{ user.name }}
+              <option v-for="u in filterUser" :key="u.id">
+                {{ u.name }}
               </option>
             </select>
           </div>
@@ -134,6 +142,8 @@ export default {
       selectedItem: "",
       isVisible: true,
       people: [],
+      user_select: {},
+      receiver_id: "",
     };
   },
 
@@ -196,12 +206,21 @@ export default {
     },
   },
   methods: {
-    selectItem(user) {
-      console.log(user);
+    selectItem() {
+      for (let i = 0; i < this.people.length; i++) {
+        if (this.people[i].name === this.user_select) {
+          this.receiver_id = this.people[i].id;
+          break;
+        }
+      }
+
+      console.log(this.user.id);
+      console.log(this.receiver_id);
+
       axios
         .post("http://127.0.0.1:8080/conversation/create", {
           sender_id: this.user.id,
-          receiver_id: user.id,
+          receiver_id: this.receiver_id,
         })
         .then((response) => {
           console.log(response.data);
