@@ -98,9 +98,9 @@ export default {
       class_name: "",
     };
   },
-  created() {
+  async created() {
     console.log("profile_id", this.$route.params.id);
-    axios
+    await axios
       .get(
         "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
           this.$route.params.id +

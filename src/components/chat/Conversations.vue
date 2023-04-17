@@ -25,7 +25,7 @@ export default {
       required: true,
     },
   },
-  mounted() {
+  async mounted() {
     // console.log(this.conversation);
     // console.log(this.currentUser);
     // for(id in this.conversation.members){
@@ -38,7 +38,7 @@ export default {
       }
     }
 
-    axios
+    await axios
       .get("http://127.0.0.1:8080/profile/id?id=" + this.friend_id)
       .then((response) => {
         // console.log(response.data.data.conversation_list);

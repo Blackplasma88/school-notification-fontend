@@ -82,7 +82,11 @@
               </ul>
             </div> -->
 
-            <select class="form-select" aria-label="Default select example">
+            <select
+              @change="selectItem(user)"
+              class="form-select"
+              aria-label="Default select example"
+            >
               <option selected>Select</option>
               <option v-for="user in filterUser" :key="user.id">
                 {{ user.name }}
@@ -130,9 +134,9 @@ export default {
     axios
       .get("http://127.0.0.1:8080/conversation/user-id?user_id=" + this.user.id)
       .then((response) => {
-        // console.log(response.data.data.conversation_list);
+        console.log(response.data.data.conversation_list);
         this.conversation_list = response.data.data.conversation_list;
-        // console.log(this.conversation_list[0]);
+        console.log(this.conversation_list[0]);
       })
       .catch((error) => {
         console.log(error);
@@ -192,6 +196,7 @@ export default {
         })
         .then((response) => {
           console.log(response.data);
+          window.location.reload();
         })
         .catch((error) => {
           console.log(error);

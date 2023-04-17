@@ -4,13 +4,13 @@
     style="position: fixed; top: 0; background-color: #3b5998"
   >
     <div class="container-fluid">
-      <div class="container-fluid">
-        <h2 class="navbar-brand">School Notification</h2>
+      <div class="container-fluid" style="cursor: default">
+        <h4 style="color: white">School Notification</h4>
       </div>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <!-- <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul> -->
         <div class="menu">
-          <div class="d-flex gap-4">
+          <div class="d-flex gap-3">
             <router-link
               v-if="role === 'teacher' || role === 'student'"
               to="/profile/:id"
@@ -61,5 +61,8 @@ h2 {
 .material-icons {
   font-size: 1.5rem;
   color: #ffffff;
+}
+.material-icons:hover {
+  color: #7dffd3;
 }
 </style>
