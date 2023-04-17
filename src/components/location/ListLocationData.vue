@@ -1,7 +1,5 @@
 <template>
   <div>
-    <h2>List of Location</h2>
-    <!-- {{ locations }} -->
     <!-- List {{ filterOptions }} List {{ filterValue }} -->
     <div>
       <table class="table table-bordered table-hover">
@@ -21,7 +19,7 @@
                 location.room
               }}
             </td>
-            <td> {{ location.building_name }}</td>
+            <td>{{ location.building_name }}</td>
             <td>{{ location.floor }}</td>
             <td>{{ location.room }}</td>
             <td>

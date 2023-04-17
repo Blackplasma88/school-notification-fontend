@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h2>List of Course</h2>
     <div>
       <!-- List {{ filterOptions }} List {{ filterValue }} -->
       <!-- {{ courses }} -->

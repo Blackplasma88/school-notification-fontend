@@ -12,7 +12,7 @@ export default {
   components: {
     ReadFaceDetected,
   },
-  mounted() {
+  created() {
     if (
       localStorage.getItem("token") == null ||
       localStorage.getItem("token") == undefined

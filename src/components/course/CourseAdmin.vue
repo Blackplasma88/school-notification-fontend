@@ -300,7 +300,7 @@ export default {
       location_name_list: [],
     };
   },
-  mounted() {
+  created() {
     this.role = localStorage.getItem("role");
     this.profile_id = localStorage.getItem("profile_id");
     axios

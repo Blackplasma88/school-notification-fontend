@@ -195,10 +195,10 @@ export default {
       popupTriggers: ref({
         buttonPopupAddScore: false,
       }),
-      filterValue:"",
+      filterValue: "",
       filterOptions: "",
-      sortOption:"Asc",
-      sortBy:"",
+      sortOption: "Asc",
+      sortBy: "",
       year: "",
       term: "",
       term_year: [],
@@ -222,34 +222,41 @@ export default {
       if (this.filterValue.trim().length > 0) {
         if (this.filterOptions == "" || this.filterOptions == "status") {
           return this.score_information.filter((score) =>
-          score.status
+            score.status
               .toLowerCase()
               .includes(this.filterValue.trim().toLowerCase())
           );
-         
-        }  else if (this.filterValue.trim().length > 0) {
-        if (this.filterOptions == "" || this.filterOptions == "score_get") {
-          return this.score_information.filter((score) =>
-          String(score.score_get) === this.filterValue.trim().toLowerCase()
-          );
-         
-        }
-        else if (this.filterOptions == "" || this.filterOptions == "student_id") {
-          let tmp = []
-          for (var  i = 0; i < this.score_name_list.length; i++) {
-            if (this.score_name_list[i].student_id.trim().toLowerCase().includes(this.filterValue.trim().toLowerCase())){
-              tmp.push( this.score_information[i])
+        } else if (this.filterValue.trim().length > 0) {
+          if (this.filterOptions == "" || this.filterOptions == "score_get") {
+            return this.score_information.filter(
+              (score) =>
+                String(score.score_get) ===
+                this.filterValue.trim().toLowerCase()
+            );
+          } else if (
+            this.filterOptions == "" ||
+            this.filterOptions == "student_id"
+          ) {
+            let tmp = [];
+            for (var i = 0; i < this.score_name_list.length; i++) {
+              if (
+                this.score_name_list[i].student_id
+                  .trim()
+                  .toLowerCase()
+                  .includes(this.filterValue.trim().toLowerCase())
+              ) {
+                tmp.push(this.score_information[i]);
+              }
             }
+            return tmp;
           }
-          return tmp
-        } 
-        }}
-     
-    
+        }
+      }
+
       return this.score_information;
     },
   },
-  mounted() {
+  created() {
     this.role = localStorage.getItem("role");
     this.profile_id = localStorage.getItem("profile_id");
     console.log(localStorage.getItem("profile_id"));
@@ -270,14 +277,18 @@ export default {
         if (this.sortBy === "status") {
           this.score_information.sort((a, b) => (a.status > b.status ? 1 : -1));
         } else if (this.sortBy === "score_get") {
-          this.score_information.sort((a, b) => (a.score_get > b.score_get ? 1 : -1));
-        } 
+          this.score_information.sort((a, b) =>
+            a.score_get > b.score_get ? 1 : -1
+          );
+        }
       } else if (this.sortOption == "Desc") {
         if (this.sortBy === "status") {
           this.score_information.sort((a, b) => (a.status < b.status ? 1 : -1));
         } else if (this.sortBy === "score_get") {
-          this.score_information.sort((a, b) => (a.score_get < b.score_get ? 1 : -1));
-        } 
+          this.score_information.sort((a, b) =>
+            a.score_get < b.score_get ? 1 : -1
+          );
+        }
       }
     },
     togglePopupAddScore() {
@@ -342,7 +353,7 @@ export default {
         )
         .then((response) => {
           // console.log(response.data.data.score.name);
-          this.score_name_list = response.data.data.score.name;
+          this.score_name_list = response.data.data.score_name_list;
           //   console.log(  this.school_data);
         })
         .catch((error) => {
@@ -370,7 +381,7 @@ export default {
           console.log(this.score_information[0].student_id);
           for (var i = 0; i < this.score_information.length; i++) {
             let indexI = i;
-            this.score_information[i].index = i
+            this.score_information[i].index = i;
             axios
               .get(
                 "http://127.0.0.1:8080/profile/profile_id?profile_id=" +

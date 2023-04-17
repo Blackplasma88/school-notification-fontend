@@ -31,7 +31,7 @@ export default {
   },
 
   methods: {},
-  mounted(){
+  created(){
     if (localStorage.getItem("token") != null && localStorage.getItem("token") != undefined){
       this.nav_check = true
       this.sid_check = true

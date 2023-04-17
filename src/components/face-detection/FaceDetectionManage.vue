@@ -144,7 +144,7 @@ export default {
       data_name_train: "",
     };
   },
-  mounted() {},
+  created() {},
   methods: {
     togglePopupCreate() {
       this.popupTriggers.buttonPopupCreate =

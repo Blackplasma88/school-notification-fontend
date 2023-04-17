@@ -67,7 +67,7 @@ export default {
     filterOptions: String,
     classes: Array,
   },
-  mounted() {},
+  created() {},
   methods: {
     viewData(profile_id) {
       console.log("student profile id ", profile_id);

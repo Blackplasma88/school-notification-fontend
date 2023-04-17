@@ -317,7 +317,7 @@ export default {
       return NumberPage == this.currentPage ? "active" : "";
     },
   },
-  mounted() {
+  created() {
     this.role = localStorage.getItem("role");
   },
 };

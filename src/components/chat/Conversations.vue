@@ -25,7 +25,7 @@ export default {
       required: true,
     },
   },
-  async mounted() {
+  async created() {
     // console.log(this.conversation);
     // console.log(this.currentUser);
     // for(id in this.conversation.members){

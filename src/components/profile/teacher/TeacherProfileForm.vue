@@ -163,7 +163,7 @@ export default {
       subject_name_list: [],
     };
   },
-  mounted() {
+  created() {
     this.role = localStorage.getItem("role");
 
     axios.get("http://127.0.0.1:8080/profile/all?role=teacher").then((res) => {

@@ -53,13 +53,13 @@
             <option selected disabled value="">{{ sortOption }}</option>
             <option value="Asc">Asc</option>
             <option value="Desc">Desc</option>
-            
           </select>
         </div>
       </div>
     </div>
     <div class="rightContent">
-      <button v-if='role === "admin"'
+      <button
+        v-if="role === 'admin'"
         type="button"
         class="btn btn-secondary"
         @click="TogglePopup('buttonPopup')"
@@ -131,7 +131,7 @@ export default {
   },
   data() {
     return {
-      role:"",
+      role: "",
       popupTriggers: ref({
         buttonPopup: false,
       }),
@@ -143,8 +143,8 @@ export default {
       },
       filterOptions: "",
       filterValue: "",
-      sortBy:"",
-      sortOption:"Asc",
+      sortBy: "",
+      sortOption: "Asc",
     };
   },
   computed: {
@@ -152,37 +152,35 @@ export default {
       if (this.filterValue.trim().length > 0) {
         if (this.filterOptions == "" || this.filterOptions == "location_id") {
           return this.locations.filter((location) =>
-          location.location_id
+            location.location_id
               .toLowerCase()
               .includes(this.filterValue.trim().toLowerCase())
           );
         } else if (this.filterOptions == "building_name") {
           return this.locations.filter((location) =>
-          location.building_name
+            location.building_name
               .toLowerCase()
               .includes(this.filterValue.trim().toLowerCase())
           );
         } else if (this.filterOptions == "floor") {
           return this.locations.filter((location) =>
-          location.floor
+            location.floor
               .toLowerCase()
               .includes(this.filterValue.trim().toLowerCase())
           );
         } else if (this.filterOptions == "room") {
           return this.locations.filter((location) =>
-          location.room
+            location.room
               .toLowerCase()
               .includes(this.filterValue.trim().toLowerCase())
           );
         }
       }
       return this.locations;
-      
-      
     },
   },
   created() {
-    this.role = localStorage.getItem("role")
+    this.role = localStorage.getItem("role");
     axios.get("http://127.0.0.1:8080/location/all").then((response) => {
       console.log("location_list");
       console.log(response.data.data.location_list);
@@ -191,15 +189,15 @@ export default {
     });
   },
   methods: {
-    clearData(){
-      this.location= {
+    clearData() {
+      this.location = {
         building_name: "",
         floor: "",
         room: "",
-      }
+      };
     },
     TogglePopup(trigger) {
-      this.clearData()
+      this.clearData();
       console.log(trigger);
       this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
       console.log(this.popupTriggers.buttonPopup);
@@ -208,12 +206,11 @@ export default {
       console.log("create Location", this.location);
 
       try {
-        
         await axios
           .post("http://127.0.0.1:8080/location/create", this.location)
           .then((response) => {
             console.log(response);
-            this.clearData()
+            this.clearData();
             this.popupTriggers.buttonPopup = false;
             this.$swal("Success", response.data.message, "success").then(() => {
               window.location.reload();
@@ -224,31 +221,37 @@ export default {
         this.$swal("Error", error.response.data.message, "error");
       }
     },
-    sortValue(){
+    sortValue() {
       // น้อยไปมาก
-      if (this.sortOption == "Asc"){
-        if (this.sortBy === "location_id"){
-        this.locations.sort((a,b) => a.location_id >b.location_id ?1:-1);
-      }else if (this.sortBy === "building_name"){
-        this.locations.sort((a,b) => a.building_name >b.building_name ?1:-1);
-      }else if (this.sortBy === "floor"){
-        this.locations.sort((a,b) => a.floor >b.floor ?1:-1);
-      }else if (this.sortBy === "room"){
-        this.locations.sort((a,b) => a.room >b.room ?1:-1);
+      if (this.sortOption == "Asc") {
+        if (this.sortBy === "location_id") {
+          this.locations.sort((a, b) =>
+            a.location_id > b.location_id ? 1 : -1
+          );
+        } else if (this.sortBy === "building_name") {
+          this.locations.sort((a, b) =>
+            a.building_name > b.building_name ? 1 : -1
+          );
+        } else if (this.sortBy === "floor") {
+          this.locations.sort((a, b) => (a.floor > b.floor ? 1 : -1));
+        } else if (this.sortBy === "room") {
+          this.locations.sort((a, b) => (a.room > b.room ? 1 : -1));
+        }
+      } else if (this.sortOption == "Desc") {
+        if (this.sortBy === "location_id") {
+          this.locations.sort((a, b) =>
+            a.location_id < b.location_id ? 1 : -1
+          );
+        } else if (this.sortBy === "building_name") {
+          this.locations.sort((a, b) =>
+            a.building_name < b.building_name ? 1 : -1
+          );
+        } else if (this.sortBy === "floor") {
+          this.locations.sort((a, b) => (a.floor < b.floor ? 1 : -1));
+        } else if (this.sortBy === "room") {
+          this.locations.sort((a, b) => (a.room < b.room ? 1 : -1));
+        }
       }
-      }else  if (this.sortOption == "Desc"){
-        if (this.sortBy === "location_id"){
-        this.locations.sort((a,b) => a.location_id <b.location_id ?1:-1);
-      }else if (this.sortBy === "building_name"){
-        this.locations.sort((a,b) => a.building_name <b.building_name ?1:-1);
-      }else if (this.sortBy === "floor"){
-        this.locations.sort((a,b) => a.floor <b.floor ?1:-1);
-      }else if (this.sortBy === "room"){
-        this.locations.sort((a,b) => a.room <b.room ?1:-1);
-      }
-      }
-      
-      
     },
   },
 };

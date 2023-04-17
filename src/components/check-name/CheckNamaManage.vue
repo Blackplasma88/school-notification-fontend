@@ -196,7 +196,7 @@ export default {
       student_name_list: [],
     };
   },
-  mounted() {
+  created() {
     this.profile_id = localStorage.getItem("profile_id");
     this.role = localStorage.getItem("role");
     axios
@@ -266,7 +266,7 @@ export default {
         )
         .then((response) => {
           console.log(response.data.data);
-          this.date_list = response.data.data.check_name.date;
+          this.date_list = response.data.data.date_list;
           //   console.log(  this.school_data);
         })
         .catch((error) => {

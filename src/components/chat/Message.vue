@@ -38,7 +38,7 @@ export default {
       required: true,
     },
   },
-  mounted() {
+  created() {
     // console.log(this.message);
     this.m = this.message;
     // console.log(this.own);

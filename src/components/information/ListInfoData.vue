@@ -36,7 +36,7 @@ export default {
       return moment(date).format("DD/MM/YYYY");
     },
   },
-  mounted() {
+  created() {
     axios
       .get("http://127.0.0.1:8080/information/all")
       .then((response) => {

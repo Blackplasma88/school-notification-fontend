@@ -6,7 +6,7 @@
 
 export default {
   name: "Logout",
-  mounted(){
+  created(){
     localStorage.clear()
     this.$router.push("/");
   }

@@ -163,7 +163,7 @@ export default {
     };
   },
 
-  async mounted() {
+  async created() {
     await axios
       .get("http://127.0.0.1:8080/information/id?id=" + this.$route.params.id)
       .then((response) => {

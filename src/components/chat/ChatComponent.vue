@@ -128,7 +128,7 @@ export default {
     };
   },
 
-  mounted() {
+  created() {
     this.user.id = localStorage.getItem("user_id");
     // this.user.id = "6436598bb7a3f5f85e0af7bf";
     axios

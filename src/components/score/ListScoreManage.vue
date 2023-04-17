@@ -1,56 +1,61 @@
 <template>
   <div>
-    <h2>List of Score</h2>
     <!-- score:{{ scores }} course:{{ courses }} -->
     <!-- {{ students }} -->
     <!-- {{ scores }}
     {{ courses }}
     {{ scores_name }} -->
-    <div>
-      <table class="table table-bordered table-hover">
-        <thead>
-          <tr>
-            <th scope="col">ชื่อนักเรียน</th>
-            <th scope="col">สถานะ</th>
-            <th scope="col">คะแนนที่ได้</th>
-            <th scope="col">อัพเดตคะแนน</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(score) in scores" :key="score.id">
-            <td>{{ students[score.index] }}</td>
-            <td>{{ score.status }}</td>
+    <div class="m-3 p-1">
+      <div v-if="role == 'teacher'">
+        <div>
+          <h2>ตารางแสดงคะแนน</h2>
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th scope="col">ชื่อนักเรียน</th>
+                <th scope="col">สถานะ</th>
+                <th scope="col">คะแนนที่ได้</th>
+                <th scope="col">อัพเดตคะแนน</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="score in scores" :key="score.id">
+                <td>{{ students[score.index] }}</td>
+                <td>{{ score.status }}</td>
 
-            <td>
-              <div v-if="score.status == 'create'">
-                <input type="text" />
-              </div>
-              <div v-else>
-                {{ score.score_get }}
-              </div>
-            </td>
-            <td>
-              <button
-                v-if="role === 'teacher'"
-                type="button"
-                class="btn btn-outline-secondary"
-                @click="
-                  TogglePopup(
-                    'buttonPopup',
-                    courses[score.index].id,
-                    scores_name[score.index],
-                    score.score_get,
-                    score.student_id,
-                    score.status
-                  )
-                "
-              >
-                เพิ่ม
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                <td>
+                  <div v-if="score.status == 'create'">
+                    <input type="text" />
+                  </div>
+                  <div v-else>
+                    {{ score.score_get }}
+                  </div>
+                </td>
+                <td>
+                  <button
+                    v-if="role === 'teacher'"
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    @click="
+                      TogglePopup(
+                        'buttonPopup',
+                        courses[score.index].id,
+                        scores_name[score.index],
+                        score.score_get,
+                        score.student_id,
+                        score.status
+                      )
+                    "
+                  >
+                    เพิ่ม
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div v-else-if="role == 'student'">student</div>
     </div>
     <EditPopup
       v-if="popupTriggers.buttonPopup"
@@ -137,7 +142,7 @@ export default {
     students: Array,
     scores_name: Array,
   },
-  mounted() {
+  created() {
     this.role = localStorage.getItem("role");
   },
   methods: {
