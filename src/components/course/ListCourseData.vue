@@ -60,6 +60,7 @@
               <div v-else>กำลังดำเนินการ</div>
             </td>
             <td v-if="role === 'teacher'">
+              
               <div v-if="course.status == 'progress'">
                 <button
                   class="btn btn-outline-success"

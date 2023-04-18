@@ -138,31 +138,31 @@
     <CreatePopup v-if="popupTriggers.buttonPopupAddScore">
       <form @submit.prevent="submitForm">
         <div class="form-control">
-          <label for="select"> name :</label>
+          <label for="select"> ชื่องาน :</label>
           <input
             type="text"
             class="form-control"
-            placeholder="name"
+            placeholder="ชื่องาน"
             v-model="this.score_new.name"
           />
 
-          <label for="select"> type :</label>
+          <label for="select"> ประเภท :</label>
           <select
             class="form-select"
             aria-label="Select"
             v-model="this.score_new.type"
           >
-            <option selected disabled>Select</option>
+            <option selected disabled value="">Select</option>
             <option value="work">work</option>
             <option value="midterm">midterm</option>
-            <option value="fianl">fianl</option>
+            <option value="final">final</option>
           </select>
 
-          <label for="select"> score_full :</label>
+          <label for="select"> คะแนนเต็ม :</label>
           <input
             type="number"
             class="form-control"
-            placeholder="category"
+            placeholder="กรอกคะแนนเต็ม"
             v-model="this.score_new.score_full"
           />
 

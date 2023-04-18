@@ -21,7 +21,25 @@
             <tbody>
               <tr v-for="score in scores" :key="score.id">
                 <td>{{ students[score.index] }}</td>
-                <td>{{ score.status }}</td>
+                <td>
+                  <div v-if="score.status == 'not'">
+                    <td>
+                      <p>ยังไม่ได้เพิ่มคะแนน</p>
+                    </td>
+                  </div>
+                  <div v-else-if="score.status == 'normal'">
+                    <td>
+                      <p>ปกติ</p>
+                    </td>
+                  </div>
+                  <div v-else-if="score.status == 'late'">
+                    <td>
+                      <p>เกินกำหนด</p>
+                    </td>
+                  </div>
+                </td>
+
+                <!-- <td>{{ score.status }}</td> -->
 
                 <td>
                   <div v-if="score.status == 'create'">

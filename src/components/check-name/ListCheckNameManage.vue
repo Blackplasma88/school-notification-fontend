@@ -30,8 +30,25 @@
               {{ course_list[i].id }}
             </td> -->
               <td>
-                <div>
-                  {{ check_name.status }}
+                <div v-if="check_name.status == ''">
+                  <td>
+                    <p>รอการเช็คชื่อ</p>
+                  </td>
+                </div>
+                <div v-else-if="check_name.status == 'attend'">
+                  <td>
+                    <p>มาเรียน</p>
+                  </td>
+                </div>
+                <div v-else-if="check_name.status == 'absent'">
+                  <td>
+                    <p>ขาดเรียน</p>
+                  </td>
+                </div>
+                <div v-else-if="check_name.status == 'late'">
+                  <td>
+                    <p>เข้าเรียนสาย</p>
+                  </td>
                 </div>
               </td>
             </tr>
@@ -67,8 +84,25 @@
               {{ course_list[i].id }}
             </td> -->
               <td>
-                <div>
-                  {{ check_name.status }}
+                <div v-if="check_name.status == ''">
+                  <td>
+                    <p>รอการเช็คชื่อ</p>
+                  </td>
+                </div>
+                <div v-else-if="check_name.status == 'attend'">
+                  <td>
+                    <p>มาเรียน</p>
+                  </td>
+                </div>
+                <div v-else-if="check_name.status == 'absent'">
+                  <td>
+                    <p>ขาดเรียน</p>
+                  </td>
+                </div>
+                <div v-else-if="check_name.status == 'late'">
+                  <td>
+                    <p>เข้าเรียนสาย</p>
+                  </td>
                 </div>
               </td>
               <td>
@@ -198,23 +232,23 @@ export default {
       this.time_late = "";
     },
     async checkName(data) {
-      var date = new Date(Date.now())
-      let d = date.getDate()
-      let dS = ""
-      if (d < 10){
-       dS = "0"+d
-      }else{
-        dS = d+""
+      var date = new Date(Date.now());
+      let d = date.getDate();
+      let dS = "";
+      if (d < 10) {
+        dS = "0" + d;
+      } else {
+        dS = d + "";
       }
-      let mS = ""
-      let m =(date.getMonth()+1)
-      if (m < 10){
-       mS = "0"+m
-      }else{
-        mS = ""+m
+      let mS = "";
+      let m = date.getMonth() + 1;
+      if (m < 10) {
+        mS = "0" + m;
+      } else {
+        mS = "" + m;
       }
 
-      var dateFormat = date.getFullYear() + "-" + mS+ "-" + dS 
+      var dateFormat = date.getFullYear() + "-" + mS + "-" + dS;
       await axios
         .post("http://127.0.0.1:8080/check-name/student-check", {
           course_id: this.c_id,

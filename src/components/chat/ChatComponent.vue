@@ -49,7 +49,7 @@
             <div>
               <input
                 id="chatMessageInput"
-                class="form-control "
+                class="form-control"
                 style="width: 500px"
                 placeholder="write something..."
                 v-model="new_message"
@@ -77,13 +77,33 @@
       <div id="newConversation">
         <div class="dropdown-wrapper">
           <div v-if="isVisible" class="dropdown-popover">
-            <input
-              id="chatMenuInput"
-              class="form-control"
-              v-model="searchQuery"
-              type="text"
-              placeholder="Search for chat"
-            />
+            <div>
+              <input
+                id="chatMenuInput"
+                class="form-control"
+                v-model="searchQuery"
+                type="text"
+                placeholder="Search for chat"
+              />
+            </div>
+            <div class="d-flex">
+              <div class="pt-2">
+                <select
+                  @change="selectItem()"
+                  class="form-select"
+                  aria-label="Default select example"
+                  v-model="this.user_select"
+                >
+                  <option selected>Select</option>
+                  <option v-for="u in filterUser" :key="u.id">
+                    {{ u.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="role">
+                <button class="btn btn-secondary btn-sm m-3">ตำแหน่ง</button>
+              </div>
+            </div>
 
             <!-- <div class="selected-item">Select</div>
             <div class="options">
@@ -97,18 +117,6 @@
                 </li>
               </ul>
             </div> -->
-
-            <select
-              @change="selectItem()"
-              class="form-select"
-              aria-label="Default select example"
-              v-model="this.user_select"
-            >
-              <option selected>Select</option>
-              <option v-for="u in filterUser" :key="u.id">
-                {{ u.name }}
-              </option>
-            </select>
           </div>
         </div>
       </div>

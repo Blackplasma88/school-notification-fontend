@@ -376,7 +376,7 @@ export default {
         date_time: [
           {
             day: this.day_1,
-            time: [this.time_1],
+            time: [this.time_1_start],
           },
         ],
       };
