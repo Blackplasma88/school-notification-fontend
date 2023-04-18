@@ -297,6 +297,7 @@ export default {
           console.log(response.data.data.course_list);
           this.course_list = response.data.data.course_list;
           //   console.log(  this.school_data);
+          
         })
         .catch((error) => {
           console.log(error);
@@ -381,7 +382,10 @@ export default {
         .then(() => {
           this.popupTriggers.buttonPopupAddDate =
             !this.popupTriggers.buttonPopupAddDate;
+
           window.location.reload();
+          
+          
 
           // console.log(response.data.data.school_data);
           // this.subject_list = response.data.data.subject_list;

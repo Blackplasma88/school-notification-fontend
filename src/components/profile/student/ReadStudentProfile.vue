@@ -25,26 +25,27 @@
             </div>
           </div>
         </div>
-        <div class="p-4 m-2">
-          <div v-if="profile_student.term_score != null">
-            <div v-for="(score, i) in profile_student.term_score" :key="score">
-              <h5>
-                ปีการศึกษา {{ profile_student.term_score[i].year }} /
-                {{ profile_student.term_score[i].term }}
-              </h5>
-              <h5>
-                หน่วยกิตภาคเรียน :
-                {{ profile_student.term_score[i].all_credit }}
-              </h5>
-              <h5>
-                เกรดเฉลี่ยประจำภาคเรียน :
-                {{ profile_student.term_score[i].gpa }}
-              </h5>
-
-              <h5>
-                จำนวนวิชาที่เรียน :
-                {{ profile_student.term_score[i].course_list.length }}
-              </h5>
+        <div class="p-4 m-3">
+          <div class="row" v-if="profile_student.term_score != null">
+            <div
+              class="card col m-3 p-2"
+              v-for="score in profile_student.term_score"
+              :key="score"
+            >
+              <div>
+                <h5>
+                  ปีการศึกษา {{ score.year }} /
+                  {{ score.term }}
+                </h5>
+                <h5>
+                  หน่วยกิตภาคเรียน :
+                  {{ score.term_credit }}
+                </h5>
+                <h5>
+                  เกรดเฉลี่ยประจำภาคเรียน :
+                  {{ score.gpa }}
+                </h5>
+              </div>
             </div>
           </div>
         </div>

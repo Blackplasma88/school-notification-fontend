@@ -96,8 +96,8 @@ export default {
           .post("http://127.0.0.1:8080/information/create", formData)
           .then((response) => {
             console.log("response", response);
-            this.$router.push("/informations");
             this.$swal("Success", response.data.message, "success");
+            this.$router.push("/informations");
           });
       } catch (error) {
         console.log("error", error.response.data.message);

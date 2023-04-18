@@ -182,14 +182,19 @@ export default {
     endTerm() {
       axios
         .post("http://127.0.0.1:8080/school-data/end-term")
-        .then(() => {
+        .then((response) => {
           this.popupTriggers.buttonPopupEndTerm =
             !this.popupTriggers.buttonPopupEndTerm;
           // console.log(response.data.data.school_data);
           // this.subject_list = response.data.data.subject_list;
           //   console.log(  this.school_data);
+          this.$swal("Success!", response.data.message, "success").then(() => {
+            window.location.reload();
+          });
         })
         .catch((error) => {
+          this.$swal("Error!", error.response.data.message, "error");
+
           console.log(error);
         });
     },
@@ -201,14 +206,20 @@ export default {
         .post("http://127.0.0.1:8080/school-data/add-subject-category", {
           category: this.category,
         })
-        .then(() => {
+        .then((response) => {
           this.popupTriggers.buttonPopupAddSubjectCategory =
             !this.popupTriggers.buttonPopupAddSubjectCategory;
           // console.log(response.data.data.school_data);
           // this.subject_list = response.data.data.subject_list;
           //   console.log(  this.school_data);
+
+          this.$swal("Success!", response.data.message, "success").then(() => {
+            window.location.reload();
+          });
+          // window.location.reload();
         })
         .catch((error) => {
+          this.$swal("Error!", error.response.data.message, "error");
           console.log(error);
         });
     },

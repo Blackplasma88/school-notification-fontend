@@ -1,7 +1,7 @@
 <template>
-  <form class="container pt-5 " @submit.prevent="submitForm">
+  <form class="container pt-5" @submit.prevent="submitForm">
     <div class="row d-flex form-control w-75 mx-auto p-4">
-      <div class="col-4 p-3 mx-auto" >
+      <div class="col-4 p-3 mx-auto">
         <div>
           <label for="select"> หมวดหมู่ :</label>
           <select

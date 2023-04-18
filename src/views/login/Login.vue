@@ -75,6 +75,7 @@ export default {
             //     };
             // setAuthHeader(localStorage.getItem("token"))
             console.log(localStorage);
+            this.$swal("Success!", response.data.message, "success");
             this.$router.push("/informations");
           });
       } catch (error) {

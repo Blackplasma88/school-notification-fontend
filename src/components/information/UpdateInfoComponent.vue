@@ -196,8 +196,8 @@ export default {
           .then((response) => {
             console.log("response", response);
             console.log("response.data", response.data);
-            this.$router.push("/information/" + this.$route.params.id);
             this.$swal("Success", response.data.message, "success");
+            this.$router.push("/information/" + this.$route.params.id);
           });
       } catch (error) {
         console.log("error", error);
