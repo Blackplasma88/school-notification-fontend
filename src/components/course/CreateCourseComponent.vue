@@ -1,110 +1,156 @@
 <template>
-  <form @submit.prevent="submitForm">
-    <div class="form-control">
-      <label for="select"> หมวดหมู่ :</label>
-      <select
-        class="form-select"
-        aria-label="Select"
-        v-model="this.category"
-        @change="getSubjectList()"
-      >
-        <option selected disabled>Select</option>
-        <option v-for="item in this.school_data" :key="item.id">
-          {{ item.subject_category }}
-        </option>
-      </select>
+  <form class="container pt-5 " @submit.prevent="submitForm">
+    <div class="row d-flex form-control w-75 mx-auto p-4">
+      <div class="col-4 p-3 mx-auto" >
+        <div>
+          <label for="select"> หมวดหมู่ :</label>
+          <select
+            class="form-select"
+            aria-label="Select"
+            v-model="this.category"
+            @change="getSubjectList()"
+          >
+            <option selected disabled value="">Select</option>
+            <option v-for="item in this.school_data" :key="item.id">
+              {{ item.subject_category }}
+            </option>
+          </select>
+        </div>
+        <div class="p-1">
+          <label for="select"> ชั้น :</label>
+          <select
+            class="form-select"
+            aria-label="Select"
+            v-model="this.class_year"
+            @change="getClassByClassYear()"
+          >
+            <option selected disabled value="">Select</option>
+            <option value="1">ม.1</option>
+            <option value="2">ม.2</option>
+            <option value="3">ม.3</option>
+            <option value="4">ม.4</option>
+            <option value="5">ม.5</option>
+            <option value="6">ม.6</option>
+          </select>
+        </div>
+        <div class="p-1">
+          <label for="select"> วันที่ 1 :</label>
+          <select class="form-select" aria-label="Select" v-model="this.day_1">
+            <option selected disabled value="">เลือกวัน</option>
+            <option value="monday">จันทร์</option>
+            <option value="tuesday">อังคาร</option>
+            <option value="wednesday">พุธ</option>
+            <option value="thursday">พฤหัสบดี</option>
+            <option value="friday">ศุกร์</option>
+          </select>
+        </div>
+        <div class="p-1">
+          <label for="select"> วันที่ 2 :</label>
+          <select class="form-select" aria-label="Select" v-model="this.day_2">
+            <option selected disabled value="">เลือกวัน</option>
+            <option value="monday">จันทร์</option>
+            <option value="tuesday">อังคาร</option>
+            <option value="wednesday">พุธ</option>
+            <option value="thursday">พฤหัสบดี</option>
+            <option value="friday">ศุกร์</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-4 p-2">
+        <div>
+          <label for="select"> วิชา :</label>
+          <select
+            class="form-select"
+            aria-label="Select"
+            v-model="this.subject_name"
+            @change="getInstructorlist()"
+          >
+            <option selected disabled value="">Select</option>
+            <option v-for="item in this.subject_list" :key="item.id">
+              {{ item.name }}
+            </option>
+          </select>
+        </div>
 
-      <label for="select"> วิชา :</label>
-      <select
-        class="form-select"
-        aria-label="Select"
-        v-model="this.subject_name"
-        @change="getInstructorlist()"
-      >
-        <option selected disabled>Select</option>
-        <option v-for="item in this.subject_list" :key="item.id">
-          {{ item.name }}
-        </option>
-      </select>
-
-      <label for="select"> ผู้สอน :</label>
-      <select
-        class="form-select"
-        aria-label="Select"
-        v-model="this.instructor_name"
-      >
-        <option selected disabled>Select</option>
-        <option v-for="item in this.instructor_list" :key="item.id">
-          {{ item.name }}
-        </option>
-      </select>
-
-      <label for="select"> ชั้น :</label>
-      <select
-        class="form-select"
-        aria-label="Select"
-        v-model="this.class_year"
-        @change="getClassByClassYear()"
-      >
-        <option selected disabled>Select</option>
-        <option value="1">ม.1</option>
-        <option value="2">ม.2</option>
-        <option value="3">ม.3</option>
-        <option value="4">ม.4</option>
-        <option value="5">ม.5</option>
-        <option value="6">ม.6</option>
-      </select>
-
-      <label for="select"> ห้อง :</label>
-      <select class="form-select" aria-label="Select" v-model="this.class_room">
-        <option selected disabled>Select</option>
-        <option v-for="item in this.class_list" :key="item.id">
-          {{ item.class_room }}
-        </option>
-      </select>
-
-      <label for="select"> สถานที่ :</label>
-      <select
-        class="form-select"
-        aria-label="Select"
-        v-model="this.location_name"
-      >
-        <option selected disabled>Select</option>
-        <option v-for="item in this.location_list" :key="item.id">
-          {{ item.location_id }}
-        </option>
-      </select>
-
-      <label for="select"> วัน :</label>
-      <select class="form-select" aria-label="Select" v-model="this.day_1">
-        <option selected disabled>Select</option>
-        <option value="monday">จันทร์</option>
-        <option value="tuesday">อังคาร</option>
-        <option value="wednesday">พุธ</option>
-        <option value="thursday">พฤหัสบดี</option>
-        <option value="friday">ศุกร์</option>
-      </select>
-
-      <label for="name">เวลา :</label>
-      <input
-        type="text"
-        class="form-control"
-        placeholder="กรอกเวลา"
-        v-model="this.time_1"
-      />
-
-      <!-- <label for="select"> วัน :</label>
-      <select class="form-select" aria-label="Select" v-model="this.day_2">
-        <option selected disabled>Select</option>
-      </select>
-
-      <label for="name">เวลา :</label>
-      <input
-        type="text"
-        class="form-control"
-        placeholder="กรอกเวลา"
-        v-model="this.time_2"
-      /> -->
+        <div>
+          <label for="select"> ห้อง :</label>
+          <select
+            class="form-select"
+            aria-label="Select"
+            v-model="this.class_room"
+          >
+            <option selected disabled value="">Select</option>
+            <option v-for="item in this.class_list" :key="item.id">
+              {{ item.class_room }}
+            </option>
+          </select>
+        </div>
+        <div>
+          <label for="name">เวลาเริ่มวันที่1 :</label>
+          <input
+            type="time"
+            class="form-control"
+            placeholder="กรอกเวลา"
+            v-model="this.time_1_start"
+          />
+        </div>
+        <div>
+          <label for="name">เวลาเริ่มวันที่ 2 :</label>
+          <input
+            type="time"
+            class="form-control"
+            placeholder="กรอกเวลา"
+            v-model="this.time_2_start"
+          />
+        </div>
+      </div>
+      <div class="col-4 p-2">
+        <div>
+          <label for="select"> ผู้สอน :</label>
+          <select
+            class="form-select"
+            aria-label="Select"
+            v-model="this.instructor_name"
+          >
+            <option selected disabled value="">Select</option>
+            <option v-for="item in this.instructor_list" :key="item.id">
+              {{ item.name }}
+            </option>
+          </select>
+        </div>
+        <div>
+          <label for="select"> สถานที่ :</label>
+          <select
+            class="form-select"
+            aria-label="Select"
+            v-model="this.location_name"
+          >
+            <option selected disabled value="">Select</option>
+            <option v-for="item in this.location_list" :key="item.id">
+              {{ item.location_id }}
+            </option>
+          </select>
+        </div>
+        <div>
+          <label for="name">เวลาจบวันที่1 :</label>
+          <input
+            type="time"
+            class="form-control"
+            placeholder="กรอกเวลา"
+            v-model="this.time_1_end"
+            maxlength="16.00"
+          />
+        </div>
+        <div>
+          <label for="name">เวลาจบวันที่ 2 :</label>
+          <input
+            type="time"
+            class="form-control"
+            placeholder="กรอกเวลา"
+            v-model="this.time_2_end"
+          />
+        </div>
+      </div>
 
       <div class="button-group">
         <button class="popup-close btn btn-success">Confirm</button>
@@ -139,9 +185,11 @@ export default {
       location_name: "",
       location_list: [],
       day_1: "",
-      time_1: "",
+      time_1_start: "",
+      time_1_end: "",
       day_2: "",
-      time_2: "",
+      time_2_start: "",
+      time_2_end: "",
     };
   },
   async created() {
