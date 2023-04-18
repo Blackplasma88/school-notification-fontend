@@ -1,5 +1,7 @@
 <template>
   <div>
+    <!-- {{ profile }} -->
+    <!-- {{ profile_student }} -->
     <div
       class="d-flex flex-nowrap p-2 m-5 justify-content-center align-items-center"
     >
@@ -81,26 +83,28 @@
             </div>
           </div>
         </div>
-        <div class="p-4 m-3">
-          <div v-if="profile_student.term_score != null">
-            <div v-for="(score, i) in profile_student.term_score" :key="score">
-              <h5>
-                ปีการศึกษา {{ profile_student.term_score[i].year }} /
-                {{ profile_student.term_score[i].term }}
-              </h5>
-              <h5>
-                หน่วยกิตภาคเรียน :
-                {{ profile_student.term_score[i].all_credit }}
-              </h5>
-              <h5>
-                เกรดเฉลี่ยประจำภาคเรียน :
-                {{ profile_student.term_score[i].gpa }}
-              </h5>
 
-              <h5>
-                จำนวนวิชาที่เรียน :
-                {{ profile_student.term_score[i].course_list.length }}
-              </h5>
+        <div class="p-4 m-3">
+          <div class="row" v-if="profile_student.term_score != null">
+            <div
+              class="card col m-3 p-2"
+              v-for="score in profile_student.term_score"
+              :key="score"
+            >
+              <div>
+                <h5>
+                  ปีการศึกษา {{ score.year }} /
+                  {{ score.term }}
+                </h5>
+                <h5>
+                  หน่วยกิตภาคเรียน :
+                  {{ score.term_credit }}
+                </h5>
+                <h5>
+                  เกรดเฉลี่ยประจำภาคเรียน :
+                  {{ score.gpa }}
+                </h5>
+              </div>
             </div>
           </div>
         </div>
@@ -183,69 +187,73 @@ export default {
       .then((res) => {
         this.profile = res.data.data.profile;
         console.log(this.profile);
+        console.log(this.profile_id, this.role);
+        axios
+          .get(
+            "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
+              this.profile_id +
+              "&role=" +
+              this.role
+          )
+          .then((res) => {
+            console.log(res.data.data.profile);
+
+            if (this.role == "teacher") {
+              this.profile_teacher = res.data.data.profile;
+              console.log(this.profile_teacher);
+              if (this.profile_teacher.class_in_counseling != "") {
+                axios
+                  .get(
+                    "http://127.0.0.1:8080/class/id?class_id=" +
+                      this.profile_teacher.class_in_counseling
+                  )
+                  .then((response) => {
+                    this.profile_teacher.class_name =
+                      response.data.data.class.class_year +
+                      "/" +
+                      response.data.data.class.class_room;
+                    console.log(
+                      "class name :",
+                      this.profile_teacher.class_name
+                    );
+                  });
+              } else {
+                this.profile_teacher.class_name = "ไม่มีชั้นที่ปรึกษา";
+              }
+              if (this.profile_teacher.subject_id != "") {
+                axios
+                  .get(
+                    "http://127.0.0.1:8080/subject/id?subject_id=" +
+                      this.profile_teacher.subject_id
+                  )
+                  .then((response) => {
+                    // console.log(response.data.data.subject.name);
+                    this.profile_teacher.subject_name =
+                      response.data.data.subject.name;
+                    // console.log("subject name :", this.subject_name);
+                  });
+              }
+            } else if (this.role == "student") {
+              this.profile_student = res.data.data.profile;
+              console.log(this.profile_student);
+
+              axios
+                .get(
+                  "http://127.0.0.1:8080/class/id?class_id=" +
+                    this.profile_student.class_id
+                )
+                .then((response) => {
+                  this.profile_student.class_name =
+                    response.data.data.class.class_year +
+                    "/" +
+                    response.data.data.class.class_room;
+                  console.log("class name :", this.profile_student.class_name);
+                });
+            }
+          });
       });
 
     console.log(this.profile_id, this.role);
-    await axios
-      .get(
-        "http://127.0.0.1:8080/profile/profile_id?profile_id=" +
-          this.profile_id +
-          "&role=" +
-          this.role
-      )
-      .then((res) => {
-        console.log(res.data.data.profile);
-
-        if (this.role == "teacher") {
-          this.profile_teacher = res.data.data.profile;
-          console.log(this.profile_teacher);
-          if (this.profile_teacher.class_in_counseling != "") {
-            axios
-              .get(
-                "http://127.0.0.1:8080/class/id?class_id=" +
-                  this.profile_teacher.class_in_counseling
-              )
-              .then((response) => {
-                this.profile_teacher.class_name =
-                  response.data.data.class.class_year +
-                  "/" +
-                  response.data.data.class.class_room;
-                console.log("class name :", this.profile_teacher.class_name);
-              });
-          } else {
-            this.profile_teacher.class_name = "ไม่มีชั้นที่ปรึกษา";
-          }
-          if (this.profile_teacher.subject_id != "") {
-            axios
-              .get(
-                "http://127.0.0.1:8080/subject/id?subject_id=" +
-                  this.profile_teacher.subject_id
-              )
-              .then((response) => {
-                // console.log(response.data.data.subject.name);
-                this.profile_teacher.subject_name =
-                  response.data.data.subject.name;
-                // console.log("subject name :", this.subject_name);
-              });
-          }
-        } else if (this.role == "student") {
-          this.profile_student = res.data.data.profile;
-          console.log(this.profile_student);
-
-          axios
-            .get(
-              "http://127.0.0.1:8080/class/id?class_id=" +
-                this.profile_student.class_id
-            )
-            .then((response) => {
-              this.profile_student.class_name =
-                response.data.data.class.class_year +
-                "/" +
-                response.data.data.class.class_room;
-              console.log("class name :", this.profile_student.class_name);
-            });
-        }
-      });
   },
 };
 </script>
