@@ -135,6 +135,7 @@ import { ref } from "vue";
 import axios from "axios";
 import CreatePopup from "@/components/main/CreatePopup.vue";
 import ListSchoolData from "@/components/school-data/ListSchoolData.vue";
+
 export default {
   name: "SchoolDataView",
   components: {
@@ -158,6 +159,14 @@ export default {
       school_datas_subject_category: [],
       isShow: Boolean,
     };
+  },
+  async created(){
+    if (localStorage.getItem("school_manage_with") === null || localStorage.getItem("school_manage_with") === undefined ){
+      this.manage_with = ""
+    }else{
+      this.manage_with =localStorage.getItem("school_manage_with")
+      this.selectManageWith()
+    }
   },
   methods: {
     togglePopupAddSubjectCategory() {
@@ -226,6 +235,7 @@ export default {
 
     async selectManageWith() {
       console.log("this.manage_with", this.manage_with);
+      localStorage.setItem("school_manage_with", this.manage_with)
       if (this.manage_with == "year_term") {
         this.isShow = true;
         axios

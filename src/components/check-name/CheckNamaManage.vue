@@ -123,13 +123,13 @@
           add date
         </button>
       </div>
-      <div>
+      <div v-if="
+      this.role === 'teacher' &&
+      this.date !== '' &&
+      this.face_data_status.status === 'yes'
+    ">
         <button
-          v-if="
-            this.role === 'teacher' &&
-            this.date !== '' &&
-            this.date_data.status === 'progress'
-          "
+         
           type="button"
           class="btn btn-secondary"
           @click="openCamera()"
@@ -141,8 +141,7 @@
         <button
           v-if="
             this.role === 'teacher' &&
-            this.date !== '' &&
-            this.date_data.status === 'progress'
+            this.date !== '' 
           "
           type="button"
           class="btn btn-secondary"
@@ -229,6 +228,7 @@ export default {
       },
       model_ready: false,
       student_name_list: [],
+      face_data_status: "",
     };
   },
   async created() {
@@ -297,7 +297,6 @@ export default {
           console.log(response.data.data.course_list);
           this.course_list = response.data.data.course_list;
           //   console.log(  this.school_data);
-          
         })
         .catch((error) => {
           console.log(error);
@@ -362,6 +361,31 @@ export default {
                 this.student_name_list[indexI] =
                   response.data.data.profile.name;
                 console.log(this.student_name_list);
+
+                axios
+                  .get(
+                    "http://127.0.0.1:8080/course/id?course_id=" +
+                      this.course_id
+                  )
+                  .then((res) => {
+
+                    axios
+                      .get(
+                        "http://127.0.0.1:8080/face-detection/class_id?class_id=" +
+                          res.data.data.course.class_id
+                      )
+                      .then((res) => {
+                        this.face_data_status = res.data.data.data;
+                        console.log(res.data.data.data);
+                        
+                      })
+                      .catch((error) => {
+                        console.log(error);
+                      });
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
               });
           }
         })
@@ -379,13 +403,13 @@ export default {
           "http://127.0.0.1:8080/check-name/add-date",
           this.check_name_data_new
         )
-        .then(() => {
+        .then((res) => {
           this.popupTriggers.buttonPopupAddDate =
             !this.popupTriggers.buttonPopupAddDate;
 
-          window.location.reload();
-          
-          
+          this.$swal("Success!", res.data.message, "success").then(() => {
+            window.location.reload();
+          });
 
           // console.log(response.data.data.school_data);
           // this.subject_list = response.data.data.subject_list;
@@ -406,6 +430,7 @@ export default {
                 res.data.data.course.class_id
             )
             .then((res) => {
+              this.face_data_status = res.data.data.data;
               if (res.data.data.data.status === "yes") {
                 axios
                   .get(

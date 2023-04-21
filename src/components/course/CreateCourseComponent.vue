@@ -346,7 +346,6 @@ export default {
     async submitForm() {
       // check
       // if (this.subject_id == "" || ins)
-
       for (let i = 0; i < this.instructor_list.length; i++) {
         if (this.instructor_list[i].name == this.instructor_name) {
           this.instructor_id = this.instructor_list[i].profile_id;
@@ -368,17 +367,88 @@ export default {
         }
       }
 
+      let dateTime = [];
+      if (this.day_1 !== "") {
+        let day1 = this.day_1;
+        let time1 = [];
+        if (this.time_1_start !== "" && this.time_1_end !== "") {
+          let tS = this.time_1_start;
+          for (let i = 0; ; i++) {
+            if (tS === this.time_1_end) {
+              break;
+            }
+            time1.push(tS);
+            let tmp = tS.split(":");
+            if (tmp[1] === "00") {
+              tmp[1] = "30";
+              tS = tmp[0] + ":" + tmp[1];
+            } else if (tmp[1] === "30") {
+              tmp[1] = "00";
+              let v = parseInt(tmp[0]);
+              v++;
+              if (v < 10) {
+                tmp[0] = "0" + v;
+              } else {
+                tmp[0] = v + "";
+              }
+
+              tS = tmp[0] + ":" + tmp[1];
+            } else {
+              console.log("error");
+              return;
+            }
+          }
+        }
+        let daTi = {
+          day:day1,
+          time:time1
+        }
+        dateTime.push(daTi)
+      }
+      if (this.day_2 !== "") {
+        let day2 = this.day_2;
+        let time2 = [];
+        if (this.time_2_start !== "" && this.time_2_end !== "") {
+          let tS = this.time_2_start;
+          for (let i = 0; ; i++) {
+            if (tS === this.time_2_end) {
+              break;
+            }
+            time2.push(tS);
+            let tmp = tS.split(":");
+            if (tmp[1] === "00") {
+              tmp[1] = "30";
+              tS = tmp[0] + ":" + tmp[1];
+            } else if (tmp[1] === "30") {
+              tmp[1] = "00";
+              let v = parseInt(tmp[0]);
+              v++;
+              if (v < 10) {
+                tmp[0] = "0" + v;
+              } else {
+                tmp[0] = v + "";
+              }
+
+              tS = tmp[0] + ":" + tmp[1];
+            } else {
+              console.log("error");
+              return;
+            }
+          }
+        }
+        let daTi = {
+          day:day2,
+          time:time2
+        }
+        dateTime.push(daTi)
+      }
+
       let create_req = {
         subject_id: this.subject_id,
         instructor_id: this.instructor_id,
         class_id: this.class_id,
         location_id: this.location_id,
-        date_time: [
-          {
-            day: this.day_1,
-            time: [this.time_1_start],
-          },
-        ],
+        date_time: dateTime
       };
 
       console.log(create_req);

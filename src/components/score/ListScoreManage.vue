@@ -2,7 +2,7 @@
   <div>
     <!-- score:{{ scores }} course:{{ courses }} -->
     <!-- {{ students }} -->
-    <!-- {{ scores }} -->
+    <!-- {{ scores_name }} -->
     <!-- {{ courses }} -->
     <!-- {{ scores_name }} -->
     <div class="m-3 p-1">
@@ -34,7 +34,7 @@
                   </div>
                   <div v-else-if="score.status == 'late'">
                     <td>
-                      <p>เกินกำหนด</p>
+                      <p>ส่งช้า</p>
                     </td>
                   </div>
                 </td>
@@ -42,14 +42,10 @@
                 <!-- <td>{{ score.status }}</td> -->
 
                 <td>
-                  <div v-if="score.status == 'create'">
-                    <input type="text" />
-                  </div>
-                  <div v-else>
-                    {{ score.score_get }}
-                  </div>
+                  {{ score.score_get }}
                 </td>
                 <td>
+
                   <button
                     v-if="role === 'teacher'"
                     type="button"
@@ -57,8 +53,8 @@
                     @click="
                       TogglePopup(
                         'buttonPopup',
-                        courses[score.index].id,
-                        scores_name[score.index],
+                        courses.id,
+                        score_name,
                         score.score_get,
                         score.student_id,
                         score.status
@@ -107,7 +103,8 @@
       v-if="popupTriggers.buttonPopup"
       @close="TogglePopup('buttonPopup')"
     >
-      <form @submit.prevent="submitForm">
+
+      <form @submit.prevent="submitForm()">
         <div class="form-control">
           <div>
             <label for="student_id">รหัสนักเรียน :</label>
@@ -184,9 +181,10 @@ export default {
     filterValue: String,
     filterOptions: String,
     scores: Array,
-    courses: Array,
+    courses: Object,
     students: Array,
     scores_name: Array,
+    score_name:String
   },
   created() {
     this.role = localStorage.getItem("role");
@@ -222,7 +220,10 @@ export default {
           this.$swal("Success!", res.data.message, "success").then(() => {
             window.location.reload();
           });
-        });
+        }).catch((error)=>{
+          console.log(error);
+        this.$swal("Error!", error.response.data.message, "error");
+        })
     },
     resetForm() {
       this.score.course_id = "";

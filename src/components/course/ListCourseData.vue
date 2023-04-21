@@ -26,7 +26,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="course in courses" :key="course.id">
+          <tr v-for=" ( course , i ) in courses" :key="course.id">
             <td>
               {{ course.name }}
             </td>
@@ -44,7 +44,11 @@
               {{ course.number_of_student }}
             </td>
             <td>
-              {{ course.date_time[0].day }} / {{ course.date_time[0].time[0] }}
+              <div v-if="course.date_time.length === 1">{{ course.date_time[0].day }} / {{ course.date_time[0].time[0] }}</div>
+              <div v-else class="col">
+                <td class="row ms-1 mt-0">{{ course.date_time[0].day }} / {{ course.date_time[0].time[0] }} - {{  show_time_end[i] }}</td>
+                <td class="row ms-1 mt-0"> {{ course.date_time[1].day }} / {{ course.date_time[1].time[1] }}- {{  show_time_end[i] }}</td>
+                </div>
             </td>
             <td>อาคาร {{ locations[course.location_id_index].location_id }}</td>
             <td v-if="role === 'admin'">
@@ -57,6 +61,7 @@
                 </button>
               </div>
               <div v-else-if="course.status == 'finish'">เสร็จสิ้น</div>
+              <div v-else-if="course.status == 'summary'">สรุปผลแล้ว</div>
               <div v-else>กำลังดำเนินการ</div>
             </td>
             <td v-if="role === 'teacher'">
@@ -99,7 +104,10 @@
 import axios from "axios";
 export default {
   name: "ListCourseData",
-  data() {},
+  data() {
+    return{
+    }
+  },
   props: {
     filterValue: String,
     filterOptions: String,
@@ -112,6 +120,11 @@ export default {
     days: Array,
     times: Array,
     role: String,
+    show_time_end:Array,
+  },
+  async created(){
+     
+    
   },
   methods: {
     async updateCourseStatus(id) {

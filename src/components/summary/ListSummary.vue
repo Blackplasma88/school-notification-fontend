@@ -15,7 +15,8 @@
             <th scope="col">คะแนนเก็บ</th>
             <th scope="col">คะแนนสอบกลางภาค</th>
             <th scope="col">คะแนนสอบปลายภาค</th>
-            <th scope="col">คะแนนรวม</th>
+            <!-- <th scope="col">คะแนนรวม</th> -->
+            <th scope="col">คะแนนเต็ม</th>
 
             <th scope="col">จำนวนครั้งที่เข้าเรียน</th>
             <th scope="col">จำนวนที่ขาดเรียน</th>
@@ -32,7 +33,8 @@
             <td>{{ course.score_work_get }}</td>
             <td>{{ course.score_mid_get }}</td>
             <td>{{ course.score_final_get }}</td>
-            <td>{{ course.score_work_full }}</td>
+            <!-- <td>{{ course.score_work_get }}</td> -->
+            <td>100</td>
 
             <td>{{ course.check_name_attend_count }}</td>
             <td>{{ course.check_name_absent_count }}</td>

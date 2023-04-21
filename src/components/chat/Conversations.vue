@@ -38,6 +38,10 @@ export default {
       }
     }
 
+    // console.log(this.conversation.members)
+    // console.log(this.currentUser.id)
+    // console.log(this.friend_id)
+
     await axios
       .get("http://127.0.0.1:8080/profile/id?id=" + this.friend_id)
       .then((response) => {

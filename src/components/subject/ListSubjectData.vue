@@ -106,7 +106,7 @@
                     this.instructors.filter((t) => t.id.includes(subject.id))[0]
                       .instructor_name_list[0]
                   }} -->
-                  {{ instructors[subject.index][1] }}
+                  {{ instructors[subject.index][2] }}
                 </td>
               </div>
               <div v-else>
@@ -224,6 +224,8 @@ export default {
   },
   methods: {
     TogglePopup(trigger, id, subject_id, category) {
+      this.instructor_list = []
+      this.instructor_list_id = []
       console.log(trigger, id, subject_id, category);
       this.popupTriggers.buttonPopup = !this.popupTriggers.buttonPopup;
       console.log(this.popupTriggers.buttonPopup);

@@ -183,8 +183,9 @@
     <ListScoreManage
       :scores="filterList"
       :scores_name="this.score_name_list"
-      :courses="this.course_list"
+      :courses="this.course"
       :students="this.student_name_list"
+      :score_name="this.score_name"
     />
   </div>
 </template>
@@ -215,6 +216,7 @@ export default {
       term: "",
       term_year: [],
       course_list: [],
+      course: {},
       course_id: "",
       course_name: "",
       score_name: "",
@@ -390,6 +392,7 @@ export default {
       for (let i = 0; i < this.course_list.length; i++) {
         if (this.course_list[i].name == this.course_name) {
           this.course_id = this.course_list[i].id;
+          this.course = this.course_list[i]
           break;
         }
       }
@@ -452,6 +455,7 @@ export default {
       for (let i = 0; i < this.course_list.length; i++) {
         if (this.course_list[i].name == this.course_name) {
           this.course_id = this.course_list[i].id;
+          this.course = this.course_list[i]
           break;
         }
       }

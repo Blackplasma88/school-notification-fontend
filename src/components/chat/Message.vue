@@ -1,5 +1,6 @@
 <template>
   <div v-if="own === true">
+    <!-- {{ own }} -->
     <div className="message own">
       <div className="messageTop">
         <img className="messageImg" src="@/assets/noAvatar.png" alt="" />

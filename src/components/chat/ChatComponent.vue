@@ -29,6 +29,8 @@
             style="height: 450px; overflow-y: scroll"
           >
             <div>
+              <!-- {{ this.messaeges }}
+              {{ user.id }} -->
               <Message
                 v-for="item in this.messaeges"
                 :key="item.id"
@@ -86,23 +88,37 @@
                 placeholder="Search for chat"
               />
             </div>
-            <div class="d-flex">
-              <div class="pt-2">
+            <div class="d-flex pt-2 gap-2">
+              <div>
                 <select
                   @change="selectItem()"
                   class="form-select"
                   aria-label="Default select example"
                   v-model="this.user_select"
                 >
-                  <option selected>Select</option>
+                  <option selected disabled value="">Select</option>
                   <option v-for="u in filterUser" :key="u.id">
                     {{ u.name }}
                   </option>
                 </select>
               </div>
-              <div class="role">
-                <button class="btn btn-secondary btn-sm m-3">ตำแหน่ง</button>
+              <div>
+                <select
+                  @change="selectRole()"
+                  class="form-select"
+                  aria-label="Default select example"
+                  v-model="this.role_select"
+                >
+                  <option selected disabled value="">Select</option>
+                  <option selected value="teacher">teacher</option>
+                  <option selected value="student">student</option>
+                  
+                </select>
               </div>
+              <!-- <div class="role">
+                
+                <button class="btn btn-secondary btn-sm m-3">ตำแหน่ง</button>
+              </div> -->
             </div>
 
             <!-- <div class="selected-item">Select</div>
@@ -128,7 +144,7 @@
 import axios from "axios";
 import Conversations from "./Conversations.vue";
 import Message from "./Message.vue";
-// import {io} from "socket.io-client";
+import {io} from "socket.io-client";
 
 export default {
   name: "ChatComponent",
@@ -138,6 +154,7 @@ export default {
   },
   data() {
     return {
+      role_select:"",
       conversation_list: [],
       current_chat: {},
       messaeges: [],
@@ -157,6 +174,8 @@ export default {
 
   created() {
     this.user.id = localStorage.getItem("user_id");
+
+    console.log(localStorage.getItem("user_id"));
     // this.user.id = "6436598bb7a3f5f85e0af7bf";
     axios
       .get("http://127.0.0.1:8080/conversation/user-id?user_id=" + this.user.id)
@@ -168,38 +187,33 @@ export default {
       .catch((error) => {
         console.log(error);
       });
-    // console.log(io);
-    // this.socket = io("ws://localhost:8900")
-    // // io("ws://localhost:8900")
-    // this.socket.on("welcome",message =>{
-    //   console.log(message)
-    // })
-    // this.socket.emit("addUser",this.user.id)
-    // this.socket.on("getUsers",users =>{
-    //   console.log(users)
-    // })
+    console.log(io);
+    this.socket = io("ws://localhost:8900")
+    // io("ws://localhost:8900")
+    this.socket.on("welcome",message =>{
+      console.log(message)
+    })
+    this.socket.emit("addUser",this.user.id)
+    this.socket.on("getUsers",users =>{
+      console.log(users)
+    })
 
-    // this.socket.on("getMessage", data =>{
-    //     let msg = {
-    //       sender:data.senderId,
-    //       text:data.text,
-    //       created_at:Date.now()
-    //     }
+    this.socket.on("getMessage", data =>{
+        let msg = {
+          sender:data.senderId,
+          text:data.text,
+          created_at:Date.now()
+        }
 
-    //     // arrival_message = msg
-    //     console.log(msg)
+        // arrival_message = msg
+        console.log(msg)
 
-    //     if (this.current_chat.members.includes(msg.sender)){
-    //       this.messaeges.push(msg)
-    //     }
-    //   })
+        if (this.current_chat.members.includes(msg.sender)){
+          this.messaeges.push(msg)
+        }
+      })
 
-    axios
-      .get("http://127.0.0.1:8080/profile/all?role=teacher")
-      .then((response) => {
-        this.people = response.data.data.profile_list;
-        console.log(this.people);
-      });
+   
   },
   computed: {
     filterUser() {
@@ -214,6 +228,15 @@ export default {
     },
   },
   methods: {
+    selectRole(){
+      console.log(this.role_select)
+      axios
+      .get("http://127.0.0.1:8080/profile/all?role="+this.role_select)
+      .then((response) => {
+        this.people = response.data.data.profile_list;
+        console.log(this.people);
+      });
+    },
     selectItem() {
       for (let i = 0; i < this.people.length; i++) {
         if (this.people[i].name === this.user_select) {
@@ -273,17 +296,17 @@ export default {
       console.log(this.new_message);
       const msg = {
         sender_id: this.user.id,
-        Text: this.new_message,
+        text: this.new_message,
         conversation_id: this.current_chat.id,
       };
 
-      // const receiverId = this.current_chat.members.find(member => member !== this.user.id)
+      const receiverId = this.current_chat.members.find(member => member !== this.user.id)
 
-      // this.socket.emit("sendMessage",{
-      //   senderId: this.user.id,
-      //   Text: this.new_message,
-      //   receiverId: this.user.id,
-      // })
+      this.socket.emit("sendMessage",{
+        senderId: this.user.id,
+        text: this.new_message,
+        receiverId: receiverId,
+      })
 
       axios
         .post("http://127.0.0.1:8080/message/create", msg)

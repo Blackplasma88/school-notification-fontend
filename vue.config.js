@@ -5,7 +5,7 @@
 
 module.exports = {
   devServer: {
-    port: 8000,
+    port: 9000,
   },
   runtimeCompiler: true,
   transpileDependencies: true,

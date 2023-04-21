@@ -255,6 +255,7 @@
       :classes="class_name_list"
       :locations="location_name_list"
       :role="role"
+      :show_time_end="show_time_end"
     />
   </section>
 </template>
@@ -298,6 +299,7 @@ export default {
       instructor_name_list: [],
       class_name_list: [],
       location_name_list: [],
+      show_time_end:[],
     };
   },
   created() {
@@ -474,6 +476,37 @@ export default {
           console.log(response.data.data.course_list);
           this.course_list = response.data.data.course_list;
           //   console.log(  this.school_data);
+          for (let i = 0; i < this.course_list.length; i++) {
+            for (let j = 0; j < this.course_list[i].date_time.length; j++) {
+              if (this.course_list[i].date_time.length > 1) {
+                let t =
+                  this.course_list[i].date_time[j].time[
+                    this.course_list[i].date_time[j].time.length - 1
+                  ];
+
+                let tmp = t.split(":");
+                if (tmp[1] === "00") {
+                  tmp[1] = "30";
+                  t = tmp[0] + ":" + tmp[1];
+                } else if (tmp[1] === "30") {
+                  tmp[1] = "00";
+                  let v = parseInt(tmp[0]);
+                  v++;
+                  if (v < 10) {
+                    tmp[0] = "0" + v;
+                  } else {
+                    tmp[0] = v + "";
+                  }
+
+                  t = tmp[0] + ":" + tmp[1];
+                } else {
+                  console.log("error");
+                  return;
+                }
+                this.show_time_end.push(t);
+              }
+            }
+          }
 
           for (var i = 0; i < this.course_list.length; i++) {
             let indexI = i;

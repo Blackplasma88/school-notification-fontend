@@ -2,7 +2,7 @@
   <div class="info-detail">
     <div class="card-info-detail">
       <div class="info-w-i" v-if="information.filepath">
-        <div class="info-head">
+        <div class="info-head" v-if="role === 'admin'">
           <button type="button" class="btn btn-secondary" @click="editInfo">
             Edit
           </button>
@@ -57,6 +57,7 @@ export default {
   data() {
     return {
       information: [],
+      role :""
     };
   },
   methods: {
@@ -72,6 +73,7 @@ export default {
     },
   },
   async created() {
+    this.role = localStorage.getItem("role");
     await axios
       .get("http://127.0.0.1:8080/information/id?id=" + this.$route.params.id)
       .then((response) => {

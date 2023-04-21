@@ -113,6 +113,7 @@ export default {
       console.log("event", event);
       this.file = this.$refs.file.files[0];
       console.log("file_name", this.file);
+      
     },
   },
 };

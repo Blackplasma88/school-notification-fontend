@@ -22,6 +22,9 @@
               <div v-if="c.data.status == 'not'">
                 <td>ยังไม่พร้อมใช้งาน</td>
               </div>
+              <div v-else-if="c.data.status == 'progress'">
+                <td>กำลังดำเนินการ</td>
+              </div>
               <div v-else>
                 <td style="color: green">พร้อมใช้งาน</td>
               </div>
